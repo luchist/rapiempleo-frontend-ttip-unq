@@ -10,6 +10,7 @@ const OfferGrid = () => {
           title={offer.title}
           company={offer.company}
           salary={offer.salary}
+          workType={offer.workType}
         />
       ))}
     </div>

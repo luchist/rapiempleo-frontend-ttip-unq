@@ -167,6 +167,12 @@ body {
   font-weight: 700;
 }
 
+.offer-card__work-type {
+  font-size: 13px;
+  color: rgba(93, 85, 85, 0.6);
+  margin-top: 0px;
+}
+
 .offer-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
