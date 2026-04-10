@@ -28,7 +28,6 @@ body {
   padding: 0 20px;
   height: 52px;
   width: 100%;
-  max-width: 600px;
   box-sizing: border-box;
   margin-bottom: 2.5rem;
 }
@@ -61,6 +60,10 @@ body {
 
 .search-bar__input::placeholder {
   color: rgba(255, 255, 255, 0.3);
+}
+
+.section-title {
+  font-family: Geist Mono, monospace;
 }
 
 .offer-card {
@@ -156,6 +159,7 @@ body {
 
 .offer-card__title {
   margin: 0;
+  font-family: Geist Mono, monospace;
   font-size: 17px;
   font-weight: 600;
   color: #e6edf3;
