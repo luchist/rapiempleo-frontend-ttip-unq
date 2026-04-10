@@ -1,7 +1,6 @@
-import offers from '../../data/mockOffers'
 import OfferCard from './OfferCard'
 
-const OfferGrid = () => {
+const OfferGrid = ({ offers }) => {
   return (
     <div className="offer-grid">
       {offers.map((offer) => (
