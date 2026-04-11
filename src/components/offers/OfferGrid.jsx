@@ -1,16 +1,18 @@
 import OfferCard from './OfferCard'
+import { Link } from 'react-router-dom'
 
 const OfferGrid = ({ offers }) => {
   return (
     <div className="offer-grid">
       {offers.map((offer) => (
-        <OfferCard
-          key={offer.title}
-          title={offer.title}
-          company={offer.company}
-          salary={offer.salary}
-          workType={offer.workType}
-        />
+        <Link to={`/ofertas/${offer.id}`} key={offer.id}>
+          <OfferCard
+            title={offer.title}
+            company={offer.company}
+            salary={offer.salary}
+            workType={offer.workType}
+          />
+        </Link>
       ))}
     </div>
   )

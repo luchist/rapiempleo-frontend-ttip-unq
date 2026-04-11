@@ -177,11 +177,112 @@ body {
   margin-top: 0px;
 }
 
+.offer-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 720px;
+}
+
+.offer-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+  width: fit-content;
+}
+
+.offer-detail__back:hover {
+  color: #ff9500;
+}
+
+.offer-detail__header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.offer-detail__company {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.offer-detail__title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+.offer-detail__meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.offer-detail__work-type {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.offer-detail__salary {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.offer-detail__divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  margin: 0;
+}
+
+.offer-detail__body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.offer-detail__no-description {
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
+}
+
+.offer-detail__apply-btn {
+  width: fit-content;
+  padding: 10px 24px;
+  background: #ff9500;
+  color: #0d1117;
+  border: none;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.offer-detail__apply-btn:hover {
+  opacity: 0.85;
+}
+
 .offer-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
+
+.offer-grid a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
 
 .layout {
   display: flex;
