@@ -9,9 +9,10 @@ const OfferGrid = ({ offers }) => {
           <OfferCard
             title={offer.title}
             company={offer.company}
+            workType={offer.workType}
+            location={offer.location}
             salaryMin={offer.salaryMin}
             salaryMax={offer.salaryMax}
-            workType={offer.workType}
             favorite={offer.favorite}
           />
         </Link>

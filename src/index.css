@@ -182,10 +182,21 @@ body {
   font-weight: 700;
 }
 
+.offer-card__location {
+  font-size: 14px;
+  color: rgba(34, 219, 195, 0.3);
+  padding: 0 0 0 0;
+}
+
+.offer-card__location-text{
+  padding-left: 4px;
+}
+
 .offer-card__work-type {
   font-size: 13px;
   color: rgba(93, 85, 85, 0.6);
   margin-top: 0px;
+  margin-bottom: auto;
 }
 
 .offer-detail {
