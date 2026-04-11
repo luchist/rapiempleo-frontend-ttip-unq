@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
-import offers from '../../data/mockOffers'
+import offers from '../data/mockOffers'
 import ReactMarkdown from 'react-markdown' 
 
 const OfferDetailPage = () => {
