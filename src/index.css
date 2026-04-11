@@ -66,23 +66,6 @@ body {
   font-family: Geist Mono, monospace;
 }
 
-.offer-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 12px;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  aspect-ratio: 2 / 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.offer-card:hover {
-  border-color: rgba(255, 149, 0, 0.4);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(255, 149, 0, 0.08);
-}
-
 .sidebar {
   width: 64px;
   min-height: 100vh;
@@ -141,6 +124,23 @@ body {
 
 .accent {
   color: #ff9500;
+}
+
+.offer-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  aspect-ratio: 2 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.offer-card:hover {
+  border-color: rgba(255, 149, 0, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(255, 149, 0, 0.08);
 }
 
 .offer-card__header {
