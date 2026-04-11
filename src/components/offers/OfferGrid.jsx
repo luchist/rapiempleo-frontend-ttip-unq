@@ -12,6 +12,7 @@ const OfferGrid = ({ offers }) => {
             salaryMin={offer.salaryMin}
             salaryMax={offer.salaryMax}
             workType={offer.workType}
+            favorite={offer.favorite}
           />
         </Link>
       ))}

@@ -13,8 +13,8 @@ const HomePage = () => {
   return (
     <div>
       <SearchBar value={search} onChange={(event) => setSearch(event.target.value)} />
-      <h2 class="section-title">
-        <span class="accent">▍</span>
+      <h2 className="section-title">
+        <span className="accent">▍</span>
         Ofertas
       </h2>
       <OfferGrid offers={filteredOffers} />

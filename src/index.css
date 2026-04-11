@@ -157,6 +157,17 @@ body {
   letter-spacing: 0.05em;
 }
 
+.offer-card__favorite {
+  color: rgba(34, 219, 195, 0.3);
+}
+
+.offer-card__footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 0 0;
+}
+
 .offer-card__title {
   margin: 0;
   font-family: Geist Mono, monospace;

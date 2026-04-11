@@ -23,7 +23,7 @@ A nivel técnico:
 - Consumo de APIs REST
 - Manejo de HTML5 y CSS3
 - Experiencia con control de versiones (Git)
-- Experiencia utilizando Git`
+- Experiencia utilizando Git`, favorite: true
 },
     { id: 2, title: "Backend Engineer", company: "CloudSync", salaryMin: "4,100", salaryMax: "5,000", workType: "remote",
 description: `CloudSync está buscando un Backend Engineer para diseñar y mantener nuestros servicios en la nube.
@@ -53,7 +53,7 @@ Requisitos
 - Conocimientos en testing unitario e integral (deseable).
 - Formación de Ingeniero/a, Licenciado/a o Técnico/a en Sistemas o Programación (excluyente).
 - Buena predisposición, capacidad de trabajo en equipo y adaptación a entornos dinámicos.
-` },
+`, favorite: false },
     { id: 3, title: "UX Designer", company: "PixelLab", salaryMin: "2,800", salaryMax: "3,500", workType: "hybrid",
     description: `**Acerca de la función:**
 
@@ -101,14 +101,14 @@ wireframes detallados y prototipos interactivos que comunican claramente la inte
 Las habilidades en diseño UX y diseño de interacción se aplican diariamente para crear recorridos de usuario fluidos e interfaces atractivas que satisfacen las
 necesidades del usuario. Los principios de diseño centrado en el usuario guían todo el proceso de diseño, fomentando la empatía y priorizando la satisfacción del usuario.
 El pensamiento de diseño promueve la resolución innovadora de problemas y mejoras iterativas, permitiendo que el Diseñador UX adapte y refine las soluciones basándose en
-la retroalimentación real de los usuarios y en los requisitos cambiantes del proyecto.` },
-    { id: 4, title: "Data Analyst", company: "Dataflow", salaryMin: "3,500", salaryMax: "4,200", workType: "on-site", description:"" },
-    { id: 5, title: "DevOps Engineer", company: "InfraCore", salaryMin: "4,500", salaryMax: "5,500", workType: "remote", description:"" },
-    { id: 6, title: "Mobile Developer", company: "AppForge", salaryMin: "3,700", salaryMax: "4,500", workType: "hybrid", description:"" },
-    { id: 7, title: "QA Tester", company: "BugHunters", salaryMin: "2,400", salaryMax: "3,000", workType: "on-site", description:"" },
-    { id: 8, title: "Product Manager", company: "LaunchPad", salaryMin: "5,000", salaryMax: "6,000", workType: "remote", description:"" },
-    { id: 9, title: "ML Engineer", company: "DeepMind AI", salaryMin: "6,200", salaryMax: "7,500", workType: "hybrid", description:"" },
-    { id: 10, title: "Fullstack Dev", company: "StackBridge", salaryMin: "3,900", salaryMax: "4,800", workType: "on-site", description:"" }
+la retroalimentación real de los usuarios y en los requisitos cambiantes del proyecto.`, favorite: true },
+    { id: 4, title: "Data Analyst", company: "Dataflow", salaryMin: "3,500", salaryMax: "4,200", workType: "on-site", description:"", favorite: false },
+    { id: 5, title: "DevOps Engineer", company: "InfraCore", salaryMin: "4,500", salaryMax: "5,500", workType: "remote", description:"", favorite: false },
+    { id: 6, title: "Mobile Developer", company: "AppForge", salaryMin: "3,700", salaryMax: "4,500", workType: "hybrid", description:"", favorite: false },
+    { id: 7, title: "QA Tester", company: "BugHunters", salaryMin: "2,400", salaryMax: "3,000", workType: "on-site", description:"", favorite: false },
+    { id: 8, title: "Product Manager", company: "LaunchPad", salaryMin: "5,000", salaryMax: "6,000", workType: "remote", description:"", favorite: true },
+    { id: 9, title: "ML Engineer", company: "DeepMind AI", salaryMin: "6,200", salaryMax: "7,500", workType: "hybrid", description:"", favorite: false },
+    { id: 10, title: "Fullstack Dev", company: "StackBridge", salaryMin: "3,900", salaryMax: "4,800", workType: "on-site", description:"", favorite: false }
 ]
 
 export default offers;
