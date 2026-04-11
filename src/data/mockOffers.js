@@ -1,5 +1,5 @@
 const offers = [
-    { id: 1, title: "Frontend Developer", company: "NovaTech", salary: "$3,200", workType: "on-site",
+    { id: 1, title: "Frontend Developer", company: "NovaTech", salaryMin: "3,200", salaryMax: "4,000", workType: "on-site",
 description: `Buscamos un Frontend Developer para unirse al equipo de NovaTech.
 
 **Responsabilidades:**
@@ -25,7 +25,7 @@ A nivel técnico:
 - Experiencia con control de versiones (Git)
 - Experiencia utilizando Git`
 },
-    { id: 2, title: "Backend Engineer", company: "CloudSync", salary: "$4,100", workType: "remote",
+    { id: 2, title: "Backend Engineer", company: "CloudSync", salaryMin: "4,100", salaryMax: "5,000", workType: "remote",
 description: `CloudSync está buscando un Backend Engineer para diseñar y mantener nuestros servicios en la nube.
 Somos una compañía de tecnología financiera en plena expansión, dedicada a ofrecer soluciones digitales innovadoras para potenciar y acompañar el crecimiento de
 negocios y proyectos en toda la región.
@@ -54,7 +54,7 @@ Requisitos
 - Formación de Ingeniero/a, Licenciado/a o Técnico/a en Sistemas o Programación (excluyente).
 - Buena predisposición, capacidad de trabajo en equipo y adaptación a entornos dinámicos.
 ` },
-    { id: 3, title: "UX Designer", company: "PixelLab", salary: "$2,800", workType: "hybrid",
+    { id: 3, title: "UX Designer", company: "PixelLab", salaryMin: "2,800", salaryMax: "3,500", workType: "hybrid",
     description: `**Acerca de la función:**
 
 
@@ -102,13 +102,13 @@ Las habilidades en diseño UX y diseño de interacción se aplican diariamente p
 necesidades del usuario. Los principios de diseño centrado en el usuario guían todo el proceso de diseño, fomentando la empatía y priorizando la satisfacción del usuario.
 El pensamiento de diseño promueve la resolución innovadora de problemas y mejoras iterativas, permitiendo que el Diseñador UX adapte y refine las soluciones basándose en
 la retroalimentación real de los usuarios y en los requisitos cambiantes del proyecto.` },
-    { id: 4, title: "Data Analyst", company: "Dataflow", salary: "$3,500", workType: "on-site", description:"" },
-    { id: 5, title: "DevOps Engineer", company: "InfraCore", salary: "$4,500", workType: "remote", description:"" },
-    { id: 6, title: "Mobile Developer", company: "AppForge", salary: "$3,700", workType: "hybrid", description:"" },
-    { id: 7, title: "QA Tester", company: "BugHunters", salary: "$2,400", workType: "on-site", description:"" },
-    { id: 8, title: "Product Manager", company: "LaunchPad", salary: "$5,000", workType: "remote", description:"" },
-    { id: 9, title: "ML Engineer", company: "DeepMind AI", salary: "$6,200", workType: "hybrid", description:"" },
-    { id: 10, title: "Fullstack Dev", company: "StackBridge", salary: "$3,900", workType: "on-site", description:"" }
+    { id: 4, title: "Data Analyst", company: "Dataflow", salaryMin: "3,500", salaryMax: "4,200", workType: "on-site", description:"" },
+    { id: 5, title: "DevOps Engineer", company: "InfraCore", salaryMin: "4,500", salaryMax: "5,500", workType: "remote", description:"" },
+    { id: 6, title: "Mobile Developer", company: "AppForge", salaryMin: "3,700", salaryMax: "4,500", workType: "hybrid", description:"" },
+    { id: 7, title: "QA Tester", company: "BugHunters", salaryMin: "2,400", salaryMax: "3,000", workType: "on-site", description:"" },
+    { id: 8, title: "Product Manager", company: "LaunchPad", salaryMin: "5,000", salaryMax: "6,000", workType: "remote", description:"" },
+    { id: 9, title: "ML Engineer", company: "DeepMind AI", salaryMin: "6,200", salaryMax: "7,500", workType: "hybrid", description:"" },
+    { id: 10, title: "Fullstack Dev", company: "StackBridge", salaryMin: "3,900", salaryMax: "4,800", workType: "on-site", description:"" }
 ]
 
 export default offers;

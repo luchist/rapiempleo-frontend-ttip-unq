@@ -1,4 +1,4 @@
-const OfferCard = ({ title, company, salary, workType }) => {
+const OfferCard = ({ title, company, salaryMin, salaryMax, workType }) => {
   return (
     <div className="offer-card">
       <div className="offer-card__header">
@@ -6,7 +6,9 @@ const OfferCard = ({ title, company, salary, workType }) => {
         <h3 className="offer-card__title">{title}</h3>
         <h4 className="offer-card__work-type">{workType}</h4>
       </div>
-      <span className="offer-card__salary accent">{salary}</span>
+      <span className="offer-card__salary accent">
+        ${salaryMin} - ${salaryMax}
+      </span>
     </div>
   )
 }
