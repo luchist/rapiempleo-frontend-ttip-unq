@@ -37,7 +37,7 @@ const OfferDetailPage = () => {
                 }
             </div>
 
-            <button className="offer-detail__apply-btn">Postularse</button>
+            <button type="button" className="offer-detail__apply-btn">Postularse</button>
         </div>
     )
 }
