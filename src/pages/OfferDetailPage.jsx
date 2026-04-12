@@ -24,7 +24,7 @@ const OfferDetailPage = () => {
                 <h1 className="offer-detail__title">{offer.title}</h1>
                 <div className="offer-detail__meta">
                     <span className="offer-detail__work-type">{offer.workType}</span>
-                    <span className="offer-detail__salary accent">{offer.salary}</span>
+                    <span className="offer-detail__salary accent">{offer.salaryMin} - {offer.salaryMax}</span>
                 </div>
             </div>
 
