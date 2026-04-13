@@ -131,10 +131,11 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 12px;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  aspect-ratio: 2 / 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+  width: 100%;
 }
 
 .offer-card:hover {
@@ -302,6 +303,8 @@ body {
 .offer-grid a {
   text-decoration: none;
   color: inherit;
+  display: flex;
+  align-items: stretch;
 }
 
 .layout {

@@ -16,11 +16,11 @@ const SearchBar = ({ value, onChange }) => {
   )
 }
 
-export const filterOffers = (offers, value) => {
-  const q = value.toLowerCase().trim();
-  return offers.filter((offer) => {
-    return offer.title.toLowerCase().includes(q) || offer.company.toLowerCase().includes(q) || offer.workType.toLowerCase().includes(q);
-  });
-};
+// export const filterOffers = (offers, value) => {
+//   const q = value.toLowerCase().trim();
+//   return offers.filter((offer) => {
+//     return offer.title.toLowerCase().includes(q) || offer.company.toLowerCase().includes(q) || offer.workType.toLowerCase().includes(q);
+//   });
+// };
 
 export default SearchBar
