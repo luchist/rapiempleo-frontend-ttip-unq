@@ -7,13 +7,12 @@ const OfferGrid = ({ offers }) => {
       {offers.map((offer) => (
         <Link to={`/ofertas/${offer.id}`} key={offer.id}>
           <OfferCard
-            title={offer.title}
-            company={offer.company}
-            workType={offer.workType}
-            location={offer.location}
-            salaryMin={offer.salaryMin}
-            salaryMax={offer.salaryMax}
-            favorite={offer.favorite}
+            title={offer.titulo}
+            company={offer.empresa}
+            workType={offer.modalidad}
+            location={offer.ubicacion}
+            salaryMin={offer.sueldoMin}
+            salaryMax={offer.sueldoMax}
           />
         </Link>
       ))}
