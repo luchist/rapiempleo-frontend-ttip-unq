@@ -31,6 +31,12 @@ const OfferDetailPage = () => {
             <p>{error}</p>
         </div>
     )
+    if (!offer) return (
+        <div className="offer-detail">
+            <Link to="/" className="offer-detail__back">← Volver</Link>
+            <p>Oferta no encontrada.</p>
+        </div>
+    )
 
     return (
         <div className="offer-detail">
