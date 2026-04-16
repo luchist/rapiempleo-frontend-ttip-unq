@@ -1,4 +1,14 @@
-const SearchBar = ({ value, onChange }) => {
+import { useState } from 'react'
+
+const SearchBar = ({ onSearch }) => {
+  const [inputValue, setInputValue] = useState('')
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      onSearch(inputValue.trim())
+    }
+  }
+
   return (
     <div className="search-bar-wrapper">
       <div className="search-bar">
@@ -10,8 +20,9 @@ const SearchBar = ({ value, onChange }) => {
           className="search-bar__input"
           type="text"
           placeholder="Buscar ofertas de trabajo..."
-          value={value}
-          onChange={onChange}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
       </div>
       <p className="search-bar__hint">
@@ -20,12 +31,5 @@ const SearchBar = ({ value, onChange }) => {
     </div>
   )
 }
-
-// export const filterOffers = (offers, value) => {
-//   const q = value.toLowerCase().trim();
-//   return offers.filter((offer) => {
-//     return offer.title.toLowerCase().includes(q) || offer.company.toLowerCase().includes(q) || offer.workType.toLowerCase().includes(q);
-//   });
-// };
 
 export default SearchBar

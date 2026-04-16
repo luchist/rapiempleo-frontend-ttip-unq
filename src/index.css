@@ -39,7 +39,7 @@ body {
 
 .search-bar__hint {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 1px);
   left: 20px;
   font-family: 'Geist Mono', monospace;
   font-size: 12px;
