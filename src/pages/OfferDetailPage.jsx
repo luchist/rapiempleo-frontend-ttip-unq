@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 
@@ -7,6 +7,11 @@ const OfferDetailPage = () => {
     const [offer, setOffer] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [applying, setApplying] = useState(false)
+
+    const [hasApplied, setHasApplied] = useState(false)
+    const [particles, setParticles] = useState([])
+    const btnRef = useRef(null)
 
     useEffect(() => {
         fetch(`http://localhost:8080/oferta/${id}`)
@@ -16,6 +21,7 @@ const OfferDetailPage = () => {
             })
             .then(data => {
                 setOffer(data)
+                setHasApplied(data.yaPostulado)
                 setLoading(false)
             })
             .catch(err => {
@@ -23,6 +29,36 @@ const OfferDetailPage = () => {
                 setLoading(false)
             })
     }, [id])
+
+    const spawnParticles = () => {
+        const count = 8
+        const newParticles = Array.from({ length: count }, (_, i) => ({
+            id: Date.now() + i,
+            x: (Math.random() - 0.5) * 120,
+            y: (Math.random() - 0.5) * 80,
+        }))
+        setParticles(newParticles)
+        setTimeout(() => setParticles([]), 3200)
+    }
+
+    const handleApply = async () => {
+        spawnParticles()
+        try {
+            setApplying(true)
+            const response = await fetch(`http://localhost:8080/postulante/1/${id}`, {
+                method: 'POST',
+            })
+
+            if (!response.ok) {
+                throw new Error('No se pudo enviar la postulación')
+            }
+            setHasApplied(true)
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setApplying(false)
+        }
+    }
 
     if (loading) return <p>Cargando oferta...</p>
     if (error) return (
@@ -60,7 +96,29 @@ const OfferDetailPage = () => {
                 }
             </div>
 
-            <button type="button" className="offer-detail__apply-btn">Postularse</button>
+            {/* Contenedor relativo para que las partículas se posicionen respecto al btn */}
+            <div style={{ position: 'relative', width: 'fit-content' }}>
+                {particles.map(p => (
+                    <span
+                        key={p.id}
+                        className="apply-particle"
+                        style={{
+                            '--tx': `${p.x}px`,
+                            '--ty': `${p.y}px`,
+                        }}
+                    />
+                ))}
+                <button
+                    ref={btnRef}
+                    type="button"
+                    className={`offer-detail__apply-btn${hasApplied ? ' offer-detail__apply-btn--applied' : ''
+                        }`}
+                    onClick={handleApply}
+                    disabled={applying || hasApplied}
+                >
+                    {applying ? 'Enviando...' : hasApplied ? '✓ Enviado' : 'Postularse'}
+                </button>
+            </div>
         </div>
     )
 }
