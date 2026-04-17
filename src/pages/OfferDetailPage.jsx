@@ -7,6 +7,7 @@ const OfferDetailPage = () => {
     const [offer, setOffer] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [applying, setApplying] = useState(false)
 
     useEffect(() => {
         fetch(`http://localhost:8080/oferta/${id}`)
@@ -23,6 +24,23 @@ const OfferDetailPage = () => {
                 setLoading(false)
             })
     }, [id])
+
+    const handleApply = async () => {
+        try {
+            setApplying(true)
+            const response = await fetch(`http://localhost:8080/postulante/1/${id}`, {
+                method: 'POST',
+            })
+
+            if (!response.ok) {
+                throw new Error('No se pudo enviar la postulación')
+            }
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setApplying(false)
+        }
+    }
 
     if (loading) return <p>Cargando oferta...</p>
     if (error) return (
@@ -60,7 +78,14 @@ const OfferDetailPage = () => {
                 }
             </div>
 
-            <button type="button" className="offer-detail__apply-btn">Postularse</button>
+            <button
+                type="button"
+                className="offer-detail__apply-btn"
+                onClick={handleApply}
+                disabled={applying}
+            >
+                {applying ? 'Postulando...' : 'Postularse'}
+            </button>
         </div>
     )
 }
