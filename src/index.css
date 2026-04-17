@@ -190,7 +190,7 @@ body {
   color: rgba(34, 219, 195, 0.3);
 }
 
-.offer-card__footer{
+.offer-card__footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -217,7 +217,7 @@ body {
   padding: 0 0 0 0;
 }
 
-.offer-card__location-text{
+.offer-card__location-text {
   padding-left: 4px;
 }
 
@@ -306,6 +306,7 @@ body {
 
 .offer-detail__apply-btn {
   width: fit-content;
+  min-width: 130px;
   padding: 10px 24px;
   background: #ff9500;
   color: #0d1117;
@@ -320,6 +321,46 @@ body {
 
 .offer-detail__apply-btn:hover {
   opacity: 0.85;
+}
+
+.offer-detail__apply-btn--applied,
+.offer-detail__apply-btn--applied:hover {
+  background: rgba(34, 219, 195, 0.3);
+  color: rgba(255, 255, 255, 0.35);
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+
+.apply-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: #ff9500;
+  animation: particle-burst 0.65s ease-out forwards;
+}
+
+.apply-particle:nth-child(even) {
+  background: #22dbc3;
+  width: 6px;
+  height: 6px;
+}
+
+@keyframes particle-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    /* --tx y --ty son las coordenadas aleatorias inyectadas por React por cada partícula */
+    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
+    opacity: 0;
+  }
 }
 
 .offer-grid {
