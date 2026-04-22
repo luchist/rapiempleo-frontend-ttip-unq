@@ -391,3 +391,70 @@ body {
   padding-right: 1.5rem;
   overflow: auto;
 }
+
+/* For UserOfferinPage and OfferCard for them*/
+
+.section-name {
+  background-color: #ff9500;
+  padding: 3px 0 3px 20px;
+  margin-bottom: 20px;
+  border: 3px solid rgba(33, 197, 175, 0.3);
+}
+
+.title-name {
+  text-decoration-color: azure;
+  text-shadow: #0d1117;
+  margin-top: 12px
+}
+
+.separation-user {
+  border: '3px double white';
+  border-color: white;
+  margin-left: 0;
+  width: 50%;
+}
+
+.grid-notification-offer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.section-no-notifications {
+  padding : 10px;
+  background-color: #1c2028;
+  border-radius: 5px;
+  border: 1px solid rgb(113, 113, 113);
+  color: darkgrey;
+}
+
+.section-all-notifications {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(34, 219, 195, 0.3);
+  border: 1px solid rgb(113, 113, 113);
+}
+
+.offers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.create-offer-button {
+  border-radius: 10px;
+  background-color: #ff9500;
+  padding: 15px 20px;
+  cursor: pointer;
+  color:black;
+}
+
+.create-offer-button:hover {
+  opacity: 0.85;
+  border: 2px solid #e6edf3;
+  transition: 0.5s;
+}
+
+.offer-create-card {
+  margin-bottom: 25px;
+}
