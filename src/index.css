@@ -90,6 +90,35 @@ body {
   color: rgba(255, 255, 255, 0.3);
 }
 
+.search-bar__ai-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 6px 13px;
+  border-radius: 8px;
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  background: rgba(139, 92, 246, 0.12);
+  color: rgba(196, 181, 253, 0.85);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.search-bar__ai-btn:hover {
+  background: rgba(139, 92, 246, 0.28);
+  border-color: rgba(167, 139, 250, 0.7);
+  color: #e9d5ff;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
+}
+
+.search-bar__ai-btn:active {
+  background: rgba(139, 92, 246, 0.4);
+}
+
 .section-title {
   font-family: Geist Mono, monospace;
 }

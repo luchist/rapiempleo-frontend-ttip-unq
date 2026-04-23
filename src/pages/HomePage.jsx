@@ -32,8 +32,14 @@ const buildSearchUrl = (query) => {
   return `http://localhost:8080/search?${urlParams}`
 }
 
+const buildAiSearchUrl = (query) => {
+  const urlParams = new URLSearchParams({ query })
+  return `http://localhost:8080/ai/context`
+}
+
 const HomePage = () => {
   const [query, setQuery] = useState(null)
+  const [aiQuery, setAiQuery] = useState(null)
   const [offers, setOffers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -41,9 +47,15 @@ const HomePage = () => {
   useEffect(() => {
     setLoading(true)
     setError(null)
-    const url = query
-      ? buildSearchUrl(query)
-      : 'http://localhost:8080/oferta/obtenerOfertas'
+
+    let url
+    if (aiQuery !== null) {
+      url = buildAiSearchUrl(aiQuery)
+    } else if (query !== null) {
+      url = buildSearchUrl(query)
+    } else {
+      url = 'http://localhost:8080/oferta/obtenerOfertas'
+    }
 
     fetch(url)
       .then(res => {
@@ -58,14 +70,24 @@ const HomePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [query])
+  }, [query, aiQuery])
+
+  const handleAiSearch = (value) => {
+    setQuery(null)
+    setAiQuery(value)
+  }
+
+  const handleSearch = (value) => {
+    setAiQuery(null)
+    setQuery(value)
+  }
 
   return (
     <div>
-      <SearchBar onSearch={setQuery} />
+      <SearchBar onSearch={handleSearch} onAiSearch={handleAiSearch} />
       <h2 className="section-title">
         <span className="accent">▍</span>
-        Ofertas {query && <span style={{ fontSize: '14px', opacity: 0.4, fontWeight: 'normal' }}>({offers.length} resultados)</span>}
+        Ofertas {(query || aiQuery) && <span style={{ fontSize: '14px', opacity: 0.4, fontWeight: 'normal' }}>({offers.length} resultados)</span>}
       </h2>
       {loading && <p>Cargando ofertas...</p>}
       {error && <p>Error: {error}</p>}
