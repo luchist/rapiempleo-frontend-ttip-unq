@@ -56,7 +56,7 @@ const UserOfferingPage = () => {
                     </div>
                     <div className="list-created-offers">
                         {user.ofertasCreadas.map((offer) => (
-                          <OfferCard className="offer-create-card"
+                          <OfferCard className="offer-create-card" key={offer.id}
                             title={offer.titulo}
                             company={offer.empresa}
                             workType={offer.modalidad}
