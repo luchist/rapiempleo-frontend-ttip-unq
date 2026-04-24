@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import SearchBar from '../components/search/SearchBar'
 import OfferGrid from '../components/offers/OfferGrid'
+import AiLoadingIndicator from '../components/search/AiLoadingIndicator'
 
 const KEY_MAP = {
   titulo: 'title',
@@ -43,6 +44,7 @@ const HomePage = () => {
   const [searchInput, setSearchInput] = useState('')
   const [offers, setOffers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [aiLoading, setAiLoading] = useState(false)
   const [error, setError] = useState(null)
 
   useEffect(() => {
@@ -50,6 +52,7 @@ const HomePage = () => {
     setError(null)
 
     if (aiQuery !== null) {
+      setAiLoading(true)
       fetch(buildAiSearchUrl(aiQuery))
         .then(res => {
           if (!res.ok) throw new Error('Error al obtener la respuesta de IA')
@@ -58,11 +61,13 @@ const HomePage = () => {
         .then(data => {
           const parsedQuery = (data?.response || '').trim()
           setSearchInput(parsedQuery)
-          setQuery(parsedQuery)
           setAiQuery(null)
+          setAiLoading(false)
+          setQuery(parsedQuery)
         })
         .catch(err => {
           setError(err.message)
+          setAiLoading(false)
           setLoading(false)
         })
       return
@@ -109,13 +114,20 @@ const HomePage = () => {
         inputValue={searchInput}
         onInputChange={setSearchInput}
       />
-      <h2 className="section-title">
-        <span className="accent">▍</span>
-        Ofertas {(query || aiQuery) && <span style={{ fontSize: '14px', opacity: 0.4, fontWeight: 'normal' }}>({offers.length} resultados)</span>}
-      </h2>
-      {loading && <p>Cargando ofertas...</p>}
-      {error && <p>Error: {error}</p>}
-      {!loading && !error && <OfferGrid offers={offers} />}
+
+      {aiLoading && <AiLoadingIndicator />}
+
+      {!aiLoading && (
+        <>
+          <h2 className="section-title">
+            <span className="accent">▍</span>
+            Ofertas {query && <span style={{ fontSize: '14px', opacity: 0.4, fontWeight: 'normal' }}>({offers.length} resultados)</span>}
+          </h2>
+          {loading && <p>Cargando ofertas...</p>}
+          {error && <p>Error: {error}</p>}
+          {!loading && !error && <OfferGrid offers={offers} />}
+        </>
+      )}
     </div>
   )
 }
