@@ -1,11 +1,25 @@
-import { useState } from 'react'
+const SparkleIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="15"
+    height="15"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M12 2a.75.75 0 0 1 .716.526l1.786 5.54a3.25 3.25 0 0 0 2.053 2.053l5.54 1.786a.75.75 0 0 1 0 1.432l-5.54 1.786a3.25 3.25 0 0 0-2.053 2.053l-1.786 5.54a.75.75 0 0 1-1.432 0l-1.786-5.54a3.25 3.25 0 0 0-2.053-2.053l-5.54-1.786a.75.75 0 0 1 0-1.432l5.54-1.786a3.25 3.25 0 0 0 2.053-2.053l1.786-5.54A.75.75 0 0 1 12 2Z" />
+  </svg>
+)
 
-const SearchBar = ({ onSearch }) => {
-  const [inputValue, setInputValue] = useState('')
-
+const SearchBar = ({ onSearch, onAiSearch, inputValue = '', onInputChange }) => {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       onSearch(inputValue.trim())
+    }
+  }
+
+  const handleAiClick = () => {
+    if (onAiSearch) {
+      onAiSearch(inputValue.trim())
     }
   }
 
@@ -21,9 +35,18 @@ const SearchBar = ({ onSearch }) => {
           type="text"
           placeholder="Buscar ofertas de trabajo..."
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => onInputChange?.(e.target.value)}
           onKeyDown={handleKeyDown}
         />
+        <button
+          className="search-bar__ai-btn"
+          onClick={handleAiClick}
+          title="Búsqueda inteligente con IA"
+          type="button"
+        >
+          <SparkleIcon />
+          <span>IA</span>
+        </button>
       </div>
       <p className="search-bar__hint">
         ej: <span>titulo:</span> analista, <span>empresa:</span> Google, <span>modalidad:</span> Remoto, <span>ubicacion:</span> Buenos Aires
