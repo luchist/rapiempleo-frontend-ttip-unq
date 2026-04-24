@@ -40,6 +40,7 @@ const buildAiSearchUrl = (query) => {
 const HomePage = () => {
   const [query, setQuery] = useState(null)
   const [aiQuery, setAiQuery] = useState(null)
+  const [searchInput, setSearchInput] = useState('')
   const [offers, setOffers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -48,10 +49,27 @@ const HomePage = () => {
     setLoading(true)
     setError(null)
 
-    let url
     if (aiQuery !== null) {
-      url = buildAiSearchUrl(aiQuery)
-    } else if (query !== null) {
+      fetch(buildAiSearchUrl(aiQuery))
+        .then(res => {
+          if (!res.ok) throw new Error('Error al obtener la respuesta de IA')
+          return res.json()
+        })
+        .then(data => {
+          const parsedQuery = (data?.response || '').trim()
+          setSearchInput(parsedQuery)
+          setQuery(parsedQuery)
+          setAiQuery(null)
+        })
+        .catch(err => {
+          setError(err.message)
+          setLoading(false)
+        })
+      return
+    }
+
+    let url
+    if (query !== null) {
       url = buildSearchUrl(query)
     } else {
       url = 'http://localhost:8080/oferta/obtenerOfertas'
@@ -73,18 +91,24 @@ const HomePage = () => {
   }, [query, aiQuery])
 
   const handleAiSearch = (value) => {
-    setQuery(null)
+    setSearchInput(value)
     setAiQuery(value)
   }
 
   const handleSearch = (value) => {
     setAiQuery(null)
+    setSearchInput(value)
     setQuery(value)
   }
 
   return (
     <div>
-      <SearchBar onSearch={handleSearch} onAiSearch={handleAiSearch} />
+      <SearchBar
+        onSearch={handleSearch}
+        onAiSearch={handleAiSearch}
+        inputValue={searchInput}
+        onInputChange={setSearchInput}
+      />
       <h2 className="section-title">
         <span className="accent">▍</span>
         Ofertas {(query || aiQuery) && <span style={{ fontSize: '14px', opacity: 0.4, fontWeight: 'normal' }}>({offers.length} resultados)</span>}

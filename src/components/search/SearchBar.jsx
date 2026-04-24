@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 const SparkleIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -12,9 +10,7 @@ const SparkleIcon = () => (
   </svg>
 )
 
-const SearchBar = ({ onSearch, onAiSearch }) => {
-  const [inputValue, setInputValue] = useState('')
-
+const SearchBar = ({ onSearch, onAiSearch, inputValue = '', onInputChange }) => {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       onSearch(inputValue.trim())
@@ -39,7 +35,7 @@ const SearchBar = ({ onSearch, onAiSearch }) => {
           type="text"
           placeholder="Buscar ofertas de trabajo..."
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => onInputChange?.(e.target.value)}
           onKeyDown={handleKeyDown}
         />
         <button
