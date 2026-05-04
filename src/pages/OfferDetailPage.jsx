@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
+
+import UserContext from '../components/UserProvider'
 
 const OfferDetailPage = () => {
     const { id } = useParams()
@@ -12,6 +14,8 @@ const OfferDetailPage = () => {
     const [hasApplied, setHasApplied] = useState(false)
     const [particles, setParticles] = useState([])
     const btnRef = useRef(null)
+
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         fetch(`http://localhost:8080/oferta/${id}`)
@@ -45,7 +49,7 @@ const OfferDetailPage = () => {
         spawnParticles()
         try {
             setApplying(true)
-            const response = await fetch(`http://localhost:8080/postulante/1/${id}`, {
+            const response = await fetch(`http://localhost:8080/postulante/${user.id}/${id}`, {
                 method: 'POST',
             })
 
