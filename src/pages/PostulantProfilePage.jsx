@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 const CV_SLOTS = 4
+const FAVORITE_SLOTS = 3
 
 const PostulantProfilePage = () => {
   const { id } = useParams()
@@ -34,7 +35,7 @@ const PostulantProfilePage = () => {
         <div className="postulant-profile__avatar" aria-label="Avatar" />
         <div className="postulant-profile__name-block">
           <h1 className="postulant-profile__name">{postulant.nombre}</h1>
-          <div className="postulant-profile__name-underline" />
+          <div className="postulant-profile__underline" />
         </div>
       </div>
 
@@ -60,6 +61,21 @@ const PostulantProfilePage = () => {
         </div>
 
       </div>
+
+      <div className="postulant-profile__underline" />
+
+      <h3><span className="accent">▍</span>Favoritos</h3>
+
+      <div className="postulant-profile__favorite-block">
+        <div className="postulant-profile__favorite-grid">
+          {Array.from({ length: FAVORITE_SLOTS }).map((_, i) => (
+            <div key={i} className="postulant-profile__favorite-slot" aria-label={`Slot Fav ${i + 1}`}>
+              <span className="postulant-profile__favorite-slot-icon">＊</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   )
 }
