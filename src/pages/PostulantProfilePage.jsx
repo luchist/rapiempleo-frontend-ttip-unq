@@ -1,19 +1,39 @@
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+
 const CV_SLOTS = 4
 
 const PostulantProfilePage = () => {
-  // mock
-  const postulant = {
-    name: 'Nombre Persona',
-    preferencia: '',
-  }
+  const { id } = useParams()
+  const [postulant, setPostulant] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
+  useEffect(() => {
+    fetch(`http://localhost:8080/postulante/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Postulante no encontrado')
+        return res.json()
+      })
+      .then(data => {
+        setPostulant(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        setError(err.message)
+        setLoading(false)
+      })
+  }, [id])
+
+  if (loading) return <p>Cargando perfil...</p>
+  if (error) return <p>Error: {error}</p>
   return (
     <div className="postulant-profile">
 
       <div className="postulant-profile__header">
         <div className="postulant-profile__avatar" aria-label="Avatar" />
         <div className="postulant-profile__name-block">
-          <h1 className="postulant-profile__name">{postulant.name}</h1>
+          <h1 className="postulant-profile__name">{postulant.nombre}</h1>
           <div className="postulant-profile__name-underline" />
         </div>
       </div>
