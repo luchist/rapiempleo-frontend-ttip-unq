@@ -552,3 +552,127 @@ body {
   letter-spacing: 0.04em;
   margin: 0;
 }
+
+/* Postulante */
+
+.postulant-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  max-width: 860px;
+}
+
+.postulant-profile__header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.postulant-profile__avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
+}
+
+.postulant-profile__name-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.postulant-profile__name {
+  margin: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 22px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.postulant-profile__name-underline {
+  height: 2px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+}
+
+.postulant-profile__body {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.postulant-profile__preference-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.postulant-profile__preference-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 16px;
+  min-height: 120px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.postulant-profile__preference-label {
+  margin: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.postulant-profile__preference-text {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+}
+
+.postulant-profile__cv-block {
+  flex-shrink: 0;
+}
+
+.postulant-profile__cv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.postulant-profile__cv-slot {
+  width: 100px;
+  height: 120px;
+  border: 2px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.02) 4px,
+    transparent 4px,
+    transparent 14px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.12);
+  font-size: 22px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.postulant-profile__cv-slot:hover {
+  border-color: rgba(255, 149, 0, 0.4);
+  color: rgba(255, 149, 0, 0.5);
+}

@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout'
 import HomePage from './pages/HomePage'
 import OfferDetailPage from './pages/OfferDetailPage'
 import UserOfferingPage from './pages/UserOfferingPage'
+import PostulantProfilePage from './pages/PostulantProfilePage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="ofertas/:id" element={<OfferDetailPage />} />
           <Route path="ofertante/:id" element={<UserOfferingPage />}/>
+          <Route path="postulante/:id" element={<PostulantProfilePage />}/>
         </Route>
       </Routes>
     </BrowserRouter>
