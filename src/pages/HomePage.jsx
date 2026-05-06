@@ -51,6 +51,9 @@ const HomePage = () => {
 
   const { user } = useContext(UserContext);
 
+  const token = localStorage.getItem("token")
+
+
   useEffect(() => {
     setLoading(true)
     setError(null)
@@ -84,7 +87,11 @@ const HomePage = () => {
       url = 'http://localhost:8080/oferta/obtenerOfertas'
     }
 
-    fetch(url)
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(res => {
         if (!res.ok) throw new Error('Error al obtener las ofertas')
         return res.json()

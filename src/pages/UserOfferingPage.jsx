@@ -10,8 +10,14 @@ const UserOfferingPage = () => {
     const [offers, setOffers] = useState([])
     const [error, setError] = useState(null)
 
+    const token = localStorage.getItem("token")
+
     useEffect(() => {
-            fetch(`http://localhost:8080/ofertante/${id}`)
+            fetch(`http://localhost:8080/ofertante/${id}`, {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  }
+                })
                 .then(res => {
                     if (!res.ok) throw new Error('Ofertante no encontrado')
                     return res.json()

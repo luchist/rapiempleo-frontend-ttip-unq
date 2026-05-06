@@ -7,7 +7,6 @@ import UserContext from '../components/UserProvider';
 
 const LoginPage = () => {
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
     const [errors, setErrors] = useState({});
     const { setAuth, isLogged, changeLogin } = useContext(UserContext);
     const [form, setForm] = useState({
@@ -16,6 +15,7 @@ const LoginPage = () => {
         typeUser: ""
     });
 
+    const navigate = useNavigate();
 
     const handleChange = (loginData) => {
         setForm({
@@ -28,11 +28,19 @@ const LoginPage = () => {
         loginData.preventDefault();
         const errors = {};
         if (!form.email) {
-            errors.email = "El email de usuario es obligatorio";
+            errors.email = "El email es obligatorio";
         }
         if (!form.password) {
             errors.password = "La contraseña es obligatoria";
         }
+        if (!form.typeUser) {
+            errors.typeUser = "Debe indicar su tipo de usuario";
+        }
+        setErrors(errors);
+        if (Object.keys(errors).length > 0) {
+            return;
+        }
+
         fetch("http://localhost:8080/login", {
             method: "POST",
             headers: {
@@ -40,12 +48,20 @@ const LoginPage = () => {
             },
             body: JSON.stringify(form),
         })
+        /*.then((response) => {
+            if (!response.ok){
+                throw new Error("Login inválido");
+            }
+        })
+        */
         .then((response) => {
             console.log("Success:", response);
             return response.json();
         })
         .then((data) => {
             changeLogin();
+            console.log("TOKEN BEING SENT:", data.token);
+            localStorage.setItem("token", data.token)
             setAuth(data);
             navigate("/home");
         })
@@ -60,7 +76,7 @@ const LoginPage = () => {
             {isLogged && <Navigate to="/home" replace={true} />}
             <h2 className='title-text-login'>Unete en la búsqueda <br/> de un trabajo acorde a vos</h2>
             <div className='login-form-section'>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="form-section">
                     <h3>Ingrese sus datos para loguearse</h3>
                     <input className= "input-login"
                       name="email"
@@ -68,8 +84,7 @@ const LoginPage = () => {
                       onChange={handleChange}
                       placeholder="E-mail"
                     />
-   
-                    {errors.email && <span className="error">{errors.email}</span>}
+                    {errors.email && <span className="error-login">{errors.email}</span>}
                     <input className= "input-login"
                       type="password"
                       name="password"
@@ -77,7 +92,7 @@ const LoginPage = () => {
                       onChange={handleChange}
                       placeholder="Contraseña"
                     />
-                    {errors.password && <span className="error">{errors.password}</span>}
+                    {errors.password && <span className="error-login">{errors.password}</span>}
                     <div className='type-input-login'>
                         <input
                           type="radio"
@@ -94,6 +109,7 @@ const LoginPage = () => {
                         />
                         <label className="type-radio">Postulante</label>
                     </div>
+                    {errors.typeUser && <span className="error-login">{errors.typeUser}</span>}
                     <button type="submit" className='login-button'>Ingresar</button>
                 </form>
                 

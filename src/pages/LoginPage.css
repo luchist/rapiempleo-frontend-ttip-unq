@@ -1,5 +1,7 @@
 .login-form-section {
-    display: inline-block;
+    display: block;
+    /*width: 100%;*/
+    max-width: 330px;
     background-color: chocolate;
     border-radius: 10px;
     box-shadow: 10px;
@@ -23,6 +25,14 @@
 .type-radio {
     margin-left: 2px;
     margin-right: 10px;
+}
+
+.error-login {
+    display: flex;
+    font-size: medium;
+    font-style: oblique;
+    padding-bottom: 5px;
+    padding-right: 0;
 }
 
 .login-button {
