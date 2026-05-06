@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 
 const CV_SLOTS = 4
@@ -9,6 +9,7 @@ const PostulantProfilePage = () => {
   const [postulant, setPostulant] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
     fetch(`http://localhost:8080/postulante/${id}`)
@@ -26,10 +27,23 @@ const PostulantProfilePage = () => {
       })
   }, [id])
 
+  const handleCvSlotClick = (index) => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click()
+    }
+  }
+
   if (loading) return <p>Cargando perfil...</p>
   if (error) return <p>Error: {error}</p>
   return (
     <div className="postulant-profile">
+
+      <input
+        type="file"
+        accept=".pdf"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+      />
 
       <div className="postulant-profile__header">
         <div className="postulant-profile__avatar" aria-label="Avatar" />
@@ -53,7 +67,7 @@ const PostulantProfilePage = () => {
         <div className="postulant-profile__cv-block">
           <div className="postulant-profile__cv-grid">
             {Array.from({ length: CV_SLOTS }).map((_, i) => (
-              <div key={i} className="postulant-profile__cv-slot" aria-label={`Slot CV ${i + 1}`}>
+              <div key={i} className="postulant-profile__cv-slot" aria-label={`Slot CV ${i + 1}`} onClick={() => handleCvSlotClick(i)}>
                 <span className="postulant-profile__cv-slot-icon">＋</span>
               </div>
             ))}
