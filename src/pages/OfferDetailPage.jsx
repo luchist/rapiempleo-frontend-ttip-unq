@@ -15,10 +15,15 @@ const OfferDetailPage = () => {
     const [particles, setParticles] = useState([])
     const btnRef = useRef(null)
 
+    const token = localStorage.getItem("token");
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/oferta/${id}`)
+        fetch(`http://localhost:8080/oferta/${id}`, {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  }
+                })
             .then(res => {
                 if (!res.ok) throw new Error('Oferta no encontrada')
                 return res.json()
@@ -51,6 +56,9 @@ const OfferDetailPage = () => {
             setApplying(true)
             const response = await fetch(`http://localhost:8080/postulante/${user.id}/${id}`, {
                 method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
             })
 
             if (!response.ok) {

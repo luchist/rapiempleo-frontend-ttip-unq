@@ -6,6 +6,7 @@ const UserOfferingPage = () => {
     const { id } = useParams()
     const [loading, setLoading] = useState(true)
     const [notify, setNotify] = useState()
+    const [notifs, setNotifs] = useState([])
     const [user, setUser] = useState(null)
     const [offers, setOffers] = useState([])
     const [error, setError] = useState(null)
@@ -26,12 +27,14 @@ const UserOfferingPage = () => {
                     setUser(data)
                     setLoading(false)
                     setNotify(data.nuevaNotifcacion)
+                    setNotifs(data.avisosPostulacion)
                 })
                 .catch(err => {
                     setError(err.message)
                     setLoading(false)
                 })
-        }, [id])
+    }, [id])
+
 
     if (loading) return <p>Cargando perfil...</p>
     return (
@@ -46,12 +49,31 @@ const UserOfferingPage = () => {
                     <h2 className="title-notifitcation">Notifaciones disponibles</h2>
                     {!notify ?  
                     <div className="section-no-notifications">
-                        {user.avisoNuevaOferta}
+                        <span className="das">No hay nuevas notificaciones</span>
                     </div>
-                    : 
+                    :
                     <div className="section-all-notifications">
-                        {user.avisoNuevaOferta}
-                    </div>}
+                        {notifs.map((notificacion) => (
+                            <div className="offer-notification">
+                                <div className='first-line-notification'>
+                                    <span>Tiene un nuevo CV en su oferta:</span>
+                                    <button className="button-delete-notify">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 24" fill="none" 
+                                            stroke="currentColor" stroke-width="2" 
+                                            stroke-linecap="round" stroke-linejoin="round" 
+                                            class="lucide lucide-square-x-icon lucide-square-x">
+                                                <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                                                <path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                
+                                <span style={{fontWeight:"bolder"}}>{notificacion}</span>
+                            </div>
+                        ))} 
+                       
+                    </div>
+                    }
                 </div>
                 <div className="section-offers">
                     <div className="offers-header">
@@ -80,3 +102,26 @@ const UserOfferingPage = () => {
 }
 
 export default UserOfferingPage
+
+/*
+Parte de todas las notificaciones
+
+<div className="section-notification">
+                    <h2 className="title-notifitcation">Notifaciones disponibles</h2>
+                    {!notify ?  
+                    <div className="section-no-notifications">
+                        <span className="das">No hay nuevas notificaciones</span>
+                    </div>
+                    :
+                    <div>
+                        {user.avisosPostulacion.map((notificacion) => (
+                            <div className="section-all-notifications">
+                                <span>Tiene un nuevo CV en su oferta:</span><br />
+                                <span style={{fontWeight:"bolder"}}>{notificacion}</span>
+                            </div>
+                        ))} 
+                       
+                    </div>
+                    }
+                </div>
+*/

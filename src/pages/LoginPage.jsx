@@ -8,6 +8,7 @@ import UserContext from '../components/UserProvider';
 const LoginPage = () => {
     const [loading, setLoading] = useState(true)
     const [errors, setErrors] = useState({});
+    const [errorLogin, setErrorLogin] = useState();
     const { setAuth, isLogged, changeLogin } = useContext(UserContext);
     const [form, setForm] = useState({
         email: "",
@@ -48,17 +49,24 @@ const LoginPage = () => {
             },
             body: JSON.stringify(form),
         })
-        /*.then((response) => {
-            if (!response.ok){
-                throw new Error("Login inválido");
+        .then(async (response) => {
+            let data = null;
+
+            try {
+                data = await response.json();
+            } catch (e) {
+                data = null;
             }
-        })
-        */
-        .then((response) => {
-            console.log("Success:", response);
-            return response.json();
+            console.log(response)
+            if (!response.ok) {
+                console.log(`DATA PA VER: ${data}`)
+                setErrorLogin(`Error: ${data.message}`);
+                throw new Error("Login failed"); 
+            }
+            return data;
         })
         .then((data) => {
+            console.log("Success:", data);
             changeLogin();
             console.log("TOKEN BEING SENT:", data.token);
             localStorage.setItem("token", data.token)
@@ -111,6 +119,7 @@ const LoginPage = () => {
                     </div>
                     {errors.typeUser && <span className="error-login">{errors.typeUser}</span>}
                     <button type="submit" className='login-button'>Ingresar</button>
+                    {errorLogin && <span className="error-credentials">{errorLogin}</span> }
                 </form>
                 
             </div>
