@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom"
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
 
+const token = localStorage.getItem("token")
+
 const PostulantProfilePage = () => {
   const { id } = useParams()
   const [postulant, setPostulant] = useState(null)
@@ -12,7 +14,11 @@ const PostulantProfilePage = () => {
   const fileInputRef = useRef(null)
 
   useEffect(() => {
-    fetch(`http://localhost:8080/postulante/${id}`)
+    fetch(`http://localhost:8080/postulante/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => {
         if (!res.ok) throw new Error('Postulante no encontrado')
         return res.json()
