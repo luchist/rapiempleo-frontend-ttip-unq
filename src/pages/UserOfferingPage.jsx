@@ -84,16 +84,16 @@ const UserOfferingPage = () => {
                     </div>
                     <div className="list-created-offers">
                         {user.ofertasCreadas.map((offer) => (
-                          <OfferCard className="offer-create-card" key={offer.id}
-                            title={offer.titulo}
-                            company={offer.empresa}
-                            workType={offer.modalidad}
-                            location={offer.ubicacion}
-                            salaryMin={offer.sueldoMin}
-                            salaryMax={offer.sueldoMax}
-                            false
-                          />
-                      ))}
+                            <OfferCard className="offer-create-card" key={offer.id}
+                                title={offer.titulo}
+                                company={offer.empresa}
+                                workType={offer.modalidad}
+                                location={offer.ubicacion}
+                                salaryMin={offer.sueldoMin}
+                                salaryMax={offer.sueldoMax}
+                                false
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
@@ -102,26 +102,3 @@ const UserOfferingPage = () => {
 }
 
 export default UserOfferingPage
-
-/*
-Parte de todas las notificaciones
-
-<div className="section-notification">
-                    <h2 className="title-notifitcation">Notifaciones disponibles</h2>
-                    {!notify ?  
-                    <div className="section-no-notifications">
-                        <span className="das">No hay nuevas notificaciones</span>
-                    </div>
-                    :
-                    <div>
-                        {user.avisosPostulacion.map((notificacion) => (
-                            <div className="section-all-notifications">
-                                <span>Tiene un nuevo CV en su oferta:</span><br />
-                                <span style={{fontWeight:"bolder"}}>{notificacion}</span>
-                            </div>
-                        ))} 
-                       
-                    </div>
-                    }
-                </div>
-*/
