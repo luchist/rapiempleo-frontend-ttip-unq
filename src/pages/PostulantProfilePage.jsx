@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom"
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
 
-const token = localStorage.getItem("token")
-
 const PostulantProfilePage = () => {
   const { id } = useParams()
   const [postulant, setPostulant] = useState(null)
@@ -14,6 +12,7 @@ const PostulantProfilePage = () => {
   const [cvSlots, setCvSlots] = useState(Array(CV_SLOTS).fill(null))
   const fileInputRef = useRef(null)
   const currentSlotIndex = useRef(null)
+  const token = localStorage.getItem("token")
 
   useEffect(() => {
     fetch(`http://localhost:8080/postulante/${id}`, {
