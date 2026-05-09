@@ -736,3 +736,19 @@ body {
   color: rgba(255, 255, 255, 0.12);
   font-size: 16px;
 }
+
+.postulant-profile__cv-slot--loaded {
+  border: 2px solid rgba(34, 219, 195, 0.4);
+  background: rgba(34, 219, 195, 0.05);
+  cursor: default;
+}
+
+.postulant-profile__cv-slot-name {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: rgba(34, 219, 195, 0.8);
+  text-align: center;
+  padding: 8px;
+  word-break: break-all;
+  line-height: 1.4;
+}

@@ -44,7 +44,6 @@ const HomePage = () => {
   const [aiQuery, setAiQuery] = useState(null)
   const [searchInput, setSearchInput] = useState('')
   const [offers, setOffers] = useState([])
-  const [userLogged, setUserLogged] = useState("");
   const [loading, setLoading] = useState(true)
   const [aiLoading, setAiLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -60,7 +59,11 @@ const HomePage = () => {
 
     if (aiQuery !== null) {
       setAiLoading(true)
-      fetch(buildAiSearchUrl(aiQuery))
+      fetch(buildAiSearchUrl(aiQuery), {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
         .then(res => {
           if (!res.ok) throw new Error('Error al obtener la respuesta de IA')
           return res.json()
@@ -131,7 +134,7 @@ const HomePage = () => {
 
       {!aiLoading && (
         <>
-          <h2 className='welcome-entry'>Bienvenido, {user.nombre}</h2>
+          <h2 className='welcome-entry'>Bienvenido, {user?.nombre ?? 'Usuario'}</h2>
           <h2 className="section-title">
             <span className="accent">▍</span>
             Ofertas {query && <span style={{ fontSize: '14px', opacity: 0.4, fontWeight: 'normal' }}>({offers.length} resultados)</span>}
