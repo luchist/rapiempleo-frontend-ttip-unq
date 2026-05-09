@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import SearchBar from '../components/search/SearchBar'
 import OfferGrid from '../components/offers/OfferGrid'
 import AiLoadingIndicator from '../components/search/AiLoadingIndicator'
+import UserContext from '../components/UserProvider'
 
 const KEY_MAP = {
   titulo: 'title',
@@ -47,13 +48,22 @@ const HomePage = () => {
   const [aiLoading, setAiLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  const { user } = useContext(UserContext);
+
+  const token = localStorage.getItem("token")
+
+
   useEffect(() => {
     setLoading(true)
     setError(null)
 
     if (aiQuery !== null) {
       setAiLoading(true)
-      fetch(buildAiSearchUrl(aiQuery))
+      fetch(buildAiSearchUrl(aiQuery), {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
         .then(res => {
           if (!res.ok) throw new Error('Error al obtener la respuesta de IA')
           return res.json()
@@ -80,7 +90,11 @@ const HomePage = () => {
       url = 'http://localhost:8080/oferta/obtenerOfertas'
     }
 
-    fetch(url)
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(res => {
         if (!res.ok) throw new Error('Error al obtener las ofertas')
         return res.json()
@@ -94,6 +108,7 @@ const HomePage = () => {
         setLoading(false)
       })
   }, [query, aiQuery])
+
 
   const handleAiSearch = (value) => {
     setSearchInput(value)
@@ -119,6 +134,7 @@ const HomePage = () => {
 
       {!aiLoading && (
         <>
+          <h2 className='welcome-entry'>Bienvenido, {user?.nombre ?? 'Usuario'}</h2>
           <h2 className="section-title">
             <span className="accent">▍</span>
             Ofertas {query && <span style={{ fontSize: '14px', opacity: 0.4, fontWeight: 'normal' }}>({offers.length} resultados)</span>}
