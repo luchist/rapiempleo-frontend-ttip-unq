@@ -1,12 +1,9 @@
-import { useContext, useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState} from 'react';
 import { useNavigate, Navigate } from "react-router-dom";
-import { UserProvider } from '../components/UserProvider';
 import "./LoginPage.css";
 import UserContext from '../components/UserProvider';
 
 const LoginPage = () => {
-    const [loading, setLoading] = useState(true)
     const [errors, setErrors] = useState({});
     const [errorLogin, setErrorLogin] = useState();
     const { setAuth, isLogged, changeLogin } = useContext(UserContext);
