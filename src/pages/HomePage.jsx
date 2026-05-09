@@ -134,7 +134,7 @@ const HomePage = () => {
 
       {!aiLoading && (
         <>
-          <h2 className='welcome-entry'>Bienvenido, {user.nombre}</h2>
+          <h2 className='welcome-entry'>Bienvenido, {user?.nombre ?? 'Usuario'}</h2>
           <h2 className="section-title">
             <span className="accent">▍</span>
             Ofertas {query && <span style={{ fontSize: '14px', opacity: 0.4, fontWeight: 'normal' }}>({offers.length} resultados)</span>}
