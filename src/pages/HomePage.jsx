@@ -60,7 +60,11 @@ const HomePage = () => {
 
     if (aiQuery !== null) {
       setAiLoading(true)
-      fetch(buildAiSearchUrl(aiQuery))
+      fetch(buildAiSearchUrl(aiQuery), {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
         .then(res => {
           if (!res.ok) throw new Error('Error al obtener la respuesta de IA')
           return res.json()
