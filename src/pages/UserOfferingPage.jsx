@@ -8,8 +8,8 @@ const UserOfferingPage = () => {
     const [notify, setNotify] = useState()
     const [notifs, setNotifs] = useState([])
     const [user, setUser] = useState(null)
-    const [offers, setOffers] = useState([])
     const [error, setError] = useState(null)
+    const [errorNotif, setErrorNotif] = useState(null)
 
     const token = localStorage.getItem("token")
 
@@ -35,10 +35,36 @@ const UserOfferingPage = () => {
             })
     }, [id])
 
+    const handleDeleteNotify = (indexRemove) => {
+        const notifsMod = notifs.filter((_, i) => i !== indexRemove)
+        setNotifs(notifsMod)
+        console.log(`Que se envia por index: ${indexRemove}`)
+        if (notifsMod.length == 0) {
+            setNotify(false)
+        }
+        fetch(`http://localhost:8080/ofertante/deleteNotify/${user.id}/${indexRemove}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('No se pudo borrar la notificación')
+            return res.json()
+        })
+        .catch(err => {
+            setError(err.message)
+        })
+    }
 
     if (loading) return <p>Cargando perfil...</p>
     return (
         <div>
+            {loading && error && 
+            <div className='section-name'>
+                <h1 className='tile-name'>{error.message}</h1>
+            </div>
+            }
             <div className="section-name">
                 <h1 className="title-name">{user.nombre}</h1>
                 <hr className="separation-user" />
@@ -53,21 +79,20 @@ const UserOfferingPage = () => {
                         </div>
                         :
                         <div className="section-all-notifications">
-                            {notifs.map((notificacion) => (
-                                <div className="offer-notification">
+                            {notifs.map((notificacion, index) => (
+                                <div key={index} className="offer-notification">
                                     <div className='first-line-notification'>
                                         <span>Tiene un nuevo CV en su oferta:</span>
-                                        <button className="button-delete-notify">
+                                        <button className="button-delete-notify" onClick={() => handleDeleteNotify(index)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
+                                                strokelinecap="round" strokelinejoin="round"
                                                 class="lucide lucide-square-x-icon lucide-square-x">
                                                 <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
                                                 <path d="m15 9-6 6" /><path d="m9 9 6 6" />
                                             </svg>
                                         </button>
                                     </div>
-
                                     <span style={{ fontWeight: "bolder" }}>{notificacion}</span>
                                 </div>
                             ))}
@@ -91,7 +116,7 @@ const UserOfferingPage = () => {
                                 location={offer.ubicacion}
                                 salaryMin={offer.sueldoMin}
                                 salaryMax={offer.sueldoMax}
-                                false
+                                favorite={false}
                             />
                         ))}
                     </div>
