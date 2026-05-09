@@ -44,7 +44,6 @@ const HomePage = () => {
   const [aiQuery, setAiQuery] = useState(null)
   const [searchInput, setSearchInput] = useState('')
   const [offers, setOffers] = useState([])
-  const [userLogged, setUserLogged] = useState("");
   const [loading, setLoading] = useState(true)
   const [aiLoading, setAiLoading] = useState(false)
   const [error, setError] = useState(null)
