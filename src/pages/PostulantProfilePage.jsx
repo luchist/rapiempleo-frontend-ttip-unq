@@ -41,7 +41,7 @@ const PostulantProfilePage = () => {
   }, [id])
 
   const handleCvSlotClick = (index) => {
-    currentSlotIndex.current = index
+    currentSlotIndex.current = cvSlots.indexOf(null)
     fileInputRef.current.click()
   }
 
