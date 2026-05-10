@@ -8,7 +8,7 @@
     padding-left: 25px;
     padding-right: 25px;
     padding-top: 5px;
-    padding-bottom: 30px;
+    padding-bottom: 25px;
     ;
 }
 
@@ -39,13 +39,14 @@
     display: flex;
     font-size: medium;
     font-weight: bold;
-    color: red;
-    padding-top: 5px;
+    color: rgb(26, 14, 156);
+    padding-top: 8px;
     padding-bottom: 0;
-    text-shadow: 1px 1px rgb(232, 130, 58);
+    text-shadow: 1px 1px rgb(173, 83, 19);
 }
 
 .login-button {
+    margin-top: 10px;
     border-radius: 10px;
     font-size: medium;
     padding: 10px 30px;

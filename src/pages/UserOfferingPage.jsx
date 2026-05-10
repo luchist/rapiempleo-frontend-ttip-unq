@@ -5,8 +5,6 @@ import OfferCard from '../components/offers/OfferCard'
 const UserOfferingPage = () => {
     const { id } = useParams()
     const [loading, setLoading] = useState(true)
-    const [notify, setNotify] = useState()
-    const [notifs, setNotifs] = useState([])
     const [user, setUser] = useState(null)
     const [error, setError] = useState(null)
     const [errorNotif, setErrorNotif] = useState(null)
@@ -35,28 +33,6 @@ const UserOfferingPage = () => {
             })
     }, [id])
 
-    const handleDeleteNotify = (indexRemove) => {
-        const notifsMod = notifs.filter((_, i) => i !== indexRemove)
-        setNotifs(notifsMod)
-        console.log(`Que se envia por index: ${indexRemove}`)
-        if (notifsMod.length == 0) {
-            setNotify(false)
-        }
-        fetch(`http://localhost:8080/ofertante/deleteNotify/${user.id}/${indexRemove}`, {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
-        .then(res => {
-            if (!res.ok) throw new Error('No se pudo borrar la notificación')
-            return res.json()
-        })
-        .catch(err => {
-            setError(err.message)
-        })
-    }
-
     if (loading) return <p>Cargando perfil...</p>
     return (
         <div>
@@ -72,30 +48,14 @@ const UserOfferingPage = () => {
             </div>
             <div className="grid-notification-offer">
                 <div className="section-notification">
-                    <h2 className="title-notifitcation">Notifaciones disponibles</h2>
-                    {!notify ?
+                    <h2 className="title-notifitcation">Visor de CVs postulantes</h2>
+                    {!false ?
                         <div className="section-no-notifications">
-                            <span className="das">No hay nuevas notificaciones</span>
+                            <span className="das">Seleccione una oferta para visualizar los CVs disponibles {"->"}</span>
                         </div>
                         :
                         <div className="section-all-notifications">
-                            {notifs.map((notificacion, index) => (
-                                <div key={index} className="offer-notification">
-                                    <div className='first-line-notification'>
-                                        <span>Tiene un nuevo CV en su oferta:</span>
-                                        <button className="button-delete-notify" onClick={() => handleDeleteNotify(index)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" strokeWidth="2"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                class="lucide lucide-square-x-icon lucide-square-x">
-                                                <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                                                <path d="m15 9-6 6" /><path d="m9 9 6 6" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <span style={{ fontWeight: "bolder" }}>{notificacion}</span>
-                                </div>
-                            ))}
+                            
 
                         </div>
                     }

@@ -123,6 +123,8 @@ body {
   font-family: Geist Mono, monospace;
 }
 
+/* Sidebar  */
+
 .sidebar {
   width: 64px;
   min-height: 100vh;
@@ -178,6 +180,84 @@ body {
 .sidebar-icon:hover .tooltip {
   opacity: 1;
 }
+
+.panel-notification {
+  background-color: rgb(159, 91, 3, 0.4);
+  align-items:center;
+  position: absolute;
+  min-height: 80vh;  
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+  border-top: 4px solid rgba(34, 219, 195, 0.4);
+  border-bottom: 4px solid rgba(34, 219, 195, 0.4);
+  border-right: 4px solid rgba(34, 219, 195, 0.4);
+  left: 65px;
+  padding-left: 2px;
+  padding-right: 4px;
+}
+
+.counter-notify {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15px;
+  width: 15px;
+  background-color: rgb(235, 66, 66);
+  border-radius: 10px;
+  color: aliceblue;
+  font-size: small;
+}
+
+.section-no-notifications {
+  padding : 10px;
+  background-color: #1c2028;
+  border-radius: 5px;
+  border: 1px solid rgb(113, 113, 113);
+  color: darkgrey;
+}
+
+.section-all-notifications {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border : 3px double rgb(4, 166, 210);
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.offer-notification {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(34, 219, 195, 0.3);
+  border: 1px solid rgb(113, 113, 113);
+}
+
+.first-line-notification {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+}
+
+.button-delete-notify {
+  background-color: rgb(179, 56, 56);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.button-delete-notify:hover {
+  opacity: 0.7;
+  transition: 0.4s;
+}
+
+
+/*-----*/
 
 .accent {
   color: #ff9500;
@@ -421,7 +501,7 @@ body {
   overflow: auto;
 }
 
-/* For UserOfferinPage and OfferCard for them*/
+/* Página Ofertante y OfferCard de página*/
 
 .section-name {
   background-color: #ff9500;
@@ -436,27 +516,6 @@ body {
   margin-top: 12px
 }
 
-.first-line-notification {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 5px;
-}
-
-.button-delete-notify {
-  background-color: rgb(179, 56, 56);
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  padding: 0;
-  cursor: pointer;
-}
-
-.button-delete-notify:hover {
-  opacity: 0.7;
-  transition: 0.4s;
-}
 
 .separation-user {
   border: '3px double white';
@@ -471,29 +530,7 @@ body {
   gap: 16px;
 }
 
-.section-no-notifications {
-  padding : 10px;
-  background-color: #1c2028;
-  border-radius: 5px;
-  border: 1px solid rgb(113, 113, 113);
-  color: darkgrey;
-}
 
-.section-all-notifications {
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  border : 3px double rgb(4, 166, 210);
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.offer-notification {
-  padding: 10px;
-  border-radius: 5px;
-  background-color: rgba(34, 219, 195, 0.3);
-  border: 1px solid rgb(113, 113, 113);
-}
 
 .offers-header {
   display: flex;

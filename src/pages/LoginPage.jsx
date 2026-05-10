@@ -10,7 +10,6 @@ const LoginPage = () => {
     const [form, setForm] = useState({
         email: "",
         password: "",
-        typeUser: ""
     });
 
     const navigate = useNavigate();
@@ -30,9 +29,6 @@ const LoginPage = () => {
         }
         if (!form.password) {
             errors.password = "La contraseña es obligatoria";
-        }
-        if (!form.typeUser) {
-            errors.typeUser = "Debe indicar su tipo de usuario";
         }
         setErrors(errors);
         if (Object.keys(errors).length > 0) {
@@ -56,7 +52,7 @@ const LoginPage = () => {
             }
             console.log(response)
             if (!response.ok) {
-                console.log(`DATA PA VER: ${data}`)
+                console.log(`Data log: ${data}`)
                 setErrorLogin(`Error: ${data.message}`);
                 throw new Error("Login failed"); 
             }
@@ -98,23 +94,6 @@ const LoginPage = () => {
                       placeholder="Contraseña"
                     />
                     {errors.password && <span className="error-login">{errors.password}</span>}
-                    <div className='type-input-login'>
-                        <input
-                          type="radio"
-                          name="typeUser"
-                          value="Ofertante"
-                          onChange={handleChange}
-                        />
-                        <label className="type-radio">Ofertante</label>
-                        <input
-                          type="radio"
-                          name="typeUser"
-                          value="Postulante"
-                          onChange={handleChange}
-                        />
-                        <label className="type-radio">Postulante</label>
-                    </div>
-                    {errors.typeUser && <span className="error-login">{errors.typeUser}</span>}
                     <button type="submit" className='login-button'>Ingresar</button>
                     {errorLogin && <span className="error-credentials">{errorLogin}</span> }
                 </form>
