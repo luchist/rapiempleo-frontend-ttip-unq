@@ -96,8 +96,8 @@ const PostulantProfilePage = () => {
       <div className="postulant-profile__body">
 
         <div className="postulant-profile__preference-block">
+          <h3 className="postulant-profile__section-title"><span className="accent">▍</span>Preferencias</h3>
           <div className="postulant-profile__preference-box">
-            <p className="postulant-profile__preference-label">Preferencias</p>
             <p className="postulant-profile__preference-text">
               {postulant.preferencia || ''}
             </p>
@@ -105,6 +105,7 @@ const PostulantProfilePage = () => {
         </div>
 
         <div className="postulant-profile__cv-block">
+          <h3 className="postulant-profile__section-title"><span className="accent">▍</span>Mis CV</h3>
           <div className="postulant-profile__cv-grid">
             {cvSlots.map((cvPath, i) => (
               <div
@@ -126,7 +127,7 @@ const PostulantProfilePage = () => {
 
       <div className="postulant-profile__underline" />
 
-      <h3><span className="accent">▍</span>Favoritos</h3>
+      <h3 className="postulant-profile__section-title"><span className="accent">▍</span>Favoritos</h3>
 
       <div className="postulant-profile__favorite-block">
         <div className="postulant-profile__favorite-grid">

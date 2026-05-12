@@ -20,10 +20,10 @@ const OfferDetailPage = () => {
 
     useEffect(() => {
         fetch(`http://localhost:8080/oferta/${id}`, {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  }
-                })
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
             .then(res => {
                 if (!res.ok) throw new Error('Oferta no encontrada')
                 return res.json()
