@@ -763,3 +763,123 @@ body {
   word-break: break-all;
   line-height: 1.4;
 }
+
+.cv-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.cv-modal__container {
+  position: relative;
+  width: 740px;
+  max-width: 92vw;
+  max-height: 90vh;
+  background: #1c2028;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.cv-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.cv-modal__pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.cv-modal__page-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 48px;
+  text-align: center;
+}
+
+.cv-modal__page-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cv-modal__page-btn:hover:not(:disabled) {
+  background: rgba(255, 149, 0, 0.15);
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.4);
+}
+
+.cv-modal__page-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.cv-modal__close {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.cv-modal__close:hover {
+  background: rgba(255, 149, 0, 0.15);
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.4);
+}
+
+.cv-modal__body {
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  flex: 1 1 0%;
+}
+
+.cv-modal__body .react-pdf__Page {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.cv-modal__loading-text {
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'Geist Mono', monospace;
+  font-size: 14px;
+  margin: auto;
+}
