@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import OfferCard from '../components/offers/OfferCard'
+import OfferCardOfertante from '../components/offers/OfferCardOfertante'
 
 const UserOfferingPage = () => {
     const { id } = useParams()
@@ -8,6 +8,8 @@ const UserOfferingPage = () => {
     const [user, setUser] = useState(null)
     const [error, setError] = useState(null)
     const [errorNotif, setErrorNotif] = useState(null)
+    const [openedOfferId, setOpenedOfferId] = useState(null)
+    const [offersCV, setOffersCV] = useState([]) 
 
     const token = localStorage.getItem("token")
 
@@ -34,6 +36,7 @@ const UserOfferingPage = () => {
     }, [id])
 
     if (loading) return <p>Cargando perfil...</p>
+    console.log(user.ofertasCreadas)
     return (
         <div>
             {loading && error && 
@@ -46,17 +49,21 @@ const UserOfferingPage = () => {
                 <hr className="separation-user" />
                 <h1 className="title-name">Empresa : {user.empresa}</h1>
             </div>
-            <div className="grid-notification-offer">
-                <div className="section-notification">
-                    <h2 className="title-notifitcation">Visor de CVs postulantes</h2>
-                    {!false ?
-                        <div className="section-no-notifications">
-                            <span className="das">Seleccione una oferta para visualizar los CVs disponibles {"->"}</span>
+            <div className="grid-cv-visor-offer">
+                <div className="section-visor">
+                    <h2 className="title-cv-visor">Visor de CVs postulantes</h2>
+                    {openedOfferId == null ?
+                        <div className="section-cv-visor-closed">
+                            <span className="">Seleccione una oferta para visualizar los CVs disponibles {"->"}</span>
                         </div>
                         :
-                        <div className="section-all-notifications">
-                            
-
+                        <div className="section-cv-visor-opened">
+                            <div>Seleccione un CV para verlo en detalle:</div>
+                            <div className="all-cv-section">
+                                {offersCV.map((cv) => (
+                                    <div className="cv-unit-section">{cv}</div>
+                                ))}
+                            </div>
                         </div>
                     }
                 </div>
@@ -68,16 +75,20 @@ const UserOfferingPage = () => {
                         </button>
                     </div>
                     <div className="list-created-offers">
-                        {user.ofertasCreadas.map((offer) => (
-                            <OfferCard className="offer-create-card" key={offer.id}
+                        {user.ofertasCreadas.map((offer) => (     
+                            <OfferCardOfertante className="offer-create-card" key={offer.id}
+                                id={offer.id}
                                 title={offer.titulo}
                                 company={offer.empresa}
                                 workType={offer.modalidad}
                                 location={offer.ubicacion}
                                 salaryMin={offer.sueldoMin}
                                 salaryMax={offer.sueldoMax}
-                                favorite={false}
-                            />
+                                postulantes={offer.cvsRecibidos}
+                                idOpened={openedOfferId}
+                                setIdOpened={setOpenedOfferId}
+                                setCVs={setOffersCV}
+                            />  
                         ))}
                     </div>
                 </div>

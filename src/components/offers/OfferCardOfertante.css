@@ -1,0 +1,130 @@
+.accent {
+  color: #ff9500;
+}
+
+.offer-card-wrap {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.offer-card-offerer {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.offer-card:hover {
+  border-color: rgba(255, 149, 0, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(255, 149, 0, 0.08);
+}
+
+.offer-card-offerer__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+}
+
+.offer-card-offerer__company {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.offer-card-offerer__favorite {
+  color: rgba(34, 219, 195, 0.3);
+}
+
+.offer-card-offerer__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 0 0;
+}
+
+.offer-card-offerer__title {
+  margin: 0;
+  font-family: Geist Mono, monospace;
+  font-size: 17px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.offer-card-offerer__salary {
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.offer-card-offerer__location {
+  font-size: 14px;
+  color: rgba(34, 219, 195, 0.3);
+  padding: 0 0 0 0;
+}
+
+.offer-card-offerer__location-text {
+  padding-left: 4px;
+}
+
+.offer-card-offerer__work-type {
+    font-size: 13px;
+    color: rgba(93, 85, 85, 0.6);
+    margin-top: 0px;
+    margin-bottom: auto;
+}
+
+.offer-card-hover-panel {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    /*background-color: rgb(213, 122, 58);*/
+    border-top: 3px solid rgb(23, 23, 23);
+    border-bottom: 3px solid rgb(23, 23, 23);
+    border-left: 3px solid rgb(23, 23, 23);
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    left: -90px;
+    top: -3px;
+}
+
+.offer-button-hover {
+    font-weight: bolder;
+    background-color: #ff9500;
+    border: 2px solid black;
+    height: 58px;
+    cursor: pointer;
+    
+}
+
+.button-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 14px;
+    color: black;
+}
+
+.button-top {
+    border-top-left-radius: 12px;
+    
+}
+
+.button-bottom {
+    border-bottom-left-radius: 12px;
+}
+
+.offer-button-hover:hover {
+    color: rgb(188, 7, 176);
+    opacity: 0.9;
+    transition: 0.4;
+}

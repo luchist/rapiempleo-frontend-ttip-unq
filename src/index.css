@@ -524,12 +524,49 @@ body {
   width: 50%;
 }
 
-.grid-notification-offer {
+.grid-cv-visor-offer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
+.section-cv-visor-closed {
+  padding : 10px;
+  background-color: #1c2028;
+  border-radius: 5px;
+  border: 1px solid rgb(113, 113, 113);
+  color: darkgrey;
+}
+
+.section-cv-visor-opened {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 8px;
+  border : 3px double rgb(4, 166, 210);
+  height: 400px;
+  max-height: 640px;
+  overflow-y: auto;
+}
+
+.all-cv-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding-top: 15px;
+}
+
+.cv-unit-section {
+  background-color: #8a8a8abb;
+  height: 200px;
+  width: 130px;
+  cursor: pointer;
+  border: 1px solid rgb(255, 255, 255)
+}
+
+.cv-unit-section:hover {
+  opacity: 1.5;
+}
 
 
 .offers-header {
