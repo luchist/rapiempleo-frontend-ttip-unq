@@ -6,10 +6,39 @@ const Sidebar = () => {
   const [notify, setNotify] = useState()
   const [notifs, setNotifs] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
+  const [error, setError] = useState(null)
 
-  const { user } = useContext(UserContext);
+  const { user, isLogged } = useContext(UserContext);
 
   const token = localStorage.getItem("token")
+
+
+  useEffect(() => {
+      if (!user) return;
+      if (!user.typeUser){
+        fetchNotifications();
+      }
+  }, [user]);
+
+  const fetchNotifications = () => {
+      fetch(`http://localhost:8080/ofertante/${user.id}`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          }
+      })
+      .then(res => {
+          if (!res.ok) throw new Error('Ofertante no encontrado')
+          return res.json()
+      })
+      .then(data => {
+          setNotify(data.nuevaNotifcacion)
+          setNotifs(data.avisosPostulacion)
+      })
+      .catch(err => {
+          setError(err.message)
+      })
+  }
+  
 
   const NAV_ITEMS = [
     {
@@ -46,7 +75,7 @@ const Sidebar = () => {
   ]
   
 
-  if (!user) {
+  if (!isLogged) {
     NAV_ITEMS
   } else if (user.typeUser) {
     NAV_ITEMS.push({
@@ -73,24 +102,6 @@ const Sidebar = () => {
   }
 
   const handleNotifyModal = () => {
-
-    fetch(`http://localhost:8080/ofertante/${user.id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    })
-    .then(res => {
-        if (!res.ok) throw new Error('Ofertante no encontrado')
-        return res.json()
-    })
-    .then(data => {
-        setNotify(data.nuevaNotifcacion)
-        setNotifs(data.avisosPostulacion)
-    })
-    .catch(err => {
-        setError(err.message)
-    })
-    
     setModalOpen(!modalOpen)
   }
 
@@ -145,7 +156,7 @@ const Sidebar = () => {
           <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>
           <path d="M4 2C2.8 3.7 2 5.7 2 8"/>
         </svg>}
-        { user && notify ?
+        { (notifs.length != 0) ?
           <span className="counter-notify">
             {notifs.length}
           </span> :<></>}

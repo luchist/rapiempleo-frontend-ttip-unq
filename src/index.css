@@ -568,6 +568,10 @@ body {
   opacity: 1.5;
 }
 
+.temporal-cv-unit-text {
+  padding: 12px;
+}
+
 
 .offers-header {
   display: flex;

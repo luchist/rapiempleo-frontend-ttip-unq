@@ -1,15 +1,20 @@
-import {createContext, useState, useCallback, useMemo} from "react";
+import {createContext, useState, useCallback, useMemo, useEffect} from "react";
 
 const UserContext = createContext()
 
 function UserProvider ({children}) {
     const [user, setUser] = useState()
     const [isLogged, setIsLogged] = useState(false)
-    /*
-    const setAuth = useCallback((auth) => {
-        localStorage.setItem('Authorization', auth)
-    },[])
-    */
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+            //setIsLogged(true);
+        }
+    }, []);
+
     const setAuth = useCallback((userData) => {
         setUser(userData)
         localStorage.setItem("user", JSON.stringify(userData))
@@ -20,7 +25,7 @@ function UserProvider ({children}) {
         setIsLogged(logged)
     },[isLogged])
 
-    const auth = useCallback(() => { return localStorage.getItem('Authorization')},[])
+    //const auth = useCallback(() => { return localStorage.getItem('Authorization')},[])
 
     const contextValue = useMemo(() => ({
         user,
@@ -28,7 +33,7 @@ function UserProvider ({children}) {
         setAuth,
         changeLogin
     }),
-    [isLogged, changeLogin, auth, setAuth])
+    [user, isLogged, changeLogin, setAuth])
 
     return(
         <UserContext.Provider value={contextValue}>
