@@ -12,6 +12,7 @@ const PostulantProfilePage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [cvSlots, setCvSlots] = useState(Array(CV_SLOTS).fill(null))
+  const [cvFavorito, setCvFavorito] = useState(null)
   const [cvModalPath, setCvModalPath] = useState(null)
   const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
   const fileInputRef = useRef(null)
@@ -35,6 +36,7 @@ const PostulantProfilePage = () => {
           if (i < CV_SLOTS) slots[i] = path
         })
         setCvSlots(slots)
+        setCvFavorito(data.cvFavorito)
         setLoading(false)
       })
       .catch(err => {
@@ -65,6 +67,21 @@ const PostulantProfilePage = () => {
     }
   }
 
+  const handleSetFavorito = (e, cvPath) => {
+    e.stopPropagation()
+    fetch(`${BASE_URL}/postulante/${id}/cv/favorito?cvPath=${encodeURIComponent(cvPath)}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo actualizar el CV favorito')
+        setCvFavorito(cvPath)
+      })
+      .catch(err => console.error(err))
+  }
+
   const handleCloseModal = () => {
     if (cvModalBlobUrl) URL.revokeObjectURL(cvModalBlobUrl)
     setCvModalPath(null)
@@ -93,6 +110,9 @@ const PostulantProfilePage = () => {
         const newSlots = [...cvSlots]
         newSlots[currentSlotIndex.current] = data.cvPath
         setCvSlots(newSlots)
+        if (!cvFavorito) {
+          setCvFavorito(data.cvPath)
+        }
       })
       .catch(err => console.error(err))
 
@@ -148,10 +168,20 @@ const PostulantProfilePage = () => {
                 aria-label={`Slot CV ${i + 1}`}
                 onClick={() => handleCvSlotClick(i)}
               >
-                {cvPath
-                  ? <span className="postulant-profile__cv-slot-name">{cvPath.split('/').pop()}</span>
-                  : <span className="postulant-profile__cv-slot-icon">＋</span>
-                }
+                {cvPath ? (
+                  <>
+                    <span className="postulant-profile__cv-slot-name">{cvPath.split('/').pop()}</span>
+                    <button
+                      className={`postulant-profile__cv-slot-star${cvPath === cvFavorito ? ' postulant-profile__cv-slot-star--active' : ''}`}
+                      onClick={(e) => handleSetFavorito(e, cvPath)}
+                      title={cvPath === cvFavorito ? 'CV favorito actual' : 'Establecer como favorito'}
+                    >
+                      ★
+                    </button>
+                  </>
+                ) : (
+                  <span className="postulant-profile__cv-slot-icon">＋</span>
+                )}
               </div>
             ))}
           </div>
