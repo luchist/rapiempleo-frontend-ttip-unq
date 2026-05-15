@@ -61,6 +61,10 @@ const OfferDetailPage = () => {
                 }
             })
 
+            if (response.status === 400) {
+                throw new Error('Necesitas cargar un CV para postularte a esta oferta')
+            }
+
             if (!response.ok) {
                 throw new Error('No se pudo enviar la postulación')
             }

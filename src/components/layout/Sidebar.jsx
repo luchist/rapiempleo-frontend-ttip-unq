@@ -82,7 +82,7 @@ const Sidebar = () => {
 
     NAV_ITEMS.push({
       path: `/postulante/${user.id}`,
-      label: 'Perfil Postulante',
+      label: 'Perfil',
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -93,7 +93,7 @@ const Sidebar = () => {
   } else {
     NAV_ITEMS.push({
       path: `/ofertante/${user.id}`,
-      label: 'Perfil Ofertante',
+      label: 'Perfil',
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
