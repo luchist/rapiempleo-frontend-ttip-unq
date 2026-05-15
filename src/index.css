@@ -204,10 +204,14 @@ body {
   align-items: center;
   height: 15px;
   width: 15px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
   background-color: rgb(235, 66, 66);
   border-radius: 10px;
   color: aliceblue;
   font-size: small;
+  pointer-events: none;
 }
 
 .section-no-notifications {

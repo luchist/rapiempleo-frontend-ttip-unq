@@ -1,9 +1,10 @@
 import { useContext, useState, useEffect } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import UserContext from '../UserProvider';
+import NotificationModal from '../NotificationModal';
 
 const Sidebar = () => {
-  const [notify, setNotify] = useState()
+//  const [notify, setNotify] = useState()
   const [notifs, setNotifs] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [error, setError] = useState(null)
@@ -15,12 +16,16 @@ const Sidebar = () => {
 
   useEffect(() => {
       if (!user) return;
-      if (!user.typeUser){
-        fetchNotifications();
+      if (user.typeUser) {
+        fetchNotificationsPostulant();
+      } else {
+        fetchNotificationsOfferer()
       }
+      setModalOpen(false)
+      
   }, [user]);
 
-  const fetchNotifications = () => {
+  const fetchNotificationsOfferer = () => {
       fetch(`http://localhost:8080/ofertante/${user.id}`, {
           headers: {
               Authorization: `Bearer ${token}`,
@@ -31,8 +36,27 @@ const Sidebar = () => {
           return res.json()
       })
       .then(data => {
-          setNotify(data.nuevaNotifcacion)
+      //  setNotify(data.nuevaNotifcacion)
           setNotifs(data.avisosPostulacion)
+      })
+      .catch(err => {
+          setError(err.message)
+      })
+  }
+
+  const fetchNotificationsPostulant = () => {
+      fetch(`http://localhost:8080/postulante/${user.id}`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          }
+      })
+      .then(res => {
+          if (!res.ok) throw new Error('Postulante no encontrado')
+          return res.json()
+      })
+      .then(data => {
+      //  setNotify(data.nuevaNotifcacion)
+          setNotifs(data.notificacionesCv)
       })
       .catch(err => {
           setError(err.message)
@@ -48,16 +72,6 @@ const Sidebar = () => {
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
           <polyline points="9 22 9 12 15 12 15 22" />
-        </svg>
-      )
-    },
-    {
-      path: '/board',
-      label: 'Tablero',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
         </svg>
       )
     },
@@ -78,13 +92,24 @@ const Sidebar = () => {
   if (!isLogged) {
     NAV_ITEMS
   } else if (user.typeUser) {
-    NAV_ITEMS.push({
+    NAV_ITEMS.push(
+    {
       path: `/postulante/${user.id}`,
       label: 'Perfil Postulante',
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
           <circle cx="12" cy="7" r="4" />
+        </svg>
+      )
+    },
+    {
+      path: '/board',
+      label: 'Tablero',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
         </svg>
       )
     })
@@ -113,9 +138,9 @@ const Sidebar = () => {
       const notifsMod = notifs.filter((_, i) => i !== indexRemove)
       setNotifs(notifsMod)
       console.log(`Que se envia por index: ${indexRemove}`)
-      if (notifsMod.length == 0) {
-          setNotify(false)
-      }
+      //if (notifsMod.length == 0) {
+      //    setNotify(false)
+      //}
       fetch(`http://localhost:8080/ofertante/deleteNotify/${user.id}/${indexRemove}`, {
           method: 'DELETE',
           headers: {
@@ -162,38 +187,21 @@ const Sidebar = () => {
           </span> :<></>}
         <span className="tooltip">Notificaciones</span>
       </span>
-      { user && notify && modalOpen && !user.typeUser ?
-      <div className="panel-notification">
-        <h2 className='title-panel'>Notificaciones</h2>
-        <div className="section-all-notifications">
-            {notifs.map((notificacion, index) => (
-                <div key={index} className="offer-notification">
-                    <div className='first-line-notification'>
-                        <span>Hay un nuevo CV en oferta:</span>
-                        <button className="button-delete-notify" onClick={() => handleDeleteNotify(index)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" strokeWidth="2"
-                                strokeLinecap="round" strokeLinejoin="round"
-                                class="lucide lucide-square-x-icon lucide-square-x">
-                                <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                                <path d="m15 9-6 6" /><path d="m9 9 6 6" />
-                            </svg>
-                        </button>
-                    </div>
-                    <span style={{ fontWeight: "bolder" }}>{notificacion}</span>
-                </div>
-            ))}
-        </div>
-      </div>
-      : user && modalOpen && !user.typeUser ?
-      <div className="panel-notification">
-        <h2 className='title-panel'>Notificaciones</h2>
-        <div className="section-no-notifications">
-            <span className="das">A la espera de nuevas postulaciones</span>
-        </div>
-      </div>
-      :
-      <></>
+      { isLogged && modalOpen && !user.typeUser ?
+        <NotificationModal className="notification-panel-offerer" 
+          notifications={notifs} 
+          tituloNotif={"Hay un nuevo CV en oferta: "} 
+          mensajeSinNotif={"A la espera de nuevas postulaciones"}
+          handleDeleteNotify={handleDeleteNotify}/>
+        :
+        isLogged && modalOpen && user.typeUser ?
+        <NotificationModal className="notification-panel-postulant"
+          notifications={notifs} 
+          tituloNotif={"Han visto tu CV en la oferta: "} 
+          mensajeSinNotif={"A la espera que tus postulaciones sean revisadas"}
+          handleDeleteNotify={handleDeleteNotify}/>
+        :
+        <></>
       }
     </aside>
   )
