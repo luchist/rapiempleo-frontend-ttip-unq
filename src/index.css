@@ -1003,3 +1003,152 @@ body {
   font-size: 14px;
   margin: auto;
 }
+
+/* ===== Board / Kanban ===== */
+
+.board-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  /* rompe el max-width del layout para dar espacio a las 5 columnas */
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: none;
+}
+
+.board-page__title {
+  margin: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 22px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.board-page__columns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+/* Columna */
+
+.kanban-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 0;
+}
+
+.kanban-column__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.kanban-column__title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kanban-column__count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background: rgba(255, 149, 0, 0.12);
+  border: 1px solid rgba(255, 149, 0, 0.25);
+  border-radius: 999px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff9500;
+}
+
+.kanban-column__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kanban-column__empty {
+  margin: 0;
+  padding: 16px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.2);
+  text-align: center;
+  font-family: 'Geist Mono', monospace;
+}
+
+/* Card */
+
+.kanban-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.kanban-card:hover {
+  border-color: rgba(255, 149, 0, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 149, 0, 0.08);
+}
+
+.kanban-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 12px 0;
+}
+
+.kanban-card__company {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kanban-card__title {
+  margin: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf3;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kanban-card__footer {
+  padding: 8px 12px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.kanban-card__modalidad {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Geist Mono', monospace;
+}
