@@ -141,7 +141,10 @@ const Sidebar = () => {
       //if (notifsMod.length == 0) {
       //    setNotify(false)
       //}
-      fetch(`http://localhost:8080/ofertante/deleteNotify/${user.id}/${indexRemove}`, {
+      let typeUs  
+      if (user.typeUser) { typeUs = "postulante" } else { typeUs = "ofertante" }
+      
+      fetch(`http://localhost:8080/${typeUs}/deleteNotify/${user.id}/${indexRemove}`, {
           method: 'DELETE',
           headers: {
               Authorization: `Bearer ${token}`,

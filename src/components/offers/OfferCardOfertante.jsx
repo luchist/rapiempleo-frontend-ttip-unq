@@ -33,7 +33,7 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
                     </button>
                 </div>
             )}
-            <div className="offer-card-offerer">
+            <div className={`offer-card-offerer ${id == idOpened ? "offer-card-offerer-selected" : ""}`}>
               <div className="offer-card-offerer__header">
                 <span className="offer-card-offerer__company accent">{company}</span>
                 <h3 className="offer-card-offerer__title">{title}</h3>
