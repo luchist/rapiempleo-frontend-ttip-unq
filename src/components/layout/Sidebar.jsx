@@ -134,8 +134,6 @@ const Sidebar = () => {
   }
 
   const handleDeleteNotify = (indexRemove) => {
-      const notifsMod = notifs.filter((_, i) => i !== indexRemove)
-      setNotifs(notifsMod)
       let typeUs  
       if (user.typeUser) { typeUs = "postulante" } else { typeUs = "ofertante" }
       
@@ -146,7 +144,10 @@ const Sidebar = () => {
           }
       })
       .then(res => {
-        if (!res.ok) throw new Error('No se pudo borrar la notificación')
+        if (!res.ok) { throw new Error('No se pudo borrar la notificación') }
+
+        const notifsMod = notifs.filter((_, i) => i !== indexRemove)
+        setNotifs(notifsMod)
         return res.json()
       })
       .catch(err => {

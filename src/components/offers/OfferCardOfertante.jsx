@@ -5,10 +5,7 @@ import "./OfferCardOfertante.css";
 
 const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs }) => {
 
-    const [loading, setLoading] = useState(true)
     const [hovered, setHovered] = useState()
-
-    const token = localStorage.getItem("token")
 
     const handleShowCVOffer = () => {
       setCVs(postulantes)

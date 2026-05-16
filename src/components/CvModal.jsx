@@ -17,7 +17,7 @@ const CvModal = ({ blobUrl, onClose }) => {
 
   return (
     <div className="cv-modal__overlay" onClick={onClose}>
-      <div className="cv-modal__container" onClick={e => e.stopPropagation()}>
+      <div className="cv-modal__container" onClick={e => e.stopPropagation()} aria-modal="true" role="dialog">
 
         <div className="cv-modal__header">
           {numPages && numPages > 1 && (

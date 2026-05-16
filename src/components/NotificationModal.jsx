@@ -12,7 +12,7 @@ const NotificationModal = ({ notifications, tituloNotif, mensajeSinNotif, handle
                     <div key={index} className="offer-notification">
                         <div className='first-line-notification'>
                             <span>{tituloNotif}</span>
-                            <button className="button-delete-notify" onClick={() => handleDeleteNotify(index)}>
+                            <button className="button-delete-notify" onClick={() => handleDeleteNotify(index)} aria-label="Eliminar notificación">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" strokeWidth="2"
                                     strokeLinecap="round" strokeLinejoin="round"

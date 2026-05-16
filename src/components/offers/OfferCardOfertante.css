@@ -130,5 +130,5 @@
 .offer-button-hover:hover {
     color: rgb(188, 7, 176);
     opacity: 0.9;
-    transition: 0.4;
+    transition: 0.4s;
 }

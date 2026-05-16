@@ -573,7 +573,7 @@ body {
 
 .cv-unit-section:hover {
   border: 1px solid aqua;
-  opacity: 1.5;
+  opacity: 0.9;
 }
 
 .temporal-cv-unit-text {

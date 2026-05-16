@@ -11,7 +11,6 @@ function UserProvider ({children}) {
 
         if (storedUser) {
             setUser(JSON.parse(storedUser));
-            //setIsLogged(true);
         }
     }, []);
 
@@ -24,8 +23,6 @@ function UserProvider ({children}) {
         const logged = !isLogged
         setIsLogged(logged)
     },[isLogged])
-
-    //const auth = useCallback(() => { return localStorage.getItem('Authorization')},[])
 
     const contextValue = useMemo(() => ({
         user,
