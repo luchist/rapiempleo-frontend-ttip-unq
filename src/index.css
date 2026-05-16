@@ -123,6 +123,8 @@ body {
   font-family: Geist Mono, monospace;
 }
 
+/* Sidebar  */
+
 .sidebar {
   width: 64px;
   min-height: 100vh;
@@ -178,6 +180,88 @@ body {
 .sidebar-icon:hover .tooltip {
   opacity: 1;
 }
+
+.panel-notification {
+  background-color: rgb(159, 91, 3, 0.4);
+  align-items:center;
+  position: absolute;
+  min-height: 80vh;  
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+  border-top: 4px solid rgba(34, 219, 195, 0.4);
+  border-bottom: 4px solid rgba(34, 219, 195, 0.4);
+  border-right: 4px solid rgba(34, 219, 195, 0.4);
+  left: 65px;
+  padding-left: 2px;
+  padding-right: 4px;
+}
+
+.counter-notify {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  background-color: rgb(235, 66, 66);
+  border-radius: 10px;
+  color: aliceblue;
+  font-size: small;
+  pointer-events: none;
+}
+
+.section-no-notifications {
+  padding : 10px;
+  background-color: #1c2028;
+  border-radius: 5px;
+  border: 1px solid rgb(113, 113, 113);
+  color: darkgrey;
+}
+
+.section-all-notifications {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border : 3px double rgb(4, 166, 210);
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.offer-notification {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(34, 219, 195, 0.3);
+  border: 1px solid rgb(113, 113, 113);
+}
+
+.first-line-notification {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+}
+
+.button-delete-notify {
+  background-color: rgb(179, 56, 56);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.button-delete-notify:hover {
+  opacity: 0.7;
+  transition: 0.4s;
+}
+
+
+/*-----*/
 
 .accent {
   color: #ff9500;
@@ -421,7 +505,7 @@ body {
   overflow: auto;
 }
 
-/* For UserOfferinPage and OfferCard for them*/
+/* Página Ofertante y OfferCard de página*/
 
 .section-name {
   background-color: #ff9500;
@@ -436,27 +520,6 @@ body {
   margin-top: 12px
 }
 
-.first-line-notification {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 5px;
-}
-
-.button-delete-notify {
-  background-color: rgb(179, 56, 56);
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  padding: 0;
-  cursor: pointer;
-}
-
-.button-delete-notify:hover {
-  opacity: 0.7;
-  transition: 0.4s;
-}
 
 .separation-user {
   border: '3px double white';
@@ -465,13 +528,13 @@ body {
   width: 50%;
 }
 
-.grid-notification-offer {
+.grid-cv-visor-offer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
-.section-no-notifications {
+.section-cv-visor-closed {
   padding : 10px;
   background-color: #1c2028;
   border-radius: 5px;
@@ -479,21 +542,49 @@ body {
   color: darkgrey;
 }
 
-.section-all-notifications {
+.section-cv-visor-opened {
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
+  padding: 10px;
+  border-radius: 8px;
   border : 3px double rgb(4, 166, 210);
-  max-height: 300px;
+  height: 400px;
+  max-height: 640px;
   overflow-y: auto;
 }
 
-.offer-notification {
-  padding: 10px;
-  border-radius: 5px;
-  background-color: rgba(34, 219, 195, 0.3);
-  border: 1px solid rgb(113, 113, 113);
+.all-cv-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding-top: 15px;
 }
+
+.cv-unit-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #8a8a8abb;
+  height: 200px;
+  width: 130px;
+  cursor: pointer;
+  border: 1px solid rgb(255, 255, 255)
+}
+
+.cv-unit-section:hover {
+  border: 1px solid aqua;
+  opacity: 0.9;
+}
+
+.temporal-cv-unit-text {
+  padding: 12px;
+}
+
+.cv-unit-footer {
+  padding: 4px;
+  font-size: small;
+}
+
 
 .offers-header {
   display: flex;
@@ -637,7 +728,7 @@ body {
 
 .postulant-profile__preference-block {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 10px;
   flex: 1 1 0%;
   min-width: 0;
@@ -674,6 +765,17 @@ body {
 
 .postulant-profile__cv-block {
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.postulant-profile__section-title {
+  margin: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e6edf3;
 }
 
 .postulant-profile__cv-grid {
@@ -689,9 +791,9 @@ body {
   border-radius: 10px;
   background: repeating-linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0.02) 4px,
-    transparent 4px,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.04) 6px,
+    transparent 6px,
     transparent 14px
   );
   display: flex;
@@ -724,9 +826,9 @@ body {
   border-radius: 10px;
   background: repeating-linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0.02) 4px,
-    transparent 4px,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.04) 6px,
+    transparent 6px,
     transparent 14px
   );
   display: flex;
@@ -741,6 +843,10 @@ body {
   border: 2px solid rgba(34, 219, 195, 0.4);
   background: rgba(34, 219, 195, 0.05);
   cursor: default;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
 }
 
 .postulant-profile__cv-slot-name {
@@ -748,7 +854,314 @@ body {
   font-size: 11px;
   color: rgba(34, 219, 195, 0.8);
   text-align: center;
-  padding: 8px;
+  padding: 0 8px;
   word-break: break-all;
   line-height: 1.4;
+}
+
+.postulant-profile__cv-slot-star {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.postulant-profile__cv-slot-star:hover {
+  color: rgba(255, 149, 0, 0.7);
+  border-color: rgba(255, 149, 0, 0.4);
+  background: rgba(255, 149, 0, 0.1);
+}
+
+.postulant-profile__cv-slot-star--active {
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.6);
+  background: rgba(255, 149, 0, 0.15);
+}
+
+.postulant-profile__cv-slot-star--active:hover {
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.8);
+  background: rgba(255, 149, 0, 0.25);
+}
+
+.cv-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.cv-modal__container {
+  position: relative;
+  width: 740px;
+  max-width: 92vw;
+  max-height: 90vh;
+  background: #1c2028;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.cv-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.cv-modal__pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.cv-modal__page-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 48px;
+  text-align: center;
+}
+
+.cv-modal__page-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cv-modal__page-btn:hover:not(:disabled) {
+  background: rgba(255, 149, 0, 0.15);
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.4);
+}
+
+.cv-modal__page-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.cv-modal__close {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.cv-modal__close:hover {
+  background: rgba(255, 149, 0, 0.15);
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.4);
+}
+
+.cv-modal__body {
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  flex: 1 1 0%;
+}
+
+.cv-modal__body .react-pdf__Page {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.cv-modal__loading-text {
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'Geist Mono', monospace;
+  font-size: 14px;
+  margin: auto;
+}
+
+/* ===== Board / Kanban ===== */
+
+.board-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  /* rompe el max-width del layout para dar espacio a las 5 columnas */
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: none;
+}
+
+.board-page__title {
+  margin: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 22px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.board-page__columns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+/* Columna */
+
+.kanban-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 0;
+}
+
+.kanban-column__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.kanban-column__title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kanban-column__count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background: rgba(255, 149, 0, 0.12);
+  border: 1px solid rgba(255, 149, 0, 0.25);
+  border-radius: 999px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff9500;
+}
+
+.kanban-column__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kanban-column__empty {
+  margin: 0;
+  padding: 16px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.2);
+  text-align: center;
+  font-family: 'Geist Mono', monospace;
+}
+
+/* Card */
+
+.kanban-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.kanban-card:hover {
+  border-color: rgba(255, 149, 0, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 149, 0, 0.08);
+}
+
+.kanban-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 12px 0;
+}
+
+.kanban-card__company {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kanban-card__title {
+  margin: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf3;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kanban-card__footer {
+  padding: 8px 12px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.kanban-card__modalidad {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Geist Mono', monospace;
 }

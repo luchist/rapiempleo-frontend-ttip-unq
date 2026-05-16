@@ -1,15 +1,22 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import OfferCard from '../components/offers/OfferCard'
+import OfferCardOfertante from '../components/offers/OfferCardOfertante'
+import CvModal from '../components/CvModal'
+import UserContext from '../components/UserProvider';
 
 const UserOfferingPage = () => {
     const { id } = useParams()
     const [loading, setLoading] = useState(true)
-    const [notify, setNotify] = useState()
-    const [notifs, setNotifs] = useState([])
-    const [user, setUser] = useState(null)
+    const [userOf, setUserOf] = useState(null)
     const [error, setError] = useState(null)
     const [errorNotif, setErrorNotif] = useState(null)
+    const [openedOfferId, setOpenedOfferId] = useState(null)
+    const [offersCV, setOffersCV] = useState([]) 
+
+    const [cvModalOpened, setCvModalOpened] = useState(false)
+    const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
+
+    const { user } = useContext(UserContext);
 
     const token = localStorage.getItem("token")
 
@@ -24,7 +31,7 @@ const UserOfferingPage = () => {
                 return res.json()
             })
             .then(data => {
-                setUser(data)
+                setUserOf(data)
                 setLoading(false)
                 setNotify(data.nuevaNotifcacion)
                 setNotifs(data.avisosPostulacion)
@@ -35,26 +42,45 @@ const UserOfferingPage = () => {
             })
     }, [id])
 
-    const handleDeleteNotify = (indexRemove) => {
-        const notifsMod = notifs.filter((_, i) => i !== indexRemove)
-        setNotifs(notifsMod)
-        console.log(`Que se envia por index: ${indexRemove}`)
-        if (notifsMod.length == 0) {
-            setNotify(false)
-        }
-        fetch(`http://localhost:8080/ofertante/deleteNotify/${user.id}/${indexRemove}`, {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${token}`,
+    const handleOpenCV = (id_postulante, cvPath, id_oferta, cvVisto) => {
+        const filename = cvPath.split('/').pop()
+        const url = `http://localhost:8080/files/cvs/${id_postulante}/${filename}`
+        console.log(url)
+        fetch(url, { 
+            headers: { Authorization: `Bearer ${token}` 
+        }})
+        .then(res => {
+            if (!res.ok) throw new Error('No se pudo cargar el CV')
+            return res.blob()
+        })
+        .then(blob => {
+            const blobUrl = URL.createObjectURL(blob)
+            setCvModalOpened(true)
+            setCvModalBlobUrl(blobUrl)
+            
+            if (!cvVisto){
+                return fetch("http://localhost:8080/postulante/cvViewed", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        id_postulante: id_postulante,
+                        id_oferta: id_oferta,   
+                    })
+                })
             }
         })
-        .then(res => {
-            if (!res.ok) throw new Error('No se pudo borrar la notificación')
-            return res.json()
+        .catch((err) => {
+            console.error(err)
         })
-        .catch(err => {
-            setError(err.message)
-        })
+    }
+
+    const handleCloseModal = () => {
+        if (cvModalBlobUrl) URL.revokeObjectURL(cvModalBlobUrl)
+        setCvModalOpened(false)
+        setCvModalBlobUrl(null)
     }
 
     if (loading) return <p>Cargando perfil...</p>
@@ -65,38 +91,40 @@ const UserOfferingPage = () => {
                 <h1 className='tile-name'>{error.message}</h1>
             </div>
             }
+            {cvModalOpened && (
+                <CvModal
+                  blobUrl={cvModalBlobUrl}
+                  onClose={handleCloseModal}
+                />
+            )}
             <div className="section-name">
-                <h1 className="title-name">{user.nombre}</h1>
+                <h1 className="title-name">{userOf.nombre}</h1>
                 <hr className="separation-user" />
-                <h1 className="title-name">Empresa : {user.empresa}</h1>
+                <h1 className="title-name">Empresa : {userOf.empresa}</h1>
             </div>
-            <div className="grid-notification-offer">
-                <div className="section-notification">
-                    <h2 className="title-notifitcation">Notifaciones disponibles</h2>
-                    {!notify ?
-                        <div className="section-no-notifications">
-                            <span className="das">No hay nuevas notificaciones</span>
+            <div className="grid-cv-visor-offer">
+                <div className="section-visor">
+                    <h2 className="title-cv-visor">Visor de CVs postulantes</h2>
+                    {openedOfferId == null ?
+                        <div className="section-cv-visor-closed">
+                            <span className="">Seleccione una oferta para visualizar los CVs disponibles {"->"}</span>
                         </div>
                         :
-                        <div className="section-all-notifications">
-                            {notifs.map((notificacion, index) => (
-                                <div key={index} className="offer-notification">
-                                    <div className='first-line-notification'>
-                                        <span>Tiene un nuevo CV en su oferta:</span>
-                                        <button className="button-delete-notify" onClick={() => handleDeleteNotify(index)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" strokeWidth="2"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                class="lucide lucide-square-x-icon lucide-square-x">
-                                                <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                                                <path d="m15 9-6 6" /><path d="m9 9 6 6" />
-                                            </svg>
-                                        </button>
+                        <div className="section-cv-visor-opened">
+                            <div>Seleccione un CV para verlo en detalle:</div>
+                            <div className="all-cv-section">
+                                {offersCV.map((cv) => (
+                                    <div className="cv-unit-section" 
+                                         onClick={() => handleOpenCV(cv.id_postulante, cv.cvPathPostulacion, cv.id_oferta, cv.cvVisto)}>
+                                        <div className="temporal-cv-unit-text">
+                                            Haga click para ver en detalle el CV :
+                                        </div>
+                                        <div className="cv-unit-footer">
+                                            {cv.cvPathPostulacion.split('/').pop()}
+                                        </div>
                                     </div>
-                                    <span style={{ fontWeight: "bolder" }}>{notificacion}</span>
-                                </div>
-                            ))}
-
+                                ))}
+                            </div>
                         </div>
                     }
                 </div>
@@ -108,16 +136,20 @@ const UserOfferingPage = () => {
                         </button>
                     </div>
                     <div className="list-created-offers">
-                        {user.ofertasCreadas.map((offer) => (
-                            <OfferCard className="offer-create-card" key={offer.id}
+                        {userOf.ofertasCreadas.map((offer) => (     
+                            <OfferCardOfertante className="offer-create-card" key={offer.id}
+                                id={offer.id}
                                 title={offer.titulo}
                                 company={offer.empresa}
                                 workType={offer.modalidad}
                                 location={offer.ubicacion}
                                 salaryMin={offer.sueldoMin}
                                 salaryMax={offer.sueldoMax}
-                                favorite={false}
-                            />
+                                postulantes={offer.cvsRecibidos}
+                                idOpened={openedOfferId}
+                                setIdOpened={setOpenedOfferId}
+                                setCVs={setOffersCV}
+                            />  
                         ))}
                     </div>
                 </div>

@@ -20,10 +20,10 @@ const OfferDetailPage = () => {
 
     useEffect(() => {
         fetch(`http://localhost:8080/oferta/${id}`, {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  }
-                })
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
             .then(res => {
                 if (!res.ok) throw new Error('Oferta no encontrada')
                 return res.json()
@@ -60,6 +60,10 @@ const OfferDetailPage = () => {
                     Authorization: `Bearer ${token}`,
                 }
             })
+
+            if (response.status === 400) {
+                throw new Error('Necesitas cargar un CV para postularte a esta oferta')
+            }
 
             if (!response.ok) {
                 throw new Error('No se pudo enviar la postulación')
