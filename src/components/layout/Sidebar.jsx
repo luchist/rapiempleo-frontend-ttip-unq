@@ -4,7 +4,6 @@ import UserContext from '../UserProvider';
 import NotificationModal from '../NotificationModal';
 
 const Sidebar = () => {
-//  const [notify, setNotify] = useState()
   const [notifs, setNotifs] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [error, setError] = useState(null)
@@ -32,15 +31,14 @@ const Sidebar = () => {
           }
       })
       .then(res => {
-          if (!res.ok) throw new Error('Ofertante no encontrado')
-          return res.json()
+        if (!res.ok) throw new Error('Ofertante no encontrado')
+        return res.json()
       })
       .then(data => {
-      //  setNotify(data.nuevaNotifcacion)
           setNotifs(data.avisosPostulacion)
       })
       .catch(err => {
-          setError(err.message)
+        setError(err.message)
       })
   }
 
@@ -55,7 +53,6 @@ const Sidebar = () => {
           return res.json()
       })
       .then(data => {
-      //  setNotify(data.nuevaNotifcacion)
           setNotifs(data.notificacionesCv)
       })
       .catch(err => {
@@ -87,24 +84,14 @@ const Sidebar = () => {
       )
     },
   ]
-  
+
 
   if (!isLogged) {
     NAV_ITEMS
   } else if (user.typeUser) {
-    NAV_ITEMS.push(
-    {
-      path: `/postulante/${user.id}`,
-      label: 'Perfil Postulante',
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-      )
-    },
-    {
-      path: '/board',
+
+    NAV_ITEMS.push({
+      path: `/postulante/${user.id}/board`,
       label: 'Tablero',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -113,10 +100,22 @@ const Sidebar = () => {
         </svg>
       )
     })
+
+    NAV_ITEMS.push({
+      path: `/postulante/${user.id}`,
+      label: 'Perfil',
+      icon: (
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      )
+    })
+    
   } else {
     NAV_ITEMS.push({
       path: `/ofertante/${user.id}`,
-      label: 'Perfil Ofertante',
+      label: 'Perfil',
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -137,10 +136,6 @@ const Sidebar = () => {
   const handleDeleteNotify = (indexRemove) => {
       const notifsMod = notifs.filter((_, i) => i !== indexRemove)
       setNotifs(notifsMod)
-      console.log(`Que se envia por index: ${indexRemove}`)
-      //if (notifsMod.length == 0) {
-      //    setNotify(false)
-      //}
       let typeUs  
       if (user.typeUser) { typeUs = "postulante" } else { typeUs = "ofertante" }
       
@@ -151,14 +146,14 @@ const Sidebar = () => {
           }
       })
       .then(res => {
-          if (!res.ok) throw new Error('No se pudo borrar la notificación')
-          return res.json()
+        if (!res.ok) throw new Error('No se pudo borrar la notificación')
+        return res.json()
       })
       .catch(err => {
-          setError(err.message)
+        setError(err.message)
       })
   }
- 
+
 
   const location = useLocation()
 
@@ -176,18 +171,18 @@ const Sidebar = () => {
         </Link>
       ))}
       <span className='sidebar-icon' onClick={() => handleNotifyModal()}>
-        {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
-        stroke="currentColor" strokeWidth="2" 
-        strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-bell-ring-icon lucide-bell-ring">
-          <path d="M10.268 21a2 2 0 0 0 3.464 0"/>
-          <path d="M22 8c0-2.3-.8-4.3-2-6"/>
-          <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>
-          <path d="M4 2C2.8 3.7 2 5.7 2 8"/>
+        {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" strokeWidth="2"
+          strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-bell-ring-icon lucide-bell-ring">
+          <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+          <path d="M22 8c0-2.3-.8-4.3-2-6" />
+          <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+          <path d="M4 2C2.8 3.7 2 5.7 2 8" />
         </svg>}
-        { (notifs.length != 0) ?
+        {(notifs.length != 0) ?
           <span className="counter-notify">
             {notifs.length}
-          </span> :<></>}
+          </span> : <></>}
         <span className="tooltip">Notificaciones</span>
       </span>
       { isLogged && modalOpen && !user.typeUser ?

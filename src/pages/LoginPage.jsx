@@ -50,7 +50,6 @@ const LoginPage = () => {
             } catch (e) {
                 data = null;
             }
-            console.log(response)
             if (!response.ok) {
                 console.log(`Data log: ${data}`)
                 setErrorLogin(`Error: ${data.message}`);
@@ -59,9 +58,7 @@ const LoginPage = () => {
             return data;
         })
         .then((data) => {
-            console.log("Success:", data);
             changeLogin();
-            console.log("TOKEN BEING SENT:", data.token);
             localStorage.setItem("token", data.token)
             setAuth(data);
             navigate("/home");

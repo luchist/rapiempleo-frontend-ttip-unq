@@ -6,6 +6,7 @@ import UserOfferingPage from './pages/UserOfferingPage'
 import PostulantProfilePage from './pages/PostulantProfilePage'
 import LoginPage from './pages/LoginPage'
 import { UserProvider } from './components/UserProvider'
+import BoardPage from './pages/BoardPage'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="ofertas/:id" element={<OfferDetailPage />}/>
             <Route path="ofertante/:id" element={<UserOfferingPage />}/>
             <Route path="postulante/:id" element={<PostulantProfilePage />}/>
+            <Route path="postulante/:id/board" element={<BoardPage />}/>
           </Route>
         </Routes>
       </BrowserRouter>
