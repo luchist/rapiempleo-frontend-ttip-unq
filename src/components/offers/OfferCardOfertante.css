@@ -20,9 +20,13 @@
   width: 100%;
 }
 
-.offer-card:hover {
+.offer-card-offerer:hover {
   border-color: rgba(255, 149, 0, 0.4);
-  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(255, 149, 0, 0.08);
+}
+
+.offer-card-offerer-selected{
+  border-color: rgba(255, 149, 0, 0.837);
   box-shadow: 0 8px 30px rgba(255, 149, 0, 0.08);
 }
 

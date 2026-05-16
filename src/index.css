@@ -204,10 +204,14 @@ body {
   align-items: center;
   height: 15px;
   width: 15px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
   background-color: rgb(235, 66, 66);
   border-radius: 10px;
   color: aliceblue;
   font-size: small;
+  pointer-events: none;
 }
 
 .section-no-notifications {
@@ -557,6 +561,9 @@ body {
 }
 
 .cv-unit-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: #8a8a8abb;
   height: 200px;
   width: 130px;
@@ -565,11 +572,17 @@ body {
 }
 
 .cv-unit-section:hover {
+  border: 1px solid aqua;
   opacity: 1.5;
 }
 
 .temporal-cv-unit-text {
   padding: 12px;
+}
+
+.cv-unit-footer {
+  padding: 4px;
+  font-size: small;
 }
 
 

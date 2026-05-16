@@ -116,7 +116,12 @@ const UserOfferingPage = () => {
                                 {offersCV.map((cv) => (
                                     <div className="cv-unit-section" 
                                          onClick={() => handleOpenCV(cv.id_postulante, cv.cvPathPostulacion, cv.id_oferta, cv.cvVisto)}>
-                                        <div className="temporal-cv-unit-text">Haga click para ver en detalle el CV</div>
+                                        <div className="temporal-cv-unit-text">
+                                            Haga click para ver en detalle el CV :
+                                        </div>
+                                        <div className="cv-unit-footer">
+                                            {cv.cvPathPostulacion.split('/').pop()}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
