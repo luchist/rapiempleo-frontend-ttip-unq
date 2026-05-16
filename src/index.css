@@ -561,6 +561,9 @@ body {
 }
 
 .cv-unit-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: #8a8a8abb;
   height: 200px;
   width: 130px;
@@ -569,11 +572,17 @@ body {
 }
 
 .cv-unit-section:hover {
+  border: 1px solid aqua;
   opacity: 1.5;
 }
 
 .temporal-cv-unit-text {
   padding: 12px;
+}
+
+.cv-unit-footer {
+  padding: 4px;
+  font-size: small;
 }
 
 
