@@ -31,6 +31,7 @@ const CvModal = ({ blobUrl, filename, isFavorito, onSetFavorito, onClose }) => {
                 className="cv-modal__page-btn"
                 onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                 title='Página anterior'
+                aria-label='Página anterior'
                 disabled={currentPage <= 1}
               >
                 ‹
@@ -40,6 +41,7 @@ const CvModal = ({ blobUrl, filename, isFavorito, onSetFavorito, onClose }) => {
                 className="cv-modal__page-btn"
                 onClick={() => setCurrentPage(p => Math.min(p + 1, numPages))}
                 title='Página siguiente'
+                aria-label='Página siguiente'
                 disabled={currentPage >= numPages}
               >
                 ›
@@ -51,6 +53,7 @@ const CvModal = ({ blobUrl, filename, isFavorito, onSetFavorito, onClose }) => {
             className={`cv-modal__star${isFavorito ? ' cv-modal__star--active' : ''}`}
             onClick={onSetFavorito}
             title={isFavorito ? 'CV favorito actual' : 'Establecer como favorito'}
+            aria-label={isFavorito ? 'CV favorito actual' : 'Establecer como favorito'}
             disabled={isFavorito}
           >
             ★
@@ -59,6 +62,7 @@ const CvModal = ({ blobUrl, filename, isFavorito, onSetFavorito, onClose }) => {
             className="cv-modal__close"
             onClick={onClose}
             title='Cerrar'
+            aria-label='Cerrar'
           >
             ✕
           </button>
