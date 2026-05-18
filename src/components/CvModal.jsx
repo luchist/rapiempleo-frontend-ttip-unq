@@ -6,7 +6,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).toString()
 
-const CvModal = ({ blobUrl, filename, onClose }) => {
+const CvModal = ({ blobUrl, filename, isFavorito, onSetFavorito, onClose }) => {
   const [numPages, setNumPages] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -47,6 +47,14 @@ const CvModal = ({ blobUrl, filename, onClose }) => {
             </div>
           )}
           {filename && <span className="cv-modal__filename" title={filename}>{filename}</span>}
+          <button
+            className={`cv-modal__star${isFavorito ? ' cv-modal__star--active' : ''}`}
+            onClick={onSetFavorito}
+            title={isFavorito ? 'CV favorito actual' : 'Establecer como favorito'}
+            disabled={isFavorito}
+          >
+            ★
+          </button>
           <button
             className="cv-modal__close"
             onClick={onClose}

@@ -84,6 +84,20 @@ const PostulantProfilePage = () => {
       .catch(err => console.error(err))
   }
 
+  const handleSetFavoritoFromModal = () => {
+    const cvPath = cvSlots.find(p => p && p.split('/').pop() === cvModalFilename)
+    if (!cvPath) return
+    fetch(`${BASE_URL}/postulante/${id}/cv/favorito?cvPath=${encodeURIComponent(cvPath)}`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo actualizar el CV favorito')
+        setCvFavorito(cvPath)
+      })
+      .catch(err => console.error(err))
+  }
+
   const handleCloseModal = () => {
     if (cvModalBlobUrl) URL.revokeObjectURL(cvModalBlobUrl)
     setCvModalPath(null)
@@ -139,6 +153,8 @@ const PostulantProfilePage = () => {
         <CvModal
           blobUrl={cvModalBlobUrl}
           filename={cvModalFilename}
+          isFavorito={cvModalFilename != null && cvFavorito != null && cvFavorito.split('/').pop() === cvModalFilename}
+          onSetFavorito={handleSetFavoritoFromModal}
           onClose={handleCloseModal}
         />
       )}
@@ -171,7 +187,7 @@ const PostulantProfilePage = () => {
                 className={`postulant-profile__cv-slot ${cvPath ? 'postulant-profile__cv-slot--loaded' : ''}`}
                 aria-label={`Slot CV ${i + 1}`}
                 onClick={() => handleCvSlotClick(i)}
-                title={cvPath != null ? 'Abrir curriculum' : 'Subir curriculum'}
+                title={cvPath != null ? 'Abrir curriculum' : 'Subir curriculum en formato PDF'}
               >
                 {cvPath ? (
                   <>

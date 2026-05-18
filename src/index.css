@@ -1009,6 +1009,35 @@ body {
   border-color: rgba(255, 149, 0, 0.4);
 }
 
+.cv-modal__star {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.cv-modal__star:hover:not(:disabled) {
+  background: rgba(255, 149, 0, 0.15);
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.4);
+}
+
+.cv-modal__star--active {
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.6);
+  background: rgba(255, 149, 0, 0.15);
+  cursor: default;
+}
+
 .cv-modal__body {
   overflow-y: auto;
   display: flex;
