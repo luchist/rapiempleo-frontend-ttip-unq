@@ -182,20 +182,21 @@ body {
 }
 
 .panel-notification {
-  background-color: rgb(159, 91, 3, 0.4);
+  /* background-color: rgb(159, 91, 3, 0.4); */
   align-items:center;
   position: absolute;
-  min-height: 80vh;  
+  /* min-height: 80vh;   */
   width: 220px;
   display: flex;
   flex-direction: column;
   border-left: 3px solid rgba(0, 0, 0, 0.2);
-  border-top: 4px solid rgba(34, 219, 195, 0.4);
+  /* border-top: 4px solid rgba(34, 219, 195, 0.4);
   border-bottom: 4px solid rgba(34, 219, 195, 0.4);
-  border-right: 4px solid rgba(34, 219, 195, 0.4);
+  border-right: 4px solid rgba(34, 219, 195, 0.4); */
   left: 65px;
   padding-left: 2px;
   padding-right: 4px;
+  /* overflow-y: auto; */
 }
 
 .counter-notify {
