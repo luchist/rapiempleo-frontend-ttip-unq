@@ -152,7 +152,7 @@ const PostulantProfilePage = () => {
         onChange={handleFileChange}
       />
 
-      {cvModalPath && (
+      {cvModalBlobUrl && (
         <CvModal
           blobUrl={cvModalBlobUrl}
           filename={cvModalFilename}
