@@ -11,8 +11,9 @@ const CvModal = ({ blobUrl, filename, isFavorito, onSetFavorito, onClose }) => {
   const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
+    const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = '' }
+    return () => { document.body.style.overflow = prev }
   }, [])
 
   const onDocumentLoadSuccess = useCallback(({ numPages }) => {
