@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -9,6 +9,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const CvModal = ({ blobUrl, filename, onClose }) => {
   const [numPages, setNumPages] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
 
   const onDocumentLoadSuccess = useCallback(({ numPages }) => {
     setNumPages(numPages)
