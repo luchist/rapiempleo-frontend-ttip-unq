@@ -15,6 +15,7 @@ const PostulantProfilePage = () => {
   const [cvFavorito, setCvFavorito] = useState(null)
   const [cvModalPath, setCvModalPath] = useState(null)
   const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
+  const [cvModalFilename, setCvModalFilename] = useState(null)
   const fileInputRef = useRef(null)
   const currentSlotIndex = useRef(null)
   const token = localStorage.getItem("token")
@@ -51,6 +52,7 @@ const PostulantProfilePage = () => {
       const filename = path.split('/').pop()
       const url = `${BASE_URL}/files/cvs/${id}/${filename}`
       setCvModalPath(url)
+      setCvModalFilename(filename)
       fetch(url, { headers: { Authorization: `Bearer ${token}` } })
         .then(res => {
           if (!res.ok) throw new Error('No se pudo cargar el CV')
@@ -86,6 +88,7 @@ const PostulantProfilePage = () => {
     if (cvModalBlobUrl) URL.revokeObjectURL(cvModalBlobUrl)
     setCvModalPath(null)
     setCvModalBlobUrl(null)
+    setCvModalFilename(null)
   }
 
   const handleFileChange = (event) => {
@@ -135,6 +138,7 @@ const PostulantProfilePage = () => {
       {cvModalPath && (
         <CvModal
           blobUrl={cvModalBlobUrl}
+          filename={cvModalFilename}
           onClose={handleCloseModal}
         />
       )}
@@ -167,6 +171,7 @@ const PostulantProfilePage = () => {
                 className={`postulant-profile__cv-slot ${cvPath ? 'postulant-profile__cv-slot--loaded' : ''}`}
                 aria-label={`Slot CV ${i + 1}`}
                 onClick={() => handleCvSlotClick(i)}
+                title={cvPath != null ? 'Abrir curriculum' : 'Subir curriculum'}
               >
                 {cvPath ? (
                   <>
@@ -174,7 +179,7 @@ const PostulantProfilePage = () => {
                     <button
                       className={`postulant-profile__cv-slot-star${cvPath === cvFavorito ? ' postulant-profile__cv-slot-star--active' : ''}`}
                       onClick={(e) => handleSetFavorito(e, cvPath)}
-                      title={cvPath === cvFavorito ? 'CV favorito actual' : 'Establecer como favorito'}
+                      title={cvPath === cvFavorito ? 'Favorito actual' : 'Establecer como favorito'}
                     >
                       ★
                     </button>

@@ -842,7 +842,7 @@ body {
 .postulant-profile__cv-slot--loaded {
   border: 2px solid rgba(34, 219, 195, 0.4);
   background: rgba(34, 219, 195, 0.05);
-  cursor: default;
+  cursor: pointer;
   position: relative;
   flex-direction: column;
   justify-content: center;
@@ -937,6 +937,18 @@ body {
   align-items: center;
   gap: 10px;
   margin-right: auto;
+}
+
+.cv-modal__filename {
+  flex: 1;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
 }
 
 .cv-modal__page-label {

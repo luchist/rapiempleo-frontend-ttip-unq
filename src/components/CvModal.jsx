@@ -6,7 +6,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).toString()
 
-const CvModal = ({ blobUrl, onClose }) => {
+const CvModal = ({ blobUrl, filename, onClose }) => {
   const [numPages, setNumPages] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -25,6 +25,7 @@ const CvModal = ({ blobUrl, onClose }) => {
               <button
                 className="cv-modal__page-btn"
                 onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                title='Página anterior'
                 disabled={currentPage <= 1}
               >
                 ‹
@@ -33,13 +34,21 @@ const CvModal = ({ blobUrl, onClose }) => {
               <button
                 className="cv-modal__page-btn"
                 onClick={() => setCurrentPage(p => Math.min(p + 1, numPages))}
+                title='Página siguiente'
                 disabled={currentPage >= numPages}
               >
                 ›
               </button>
             </div>
           )}
-          <button className="cv-modal__close" onClick={onClose}>✕</button>
+          {filename && <span className="cv-modal__filename" title={filename}>{filename}</span>}
+          <button
+            className="cv-modal__close"
+            onClick={onClose}
+            title='Cerrar'
+          >
+            ✕
+          </button>
         </div>
 
         <div className="cv-modal__body">
