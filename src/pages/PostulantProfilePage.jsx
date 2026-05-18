@@ -16,6 +16,7 @@ const PostulantProfilePage = () => {
   const [cvModalPath, setCvModalPath] = useState(null)
   const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
   const [cvModalFilename, setCvModalFilename] = useState(null)
+  const [cvModalCvPath, setCvModalCvPath] = useState(null)
   const fileInputRef = useRef(null)
   const currentSlotIndex = useRef(null)
   const token = localStorage.getItem("token")
@@ -53,6 +54,7 @@ const PostulantProfilePage = () => {
       const url = `${BASE_URL}/files/cvs/${id}/${filename}`
       setCvModalPath(url)
       setCvModalFilename(filename)
+      setCvModalCvPath(path)
       fetch(url, { headers: { Authorization: `Bearer ${token}` } })
         .then(res => {
           if (!res.ok) throw new Error('No se pudo cargar el CV')
@@ -85,15 +87,14 @@ const PostulantProfilePage = () => {
   }
 
   const handleSetFavoritoFromModal = () => {
-    const cvPath = cvSlots.find(p => p && p.split('/').pop() === cvModalFilename)
-    if (!cvPath) return
-    fetch(`${BASE_URL}/postulante/${id}/cv/favorito?cvPath=${encodeURIComponent(cvPath)}`, {
+    if (!cvModalCvPath) return
+    fetch(`${BASE_URL}/postulante/${id}/cv/favorito?cvPath=${encodeURIComponent(cvModalCvPath)}`, {
       method: 'PATCH',
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
         if (!res.ok) throw new Error('No se pudo actualizar el CV favorito')
-        setCvFavorito(cvPath)
+        setCvFavorito(cvModalCvPath)
       })
       .catch(err => console.error(err))
   }
@@ -103,6 +104,7 @@ const PostulantProfilePage = () => {
     setCvModalPath(null)
     setCvModalBlobUrl(null)
     setCvModalFilename(null)
+    setCvModalCvPath(null)
   }
 
   const handleFileChange = (event) => {
@@ -124,6 +126,7 @@ const PostulantProfilePage = () => {
         return res.json()
       })
       .then(data => {
+        if (cvSlots.includes(data.cvPath)) return
         const newSlots = [...cvSlots]
         newSlots[currentSlotIndex.current] = data.cvPath
         setCvSlots(newSlots)
@@ -153,7 +156,7 @@ const PostulantProfilePage = () => {
         <CvModal
           blobUrl={cvModalBlobUrl}
           filename={cvModalFilename}
-          isFavorito={cvModalFilename != null && cvFavorito != null && cvFavorito.split('/').pop() === cvModalFilename}
+          isFavorito={cvModalCvPath != null && cvFavorito === cvModalCvPath}
           onSetFavorito={handleSetFavoritoFromModal}
           onClose={handleCloseModal}
         />
