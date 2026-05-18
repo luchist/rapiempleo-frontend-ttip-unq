@@ -13,7 +13,6 @@ const PostulantProfilePage = () => {
   const [error, setError] = useState(null)
   const [cvSlots, setCvSlots] = useState(Array(CV_SLOTS).fill(null))
   const [cvFavorito, setCvFavorito] = useState(null)
-  const [cvModalPath, setCvModalPath] = useState(null)
   const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
   const [cvModalFilename, setCvModalFilename] = useState(null)
   const [cvModalCvPath, setCvModalCvPath] = useState(null)
@@ -45,14 +44,13 @@ const PostulantProfilePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [id])
+  }, [id, token])
 
   const handleCvSlotClick = (index) => {
     const path = cvSlots[index]
     if (path) {
       const filename = path.split('/').pop()
       const url = `${BASE_URL}/files/cvs/${id}/${filename}`
-      setCvModalPath(url)
       setCvModalFilename(filename)
       setCvModalCvPath(path)
       fetch(url, { headers: { Authorization: `Bearer ${token}` } })
@@ -101,7 +99,6 @@ const PostulantProfilePage = () => {
 
   const handleCloseModal = () => {
     if (cvModalBlobUrl) URL.revokeObjectURL(cvModalBlobUrl)
-    setCvModalPath(null)
     setCvModalBlobUrl(null)
     setCvModalFilename(null)
     setCvModalCvPath(null)
