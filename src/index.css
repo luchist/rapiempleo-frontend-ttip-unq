@@ -1004,9 +1004,9 @@ body {
 }
 
 .cv-modal__close:hover {
-  background: rgba(255, 149, 0, 0.15);
-  color: #ff9500;
-  border-color: rgba(255, 149, 0, 0.4);
+  background: rgb(179, 56, 56);
+  color: #fbcccc;
+  border-color: #fbcccc;
 }
 
 .cv-modal__star {
