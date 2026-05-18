@@ -15,6 +15,7 @@ const UserOfferingPage = () => {
 
     const [cvModalOpened, setCvModalOpened] = useState(false)
     const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
+    const [cvModalFilename, setCvModalFilename] = useState(null)
 
     const { user } = useContext(UserContext);
 
@@ -57,6 +58,7 @@ const UserOfferingPage = () => {
             const blobUrl = URL.createObjectURL(blob)
             setCvModalOpened(true)
             setCvModalBlobUrl(blobUrl)
+            setCvModalFilename(filename)
             
             if (!cvVisto){
                 return fetch("http://localhost:8080/postulante/cvViewed", {
@@ -81,6 +83,7 @@ const UserOfferingPage = () => {
         if (cvModalBlobUrl) URL.revokeObjectURL(cvModalBlobUrl)
         setCvModalOpened(false)
         setCvModalBlobUrl(null)
+        setCvModalFilename(null)
     }
 
     if (loading) return <p>Cargando perfil...</p>
@@ -94,6 +97,7 @@ const UserOfferingPage = () => {
             {cvModalOpened && (
                 <CvModal
                   blobUrl={cvModalBlobUrl}
+                  filename={cvModalFilename}
                   onClose={handleCloseModal}
                 />
             )}
