@@ -182,20 +182,21 @@ body {
 }
 
 .panel-notification {
-  background-color: rgb(159, 91, 3, 0.4);
+  /* background-color: rgb(159, 91, 3, 0.4); */
   align-items:center;
   position: absolute;
-  min-height: 80vh;  
+  /* min-height: 80vh;   */
   width: 220px;
   display: flex;
   flex-direction: column;
   border-left: 3px solid rgba(0, 0, 0, 0.2);
-  border-top: 4px solid rgba(34, 219, 195, 0.4);
+  /* border-top: 4px solid rgba(34, 219, 195, 0.4);
   border-bottom: 4px solid rgba(34, 219, 195, 0.4);
-  border-right: 4px solid rgba(34, 219, 195, 0.4);
+  border-right: 4px solid rgba(34, 219, 195, 0.4); */
   left: 65px;
   padding-left: 2px;
   padding-right: 4px;
+  /* overflow-y: auto; */
 }
 
 .counter-notify {
@@ -842,7 +843,7 @@ body {
 .postulant-profile__cv-slot--loaded {
   border: 2px solid rgba(34, 219, 195, 0.4);
   background: rgba(34, 219, 195, 0.05);
-  cursor: default;
+  cursor: pointer;
   position: relative;
   flex-direction: column;
   justify-content: center;
@@ -939,6 +940,18 @@ body {
   margin-right: auto;
 }
 
+.cv-modal__filename {
+  flex: 1;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
+}
+
 .cv-modal__page-label {
   font-family: 'Geist Mono', monospace;
   font-size: 13px;
@@ -991,9 +1004,38 @@ body {
 }
 
 .cv-modal__close:hover {
+  background: rgb(179, 56, 56);
+  color: #fbcccc;
+  border-color: #fbcccc;
+}
+
+.cv-modal__star {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.cv-modal__star:hover:not(:disabled) {
   background: rgba(255, 149, 0, 0.15);
   color: #ff9500;
   border-color: rgba(255, 149, 0, 0.4);
+}
+
+.cv-modal__star--active {
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.6);
+  background: rgba(255, 149, 0, 0.15);
+  cursor: default;
 }
 
 .cv-modal__body {
