@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import KanbanColumn from '../components/board/KanbanColumn'
+import { DragDropContext } from '@hello-pangea/dnd'
 
 const BASE_URL = 'http://localhost:8080'
 
@@ -37,6 +38,40 @@ const BoardPage = () => {
             })
     }, [id])
 
+    const handleDragEnd = (result) => {
+        const { destination, source, draggableId } = result
+
+        if (!destination || destination.droppableId === source.droppableId) return
+
+        const newEstado = destination.droppableId
+        const idPostulacionEstado = Number(draggableId)
+
+        const prev = postulaciones
+        setPostulaciones(ps =>
+            ps.map(p =>
+                p.id_postulacion_estado === idPostulacionEstado
+                    ? { ...p, estado: newEstado }
+                    : p
+            )
+        )
+
+        fetch(`${BASE_URL}/postulante/${id}/board/${idPostulacionEstado}?nuevoEstado=${newEstado}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res => {
+            if (!res.ok) {
+                console.dir(res)
+                throw new Error('No se pudo actualizar el estado')
+            }
+        }).catch(err => {
+            setPostulaciones(prev)
+            setError(err.message)
+        })
+    }
+
     if (loading) return <p>Cargando board...</p>
     if (error)   return <p>Error: {error}</p>
 
@@ -45,15 +80,18 @@ const BoardPage = () => {
             <h2 className="board-page__title">
                 <span className="accent">▍</span>Mis postulaciones
             </h2>
+            <DragDropContext onDragEnd={handleDragEnd}>
             <div className="board-page__columns">
                 {COLUMNAS.map(col => (
                     <KanbanColumn
                         key={col.estado}
                         titulo={col.label}
+                        estado={col.estado}
                         items={postulaciones.filter(p => p.estado === col.estado)}
                     />
                 ))}
             </div>
+            </DragDropContext>
         </div>
     )
 }
