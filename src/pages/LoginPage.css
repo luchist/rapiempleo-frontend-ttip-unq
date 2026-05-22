@@ -2,14 +2,13 @@
     display: block;
     /*width: 100%;*/
     max-width: 330px;
-    background-color: chocolate;
+    background-color: #b86a2d; /* c97a2b */
     border-radius: 10px;
     box-shadow: 7px 7px 7px rgba(242, 147, 47, 0.3);
     padding-left: 25px;
     padding-right: 25px;
     padding-top: 5px;
     padding-bottom: 25px;
-    ;
 }
 
 .input-login {
@@ -20,7 +19,8 @@
 
 .type-input-login {
     display: flex;
-    margin: 8px 0;
+    margin: -4px  0;
+    padding: 0;
 }
 
 .type-radio {
@@ -39,10 +39,10 @@
     display: flex;
     font-size: medium;
     font-weight: bold;
-    color: rgb(26, 14, 156);
+    color: rgb(12, 2, 51);
     padding-top: 8px;
     padding-bottom: 0;
-    text-shadow: 1px 1px rgb(173, 83, 19);
+    text-shadow: 2px 1px rgb(110, 97, 97);
 }
 
 .login-button {
@@ -57,4 +57,94 @@
     opacity: 0.85;
     border: 2px solid #2186de;
     transition: 0.5s;
+}
+/*Header Login*/
+
+.slogan-app {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+   border: 1px solid chocolate;
+}
+
+.image-logo-login {
+    width: 564px;
+    height: 127px;
+    padding-bottom: 0;
+}
+
+.slogan-title {
+    margin-top: 0;
+    color: chocolate;
+}
+
+.slogan-text {
+    background-color: #1f1c17;
+    width: 564px;
+    text-align: center;
+    height: 127px;
+}
+
+.slogan-description {
+    align-content: center;
+    padding: 10px 50px 5px 50px;
+    width: 860px;
+    text-align: center;
+    font-size: large;
+    font-style: italic;
+    text-decoration-line: underline;
+}
+
+
+.login-slogan-grid {
+    display: flex;
+    justify-content:space-evenly;
+    min-height: 80vh;
+}
+
+/* Register section */
+
+.type-radio-register-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 10px 0;
+}
+
+
+.register-section {
+    display: block;
+    /*width: 100%;*/
+    min-height: 140px;
+    max-height: 220px;
+    width: 320px;
+    max-width: 320px;
+    border-radius: 10px;
+    background-color: #4d79a8; /*3f6fa0*/
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 7px 7px 7px rgba(77, 121, 168, 0.30);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+.register-section.expand {
+    min-height: 325px;
+    max-height: 400px;
+    
+}
+
+.register-section.full-expand {
+    min-height: 360px;
+    max-height: 455px;
+}
+
+.ok-credentials {
+    display: flex;
+    font-size: medium;
+    font-weight: bold;
+    color: rgb(199, 219, 15); /* rgb(35, 205, 46) */
+    padding-top: 8px;
+    padding-bottom: 0;
+    text-shadow: 2px 1px rgb(15, 15, 135); /* 14, 14, 171 */
 }
