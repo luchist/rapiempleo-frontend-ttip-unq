@@ -88,7 +88,7 @@ const UserOfferingPage = () => {
         <div>
             {loading && error && 
             <div className='section-name'>
-                <h1 className='tile-name'>{error.message}</h1>
+                <h1 className='title-name'>{error.message}</h1>
             </div>
             }
             {cvModalOpened && (

@@ -11,6 +11,7 @@ function UserProvider ({children}) {
 
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+            setIsLogged(true)
         }
     }, []);
 

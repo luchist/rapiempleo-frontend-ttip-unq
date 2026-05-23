@@ -127,7 +127,8 @@ body {
 
 .sidebar {
   width: 64px;
-  min-height: 100vh;
+  height: 95vh;
+  position: fixed;
   border-right: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
@@ -179,6 +180,10 @@ body {
 
 .sidebar-icon:hover .tooltip {
   opacity: 1;
+}
+
+.log-out-icon {
+  margin-top: auto;
 }
 
 .panel-notification {
@@ -508,7 +513,7 @@ body {
 /* Página Ofertante y OfferCard de página*/
 
 .section-name {
-  background-color: #ff9500;
+  background-color: #b86a2d;
   padding: 3px 0 3px 20px;
   margin-bottom: 20px;
   border: 3px solid rgba(33, 197, 175, 0.3);
