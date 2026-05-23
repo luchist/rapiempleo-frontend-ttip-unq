@@ -13,8 +13,9 @@ const PostulantProfilePage = () => {
   const [error, setError] = useState(null)
   const [cvSlots, setCvSlots] = useState(Array(CV_SLOTS).fill(null))
   const [cvFavorito, setCvFavorito] = useState(null)
-  const [cvModalPath, setCvModalPath] = useState(null)
   const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
+  const [cvModalFilename, setCvModalFilename] = useState(null)
+  const [cvModalCvPath, setCvModalCvPath] = useState(null)
   const fileInputRef = useRef(null)
   const currentSlotIndex = useRef(null)
   const token = localStorage.getItem("token")
@@ -43,14 +44,15 @@ const PostulantProfilePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [id])
+  }, [id, token])
 
   const handleCvSlotClick = (index) => {
     const path = cvSlots[index]
     if (path) {
       const filename = path.split('/').pop()
       const url = `${BASE_URL}/files/cvs/${id}/${filename}`
-      setCvModalPath(url)
+      setCvModalFilename(filename)
+      setCvModalCvPath(path)
       fetch(url, { headers: { Authorization: `Bearer ${token}` } })
         .then(res => {
           if (!res.ok) throw new Error('No se pudo cargar el CV')
@@ -82,10 +84,24 @@ const PostulantProfilePage = () => {
       .catch(err => console.error(err))
   }
 
+  const handleSetFavoritoFromModal = () => {
+    if (!cvModalCvPath) return
+    fetch(`${BASE_URL}/postulante/${id}/cv/favorito?cvPath=${encodeURIComponent(cvModalCvPath)}`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo actualizar el CV favorito')
+        setCvFavorito(cvModalCvPath)
+      })
+      .catch(err => console.error(err))
+  }
+
   const handleCloseModal = () => {
     if (cvModalBlobUrl) URL.revokeObjectURL(cvModalBlobUrl)
-    setCvModalPath(null)
     setCvModalBlobUrl(null)
+    setCvModalFilename(null)
+    setCvModalCvPath(null)
   }
 
   const handleFileChange = (event) => {
@@ -107,6 +123,7 @@ const PostulantProfilePage = () => {
         return res.json()
       })
       .then(data => {
+        if (cvSlots.includes(data.cvPath)) return
         const newSlots = [...cvSlots]
         newSlots[currentSlotIndex.current] = data.cvPath
         setCvSlots(newSlots)
@@ -132,9 +149,12 @@ const PostulantProfilePage = () => {
         onChange={handleFileChange}
       />
 
-      {cvModalPath && (
+      {cvModalBlobUrl && (
         <CvModal
           blobUrl={cvModalBlobUrl}
+          filename={cvModalFilename}
+          isFavorito={cvModalCvPath != null && cvFavorito === cvModalCvPath}
+          onSetFavorito={handleSetFavoritoFromModal}
           onClose={handleCloseModal}
         />
       )}
@@ -167,6 +187,7 @@ const PostulantProfilePage = () => {
                 className={`postulant-profile__cv-slot ${cvPath ? 'postulant-profile__cv-slot--loaded' : ''}`}
                 aria-label={`Slot CV ${i + 1}`}
                 onClick={() => handleCvSlotClick(i)}
+                title={cvPath != null ? 'Abrir curriculum' : 'Subir curriculum en formato PDF'}
               >
                 {cvPath ? (
                   <>
@@ -174,7 +195,7 @@ const PostulantProfilePage = () => {
                     <button
                       className={`postulant-profile__cv-slot-star${cvPath === cvFavorito ? ' postulant-profile__cv-slot-star--active' : ''}`}
                       onClick={(e) => handleSetFavorito(e, cvPath)}
-                      title={cvPath === cvFavorito ? 'CV favorito actual' : 'Establecer como favorito'}
+                      title={cvPath === cvFavorito ? 'Favorito actual' : 'Establecer como favorito'}
                     >
                       ★
                     </button>
