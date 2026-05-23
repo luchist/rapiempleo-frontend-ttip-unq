@@ -502,7 +502,7 @@ body {
 
 .layout__content {
   flex: 1 1 0%;
-  max-width: 960px;
+  max-width: none;
   margin: 0 auto;
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -1091,7 +1091,6 @@ body {
   grid-template-columns: repeat(5, 1fr);
   gap: 12px;
   align-items: start;
-  overflow-x: auto;
   padding-bottom: 1rem;
 }
 
@@ -1166,7 +1165,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
   gap: 8px;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   cursor: default;
 }
 

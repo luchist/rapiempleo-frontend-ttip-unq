@@ -49,12 +49,25 @@ const BoardPage = () => {
         return resultado;
     };
 
+    const reorderInColumn = (estado, sourceIndex, destIndex) => {
+        const columnItems = postulaciones.filter(p => p.estado === estado)
+        const [moved] = columnItems.splice(sourceIndex, 1)
+        columnItems.splice(destIndex, 0, moved)
+        const otherItems = postulaciones.filter(p => p.estado !== estado)
+        return [...otherItems, ...columnItems]
+    }
+
     const handleDragEnd = (result) => {
         const { destination, source, draggableId } = result
 
         const droppedOutside = !destination
-        const droppedInSameColumn = destination?.droppableId === source.droppableId
-        if (droppedOutside || droppedInSameColumn) return
+        if (droppedOutside) return
+
+        if (destination.droppableId === source.droppableId) {
+            if (destination.index === source.index) return
+            setPostulaciones(reorderInColumn(source.droppableId, source.index, destination.index))
+            return
+        }
 
         const targetEstado = destination.droppableId
         const cardId = Number(draggableId)
