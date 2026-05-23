@@ -6,11 +6,11 @@ import { DragDropContext } from '@hello-pangea/dnd'
 const BASE_URL = 'http://localhost:8080'
 
 const COLUMNAS = [
-    { label: 'Aplicado',      estado: 'Aplicado' },
+    { label: 'Aplicado', estado: 'Aplicado' },
     { label: 'Entrevistando', estado: 'Entrevistando' },
-    { label: 'En espera',     estado: 'EsperandoRespuesta' },
-    { label: 'Cerrado',       estado: 'Cerrado' },
-    { label: 'Aceptado',      estado: 'Aceptado' },
+    { label: 'En espera', estado: 'EsperandoRespuesta' },
+    { label: 'Cerrado', estado: 'Cerrado' },
+    { label: 'Aceptado', estado: 'Aceptado' },
 ]
 
 const BoardPage = () => {
@@ -19,7 +19,6 @@ const BoardPage = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const token = localStorage.getItem('token')
-
     useEffect(() => {
         fetch(`${BASE_URL}/postulante/${id}/board`, {
             headers: { Authorization: `Bearer ${token}` }
@@ -38,42 +37,46 @@ const BoardPage = () => {
             })
     }, [id])
 
+    const updateCardEstado = (cardId, targetEstado) => {
+        const resultado = [];
+        for (const postulacion of postulaciones) {
+            if (postulacion.id_postulacion_estado === cardId) {
+                resultado.push({ ...postulacion, estado: targetEstado });
+            } else {
+                resultado.push(postulacion);
+            }
+        }
+        return resultado;
+    };
+
     const handleDragEnd = (result) => {
         const { destination, source, draggableId } = result
 
-        if (!destination || destination.droppableId === source.droppableId) return
+        const droppedOutside = !destination
+        const droppedInSameColumn = destination?.droppableId === source.droppableId
+        if (droppedOutside || droppedInSameColumn) return
 
-        const newEstado = destination.droppableId
-        const idPostulacionEstado = Number(draggableId)
+        const targetEstado = destination.droppableId
+        const cardId = Number(draggableId)
 
-        const prev = postulaciones
-        setPostulaciones(ps =>
-            ps.map(p =>
-                p.id_postulacion_estado === idPostulacionEstado
-                    ? { ...p, estado: newEstado }
-                    : p
-            )
-        )
+        const snapshot = postulaciones
+        setPostulaciones(updateCardEstado(cardId, targetEstado))
 
-        fetch(`${BASE_URL}/postulante/${id}/board/${idPostulacionEstado}?nuevoEstado=${newEstado}`, {
+        fetch(`${BASE_URL}/postulante/${id}/board/${cardId}?nuevoEstado=${targetEstado}`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
             }
-        }).then(res => {
-            if (!res.ok) {
-                console.dir(res)
-                throw new Error('No se pudo actualizar el estado')
-            }
-        }).catch(err => {
-            setPostulaciones(prev)
-            setError(err.message)
         })
+            .then(res => { if (!res.ok) throw new Error('No se pudo actualizar el estado') })
+            .catch(err => {
+                setPostulaciones(snapshot)
+                setError(err.message)
+            })
     }
 
     if (loading) return <p>Cargando board...</p>
-    if (error)   return <p>Error: {error}</p>
+    if (error) return <p>Error: {error}</p>
 
     return (
         <div className="board-page">
@@ -81,16 +84,16 @@ const BoardPage = () => {
                 <span className="accent">▍</span>Mis postulaciones
             </h2>
             <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="board-page__columns">
-                {COLUMNAS.map(col => (
-                    <KanbanColumn
-                        key={col.estado}
-                        titulo={col.label}
-                        estado={col.estado}
-                        items={postulaciones.filter(p => p.estado === col.estado)}
-                    />
-                ))}
-            </div>
+                <div className="board-page__columns">
+                    {COLUMNAS.map(col => (
+                        <KanbanColumn
+                            key={col.estado}
+                            titulo={col.label}
+                            estado={col.estado}
+                            items={postulaciones.filter(p => p.estado === col.estado)}
+                        />
+                    ))}
+                </div>
             </DragDropContext>
         </div>
     )
