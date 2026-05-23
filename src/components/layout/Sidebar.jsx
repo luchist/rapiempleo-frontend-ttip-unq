@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, useNavigate } from 'react-router-dom'
 import UserContext from '../UserProvider';
 import NotificationModal from '../NotificationModal';
 
@@ -8,10 +8,10 @@ const Sidebar = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [error, setError] = useState(null)
 
-  const { user, isLogged } = useContext(UserContext);
+  const { user, isLogged, changeLogin } = useContext(UserContext);
 
   const token = localStorage.getItem("token")
-
+  const navigate = useNavigate();
 
   useEffect(() => {
       if (!user) return;
@@ -58,6 +58,12 @@ const Sidebar = () => {
       .catch(err => {
           setError(err.message)
       })
+  }
+
+  const handleLogOut = () => {
+    localStorage.clear("user")
+    changeLogin()
+    navigate("/")
   }
   
 
@@ -180,7 +186,7 @@ const Sidebar = () => {
           <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
           <path d="M4 2C2.8 3.7 2 5.7 2 8" />
         </svg>}
-        {(notifs.length != 0) ?
+        {isLogged && (notifs.length != 0) ?
           <span className="counter-notify">
             {notifs.length}
           </span> : <></>}
@@ -201,6 +207,20 @@ const Sidebar = () => {
           handleDeleteNotify={handleDeleteNotify}/>
         :
         <></>
+      }
+      { isLogged ? 
+      <span className='sidebar-icon log-out-icon' onClick={() => handleLogOut()}>
+        {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
+          stroke="currentColor" stroke-width="2" 
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
+          <path d="m16 17 5-5-5-5"/>
+          <path d="M21 12H9"/>
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        </svg>}
+        <span className="tooltip">Cerrar sesión</span>
+      </span>
+      :
+      <></>
       }
     </aside>
   )

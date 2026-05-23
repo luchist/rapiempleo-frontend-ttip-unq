@@ -88,6 +88,11 @@ const UserOfferingPage = () => {
     if (error) return <p>Error: {error}</p>
     return (
         <div>
+            {loading && error && 
+            <div className='section-name'>
+                <h1 className='title-name'>{error.message}</h1>
+            </div>
+            }
             {cvModalOpened && (
                 <CvModal
                     blobUrl={cvModalBlobUrl}
