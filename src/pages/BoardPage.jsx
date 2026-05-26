@@ -38,17 +38,14 @@ const BoardPage = () => {
             })
     }, [id])
 
-    const updateCardEstado = (cardId, targetEstado) => {
-        const resultado = [];
-        for (const postulacion of postulaciones) {
-            if (postulacion.id_postulacion_estado === cardId) {
-                resultado.push({ ...postulacion, estado: targetEstado });
-            } else {
-                resultado.push(postulacion);
-            }
-        }
-        return resultado;
-    };
+    const moveCardToColumn = (cardId, targetEstado, destIndex) => {
+        const card = postulaciones.find(p => p.id_postulacion_estado === cardId)
+        const withoutCard = postulaciones.filter(p => p.id_postulacion_estado !== cardId)
+        const targetColumnItems = withoutCard.filter(p => p.estado === targetEstado)
+        const otherItems = withoutCard.filter(p => p.estado !== targetEstado)
+        targetColumnItems.splice(destIndex, 0, { ...card, estado: targetEstado })
+        return [...otherItems, ...targetColumnItems]
+    }
 
     const revertCardEstado = (prev, cardId, targetEstado, originalEstado) => {
         const card = prev.find(p => p.id_postulacion_estado === cardId)
@@ -87,7 +84,7 @@ const BoardPage = () => {
             p => p.id_postulacion_estado === cardId
         )?.estado
 
-        setPostulaciones(updateCardEstado(cardId, targetEstado))
+        setPostulaciones(moveCardToColumn(cardId, targetEstado, destination.index))
 
         fetch(`${BASE_URL}/postulante/${id}/board/${cardId}?nuevoEstado=${targetEstado}`, {
             method: 'PATCH',
