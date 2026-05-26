@@ -1152,6 +1152,13 @@ body {
   gap: 8px;
 }
 
+.kanban-column__cards--over {
+  background: rgba(255, 149, 0, 0.05);
+  border-radius: 8px;
+  outline: 1px dashed rgba(255, 149, 0, 0.3);
+  outline-offset: 4px;
+}
+
 .kanban-column__empty {
   margin: 0;
   padding: 16px 0;
@@ -1178,6 +1185,13 @@ body {
   border-color: rgba(255, 149, 0, 0.4);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 149, 0, 0.08);
+}
+
+.kanban-card--dragging {
+  cursor: grabbing;
+  border-color: rgba(34, 219, 195, 0.8);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  opacity: 0.95;
 }
 
 .kanban-card__header {
