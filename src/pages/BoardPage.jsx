@@ -38,28 +38,22 @@ const BoardPage = () => {
             })
     }, [id])
 
-    const moveCardToColumn = (cardId, targetEstado, destIndex) => {
-        const card = postulaciones.find(p => p.id_postulacion_estado === cardId)
-        const withoutCard = postulaciones.filter(p => p.id_postulacion_estado !== cardId)
+    const moveCardToColumn = (prev, cardId, targetEstado, destIndex) => {
+        const card = prev.find(p => p.id_postulacion_estado === cardId)
+        if (!card) return prev
+        const withoutCard = prev.filter(p => p.id_postulacion_estado !== cardId)
         const targetColumnItems = withoutCard.filter(p => p.estado === targetEstado)
         const otherItems = withoutCard.filter(p => p.estado !== targetEstado)
         targetColumnItems.splice(destIndex, 0, { ...card, estado: targetEstado })
         return [...otherItems, ...targetColumnItems]
     }
 
-    const revertCardEstado = (prev, cardId, targetEstado, originalEstado) => {
-        const card = prev.find(p => p.id_postulacion_estado === cardId)
-        if (!card || card.estado !== targetEstado) return prev
-        return prev.map(p =>
-            p.id_postulacion_estado === cardId ? { ...p, estado: originalEstado } : p
-        )
-    }
-
-    const reorderInColumn = (estado, sourceIndex, destIndex) => {
-        const columnItems = postulaciones.filter(p => p.estado === estado)
+    const reorderInColumn = (prev, estado, sourceIndex, destIndex) => {
+        const columnItems = prev.filter(p => p.estado === estado)
         const [moved] = columnItems.splice(sourceIndex, 1)
+        if (!moved) return prev
         columnItems.splice(destIndex, 0, moved)
-        const otherItems = postulaciones.filter(p => p.estado !== estado)
+        const otherItems = prev.filter(p => p.estado !== estado)
         return [...otherItems, ...columnItems]
     }
 
@@ -73,7 +67,7 @@ const BoardPage = () => {
 
         if (destination.droppableId === source.droppableId) {
             if (destination.index === source.index) return
-            setPostulaciones(reorderInColumn(source.droppableId, source.index, destination.index))
+            setPostulaciones(prev => reorderInColumn(prev, source.droppableId, source.index, destination.index))
             return
         }
 
@@ -83,8 +77,11 @@ const BoardPage = () => {
         const originalEstado = postulaciones.find(
             p => p.id_postulacion_estado === cardId
         )?.estado
+        const originalIndex = postulaciones
+            .filter(p => p.estado === originalEstado)
+            .findIndex(p => p.id_postulacion_estado === cardId)
 
-        setPostulaciones(moveCardToColumn(cardId, targetEstado, destination.index))
+        setPostulaciones(prev => moveCardToColumn(prev, cardId, targetEstado, destination.index))
 
         fetch(`${BASE_URL}/postulante/${id}/board/${cardId}?nuevoEstado=${targetEstado}`, {
             method: 'PATCH',
@@ -94,7 +91,7 @@ const BoardPage = () => {
         })
             .then(res => { if (!res.ok) throw new Error('No se pudo actualizar el estado') })
             .catch(() => {
-                setPostulaciones(prev => revertCardEstado(prev, cardId, targetEstado, originalEstado))
+                setPostulaciones(prev => moveCardToColumn(prev, cardId, originalEstado, originalIndex))
                 setDragError("No se pudo actualizar la oferta. Intente nuevamente")
             })
     }
