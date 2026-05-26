@@ -85,7 +85,7 @@ const RegisterFormPostulante = () => {
     return (
         <div>
             <form onSubmit={handleRegisterSubmit} className="form-section">
-                <h3>Ingrese los siguientes datos para el registro</h3>
+                <h3>Ingrese los siguientes datos para registrarse</h3>
                 <input className= "input-login"
                   name="name"
                   value={form.name}
