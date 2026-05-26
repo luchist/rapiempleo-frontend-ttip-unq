@@ -50,6 +50,14 @@ const BoardPage = () => {
         return resultado;
     };
 
+    const revertCardEstado = (prev, cardId, targetEstado, originalEstado) => {
+        const card = prev.find(p => p.id_postulacion_estado === cardId)
+        if (!card || card.estado !== targetEstado) return prev
+        return prev.map(p =>
+            p.id_postulacion_estado === cardId ? { ...p, estado: originalEstado } : p
+        )
+    }
+
     const reorderInColumn = (estado, sourceIndex, destIndex) => {
         const columnItems = postulaciones.filter(p => p.estado === estado)
         const [moved] = columnItems.splice(sourceIndex, 1)
@@ -75,7 +83,10 @@ const BoardPage = () => {
         const targetEstado = destination.droppableId
         const cardId = Number(draggableId)
 
-        const snapshot = postulaciones
+        const originalEstado = postulaciones.find(
+            p => p.id_postulacion_estado === cardId
+        )?.estado
+
         setPostulaciones(updateCardEstado(cardId, targetEstado))
 
         fetch(`${BASE_URL}/postulante/${id}/board/${cardId}?nuevoEstado=${targetEstado}`, {
@@ -85,8 +96,8 @@ const BoardPage = () => {
             }
         })
             .then(res => { if (!res.ok) throw new Error('No se pudo actualizar el estado') })
-            .catch(err => {
-                setPostulaciones(snapshot)
+            .catch(() => {
+                setPostulaciones(prev => revertCardEstado(prev, cardId, targetEstado, originalEstado))
                 setDragError("No se pudo actualizar la oferta. Intente nuevamente")
             })
     }
