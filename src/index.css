@@ -1086,6 +1086,12 @@ body {
   color: #e6edf3;
 }
 
+.board-page__drag-error {
+  color: rgb(235, 66, 66);
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
 .board-page__columns {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

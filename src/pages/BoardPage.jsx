@@ -18,6 +18,7 @@ const BoardPage = () => {
     const [postulaciones, setPostulaciones] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [dragError, setDragError] = useState(null)
     const token = localStorage.getItem('token')
     useEffect(() => {
         fetch(`${BASE_URL}/postulante/${id}/board`, {
@@ -60,6 +61,8 @@ const BoardPage = () => {
     const handleDragEnd = (result) => {
         const { destination, source, draggableId } = result
 
+        setDragError(null)
+
         const droppedOutside = !destination
         if (droppedOutside) return
 
@@ -84,7 +87,7 @@ const BoardPage = () => {
             .then(res => { if (!res.ok) throw new Error('No se pudo actualizar el estado') })
             .catch(err => {
                 setPostulaciones(snapshot)
-                setError(err.message)
+                setDragError("No se pudo actualizar la oferta. Intente nuevamente")
             })
     }
 
@@ -96,6 +99,7 @@ const BoardPage = () => {
             <h2 className="board-page__title">
                 <span className="accent">▍</span>Mis postulaciones
             </h2>
+            {dragError && <p className="board-page__drag-error">{dragError}</p>}
             <DragDropContext onDragEnd={handleDragEnd}>
                 <div className="board-page__columns">
                     {COLUMNAS.map(col => (
