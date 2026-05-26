@@ -11,6 +11,7 @@ const UserOfferingPage = () => {
 
     const [openedOfferId, setOpenedOfferId] = useState(null)
     const [offersCV, setOffersCV] = useState([])
+    const [offerSelected, setOfferSelected] = useState(null)
 
     const [cvModalOpened, setCvModalOpened] = useState(false)
     const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
@@ -84,6 +85,10 @@ const UserOfferingPage = () => {
         setCvModalFilename(null)
     }
 
+    const handleActionOnCV = ({}) => {
+
+    }
+
     if (loading) return <p>Cargando perfil...</p>
     if (error) return <p>Error: {error}</p>
     return (
@@ -114,16 +119,44 @@ const UserOfferingPage = () => {
                         </div>
                         :
                         <div className="section-cv-visor-opened">
-                            <div>Seleccione un CV para verlo en detalle:</div>
+                            <div>Viendo CVs de oferta: {offerSelected}</div>
                             <div className="all-cv-section">
                                 {offersCV.map((cv) => (
-                                    <div className="cv-unit-section"
-                                        onClick={() => handleOpenCV(cv.id_postulante, cv.cvPathPostulacion, cv.id_oferta, cv.cvVisto)}>
-                                        <div className="temporal-cv-unit-text">
-                                            Haga click para ver en detalle el CV :
+                                    <div className="cv-unit-wrapper">
+                                        <div className="cv-unit-section"
+                                            onClick={() => handleOpenCV(cv.id_postulante, cv.cvPathPostulacion, cv.id_oferta, cv.cvVisto)}>
+                                            <div className="temporal-cv-unit-text">
+                                                Haga click para ver en detalle el CV :
+                                            </div>
+                                            <div className="cv-unit-footer">
+                                                {cv.cvPathPostulacion.split('/').pop()}
+                                            </div>
                                         </div>
-                                        <div className="cv-unit-footer">
-                                            {cv.cvPathPostulacion.split('/').pop()}
+                                        <div className="cv-unit-buttons-section">
+                                            <button className="cv-unit-button tick" onClick={() => handleActionOnCV()}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                                    viewBox="0 0 24 24" fill="none" 
+                                                    stroke="#0b0a0a" stroke-width="2" 
+                                                    stroke-linecap="round" stroke-linejoin="round" 
+                                                    class="lucide lucide-file-check-icon lucide-file-check">
+                                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/>
+                                                    <path d="M14 2v5a1 1 0 0 0 1 1h5"/>
+                                                    <path d="m9 15 2 2 4-4"/>
+                                                </svg>
+                                                <span className="tooltip-cv-button tick">Marcar como posible candidato</span>
+                                            </button>
+                                            <button className="cv-unit-button cross" onClick={() => handleActionOnCV()}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                                    viewBox="0 0 24 24" fill="none" 
+                                                    stroke="#0b0a0a" stroke-width="2" 
+                                                    stroke-linecap="round" stroke-linejoin="round" 
+                                                    class="lucide lucide-clipboard-x-icon lucide-clipboard-x">
+                                                    <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                                    <path d="m15 11-6 6"/><path d="m9 11 6 6"/>
+                                                </svg> 
+                                                <span className="tooltip-cv-button cross">Descartar como candidato</span>  
+                                            </button>
                                         </div>
                                     </div>
                                 ))}
@@ -152,6 +185,7 @@ const UserOfferingPage = () => {
                                 idOpened={openedOfferId}
                                 setIdOpened={setOpenedOfferId}
                                 setCVs={setOffersCV}
+                                setOfferName={() => setOfferSelected(offer.titulo)}
                             />
                         ))}
                     </div>

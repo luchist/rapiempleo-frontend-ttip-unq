@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import "./OfferCardOfertante.css";
 
 
-const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs }) => {
+const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName }) => {
 
     const [hovered, setHovered] = useState()
 
     const handleShowCVOffer = () => {
       setCVs(postulantes)
-      
+      setOfferName()
       if (idOpened === id) {
         setIdOpened(null)
       } else {
