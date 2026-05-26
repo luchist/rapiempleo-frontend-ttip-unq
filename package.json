@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
+    "preinstall": "pnpm dlx only-allow@1.2.2 pnpm",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
