@@ -1,14 +1,15 @@
 import { useContext, useState, useEffect } from 'react'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import UserContext from '../UserProvider';
-import NotificationModal from '../NotificationModal';
+import NotificationModalOfertante from '../NotificationModalOfertante';
+import NotificationModalPostulante from '../NotificationModalPostulante';
 
 const Sidebar = () => {
   const [notifs, setNotifs] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [error, setError] = useState(null)
 
-  const { user, isLogged, changeLogin } = useContext(UserContext);
+  const { user, isLogged, changeLogin, setUser } = useContext(UserContext);
 
   const token = localStorage.getItem("token")
   const navigate = useNavigate();
@@ -31,6 +32,10 @@ const Sidebar = () => {
           }
       })
       .then(res => {
+        if (res.status == 401 || res.status == 403 ) {
+            handleLogOut()
+            return
+        }
         if (!res.ok) throw new Error('Ofertante no encontrado')
         return res.json()
       })
@@ -49,6 +54,10 @@ const Sidebar = () => {
           }
       })
       .then(res => {
+          if (res.status == 401 || res.status == 403 ) {
+            handleLogOut()
+            return
+          }
           if (!res.ok) throw new Error('Postulante no encontrado')
           return res.json()
       })
@@ -61,11 +70,12 @@ const Sidebar = () => {
   }
 
   const handleLogOut = () => {
-    localStorage.clear("user")
+    localStorage.clear() // Remove key and user
+    setUser(null)
     changeLogin()
     navigate("/")
   }
-  
+
 
   const NAV_ITEMS = [
     {
@@ -193,16 +203,15 @@ const Sidebar = () => {
         <span className="tooltip">Notificaciones</span>
       </span>
       { isLogged && modalOpen && !user.typeUser ?
-        <NotificationModal className="notification-panel-offerer" 
+        <NotificationModalOfertante className="notification-panel-offerer" 
           notifications={notifs} 
           tituloNotif={"Hay un nuevo CV en oferta: "} 
           mensajeSinNotif={"A la espera de nuevas postulaciones"}
           handleDeleteNotify={handleDeleteNotify}/>
         :
         isLogged && modalOpen && user.typeUser ?
-        <NotificationModal className="notification-panel-postulant"
+        <NotificationModalPostulante className="notification-panel-postulant"
           notifications={notifs} 
-          tituloNotif={"Han visto tu CV en la oferta: "} 
           mensajeSinNotif={"A la espera que tus postulaciones sean revisadas"}
           handleDeleteNotify={handleDeleteNotify}/>
         :
@@ -211,8 +220,8 @@ const Sidebar = () => {
       { isLogged ? 
       <span className='sidebar-icon log-out-icon' onClick={() => handleLogOut()}>
         {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
-          stroke="currentColor" stroke-width="2" 
-          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
+          stroke="currentColor" strokeWidth="2" 
+          strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
           <path d="m16 17 5-5-5-5"/>
           <path d="M21 12H9"/>
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>

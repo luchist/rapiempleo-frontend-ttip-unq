@@ -1,6 +1,7 @@
 
 
-const NotificationModal = ({ notifications, tituloNotif, mensajeSinNotif, handleDeleteNotify }) => {
+const NotificationModalOfertante = ({ notifications, tituloNotif, mensajeSinNotif, handleDeleteNotify }) => {
+    
 
     return (
         <>
@@ -39,4 +40,4 @@ const NotificationModal = ({ notifications, tituloNotif, mensajeSinNotif, handle
     )
 }
 
-export default NotificationModal
+export default NotificationModalOfertante

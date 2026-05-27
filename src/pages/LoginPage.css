@@ -66,6 +66,7 @@
 
 .button-tab-left.selected {
     border: 1px solid #bdbd00;
+    border-bottom: 0;
 }
 
 .button-tab-left.non-selected {
@@ -73,7 +74,7 @@
 }
 
 .button-tab-right {
-    background-color: #2186de;
+    background-color: #4d79a8;
     border-top-right-radius: 10px;
     border-left: 1px solid black;
     width: 186px;
@@ -88,6 +89,7 @@
 
 .button-tab-right.selected {
     border: 1px solid #bdbd00;
+    border-bottom: 0;
 }
 
 .button-tab-right.non-selected {
@@ -201,6 +203,7 @@
     width: 320px;
     background-color: #4d79a8;
     border: 1px solid rgba(255,255,255,0.08);
+    border-top: 0;
     box-shadow: 7px 7px 7px rgba(77, 121, 168, 0.30);
     padding-left: 25px;
     padding-right: 25px;

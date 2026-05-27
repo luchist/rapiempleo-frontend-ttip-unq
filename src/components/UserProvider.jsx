@@ -29,9 +29,10 @@ function UserProvider ({children}) {
         user,
         isLogged,
         setAuth,
-        changeLogin
+        changeLogin,
+        setUser
     }),
-    [user, isLogged, changeLogin, setAuth])
+    [user, isLogged, changeLogin, setAuth, setUser])
 
     return(
         <UserContext.Provider value={contextValue}>
