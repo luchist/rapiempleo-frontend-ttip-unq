@@ -1086,12 +1086,17 @@ body {
   color: #e6edf3;
 }
 
+.board-page__drag-error {
+  color: rgb(235, 66, 66);
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
 .board-page__columns {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 12px;
   align-items: start;
-  overflow-x: auto;
   padding-bottom: 1rem;
 }
 
@@ -1147,6 +1152,13 @@ body {
   gap: 8px;
 }
 
+.kanban-column__cards--over {
+  background: rgba(255, 149, 0, 0.05);
+  border-radius: 8px;
+  outline: 1px dashed rgba(255, 149, 0, 0.3);
+  outline-offset: 4px;
+}
+
 .kanban-column__empty {
   margin: 0;
   padding: 16px 0;
@@ -1166,7 +1178,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
   gap: 8px;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   cursor: default;
 }
 
@@ -1174,6 +1185,13 @@ body {
   border-color: rgba(255, 149, 0, 0.4);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 149, 0, 0.08);
+}
+
+.kanban-card--dragging {
+  cursor: grabbing;
+  border-color: rgba(34, 219, 195, 0.8);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  opacity: 0.95;
 }
 
 .kanban-card__header {
