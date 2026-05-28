@@ -214,7 +214,7 @@ const PostulantProfilePage = () => {
 
       <div className="postulant-profile__header">
         <div className="postulant-profile__avatar">
-          {profilePicUrl && <img src={profilePicUrl} className="profile-pic__img" alt="Foto de perfil" />}
+          {profilePicUrl && <img src={profilePicUrl} className="profile-pic__img" alt="Imagen de perfil" />}
           {(
             <button
               className="profile-pic__overlay"
