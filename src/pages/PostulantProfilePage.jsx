@@ -1,13 +1,18 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useContext } from "react"
 import { useParams } from "react-router-dom"
 import CvModal from "../components/CvModal"
+import UserContext from "../components/UserProvider"
 
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
 const BASE_URL = "http://localhost:8080"
 
+const MAX_SIZE_BYTES = 5 * 1024 * 1024
+const ALLOWED_TYPES = ['image/jpeg', 'image/png']
+
 const PostulantProfilePage = () => {
   const { id } = useParams()
+  const { user } = useContext(UserContext)
   const [postulant, setPostulant] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -16,8 +21,11 @@ const PostulantProfilePage = () => {
   const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
   const [cvModalFilename, setCvModalFilename] = useState(null)
   const [cvModalCvPath, setCvModalCvPath] = useState(null)
+  const [profilePicUrl, setProfilePicUrl] = useState(null)
+  const [profilePicError, setProfilePicError] = useState(null)
   const fileInputRef = useRef(null)
   const currentSlotIndex = useRef(null)
+  const profilePicInputRef = useRef(null)
   const token = localStorage.getItem("token")
 
   useEffect(() => {
@@ -38,6 +46,15 @@ const PostulantProfilePage = () => {
         })
         setCvSlots(slots)
         setCvFavorito(data.cvFavorito)
+        if (data.fotoPerfil) {
+          const filename = data.fotoPerfil.split('/').pop()
+          fetch(`${BASE_URL}/files/fotos/postulante/${id}/${filename}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+            .then(r => r.blob())
+            .then(blob => setProfilePicUrl(URL.createObjectURL(blob)))
+            .catch(() => {})
+        }
         setLoading(false)
       })
       .catch(err => {
@@ -104,6 +121,34 @@ const PostulantProfilePage = () => {
     setCvModalCvPath(null)
   }
 
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    if (!ALLOWED_TYPES.includes(file.type) || file.size > MAX_SIZE_BYTES) {
+      setProfilePicError('Solo se permiten archivos JPG o PNG de hasta 5 MB.')
+      e.target.value = null
+      return
+    }
+    setProfilePicError(null)
+    const formData = new FormData()
+    formData.append('file', file)
+    fetch(`${BASE_URL}/postulante/${id}/foto`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData
+    })
+      .then(res => { if (!res.ok) throw new Error() ; return res.json() })
+      .then(data => {
+        const filename = data.imgPath.split('/').pop()
+        return fetch(`${BASE_URL}/files/fotos/postulante/${id}/${filename}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        }).then(r => r.blob()).then(blob => URL.createObjectURL(blob))
+      })
+      .then(blobUrl => setProfilePicUrl(blobUrl))
+      .catch(() => setProfilePicError('Error al subir la imagen. Intente de nuevo.'))
+      .finally(() => { e.target.value = null })
+  }
+
   const handleFileChange = (event) => {
     const archivo = event.target.files[0]
     if (!archivo) return
@@ -159,8 +204,29 @@ const PostulantProfilePage = () => {
         />
       )}
 
+      <input
+        type="file"
+        accept=".jpg,.jpeg,.png"
+        ref={profilePicInputRef}
+        style={{ display: 'none' }}
+        onChange={handleProfilePicChange}
+      />
+
       <div className="postulant-profile__header">
-        <div className="postulant-profile__avatar" aria-label="Avatar" />
+        <div className="postulant-profile__avatar">
+          {profilePicUrl && <img src={profilePicUrl} className="profile-pic__img" alt="Foto de perfil" />}
+          {(
+            <button
+              className="profile-pic__overlay"
+              onClick={() => profilePicInputRef.current.click()}
+              aria-label="Subir imagen de perfil"
+              title="Subir imagen de perfil"
+            >
+              <span className="profile-pic__label">Subir imagen</span>
+            </button>
+          )}
+        </div>
+        {profilePicError && <p className="profile-pic__error">{profilePicError}</p>}
         <div className="postulant-profile__name-block">
           <h1 className="postulant-profile__name">{postulant.nombre}</h1>
           <div className="postulant-profile__underline" />
