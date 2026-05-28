@@ -162,7 +162,8 @@ const UserOfferingPage = () => {
                         <button
                             className="profile-pic__overlay"
                             onClick={() => profilePicInputRef.current.click()}
-                            aria-label="Subir foto de perfil"
+                            aria-label="Subir imagen de perfil"
+                            title="Subir imagen de perfil (JPG, JPEG, PNG)"
                         >
                             <span className="profile-pic__label">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none">
