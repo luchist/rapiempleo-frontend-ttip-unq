@@ -557,6 +557,7 @@ body {
   height: 400px;
   max-height: 640px;
   overflow-y: auto;
+  overflow: visible;
 }
 
 .all-cv-section {
@@ -572,13 +573,21 @@ body {
   justify-content: space-between;
   background-color: #8a8a8abb;
   height: 200px;
-  width: 130px;
+  width: 128px;
   cursor: pointer;
-  border: 1px solid rgb(255, 255, 255)
+  border: 2px solid rgb(255, 255, 255)
+}
+
+.cv-unit-section.CONSIDERACION {
+  border: 2px solid rgb(12, 158, 1)
+}
+
+.cv-unit-section.RECHAZADO {
+  border: 2px solid rgb(159, 5, 5)
 }
 
 .cv-unit-section:hover {
-  border: 1px solid aqua;
+  border: 2px solid aqua;
   opacity: 0.9;
 }
 
@@ -589,8 +598,90 @@ body {
 .cv-unit-footer {
   padding: 4px;
   font-size: small;
+  overflow-x: hidden;
 }
 
+.cv-unit-buttons-section {
+  display: flex;
+  flex-direction: row;
+}
+
+.cv-unit-button {
+  position: relative;
+  border: 2px solid rgb(194, 194, 194);
+  height: 30px;
+  width: 66px;
+}
+
+.cv-unit-button.tick {
+  background-color:green;
+}
+
+.cv-unit-button.cross {
+  background-color: brown;
+}
+
+.cv-unit-button-unique {
+  position: relative;
+  background-color:darkgrey;
+  width: 132px;
+  border: 2px solid rgb(114, 114, 114);
+  border-top: 1px solid black;
+}
+
+.cv-unit-button-unique:disabled {
+  cursor: not-allowed;
+}
+
+.tooltip-cv-button {
+  position: absolute;
+  background-color: #e9d5ff;
+  border: 1px solid black;
+  padding: 1px 2px;
+  align-content:  center;
+  color: #000;
+  white-space: nowrap;
+  visibility: hidden;
+}
+
+.tooltip-cv-button {
+  bottom: 110%;
+  left: 90%;
+  transform: translateX(-50%);
+}
+
+.cv-unit-button:hover .tooltip-cv-button {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.tooltip-cv-button.unique {
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cv-unit-button-unique:hover .tooltip-cv-button {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.cv-unit-button:hover {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cv-unit-button.tick:hover {
+  background-color: rgb(0, 84, 0);
+}
+
+.cv-unit-button.cross:hover {
+  background-color: rgb(119, 30, 30);
+}
+
+/* Right side Ofertante Page */
 
 .offers-header {
   display: flex;
