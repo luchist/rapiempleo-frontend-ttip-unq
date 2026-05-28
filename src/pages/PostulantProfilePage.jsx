@@ -50,10 +50,12 @@ const PostulantProfilePage = () => {
         setCvFavorito(data.cvFavorito)
         if (data.fotoPerfil) {
           const filename = data.fotoPerfil.split('/').pop()
-          fetch(`${BASE_URL}/files/fotos/postulante/${id}/${filename}`, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
-            .then(r => r.blob())
+          const url = `${BASE_URL}/files/fotos/postulante/${id}/${filename}`
+          fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+            .then(r => {
+              if (!r.ok) throw new Error('No se pudo cargar la foto de perfil')
+              return r.blob()
+            })
             .then(blob => setProfilePicUrl(URL.createObjectURL(blob)))
             .catch(() => { })
         }
@@ -142,9 +144,13 @@ const PostulantProfilePage = () => {
       .then(res => { if (!res.ok) throw new Error(); return res.json() })
       .then(data => {
         const filename = data.imgPath.split('/').pop()
-        return fetch(`${BASE_URL}/files/fotos/postulante/${id}/${filename}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        }).then(r => r.blob()).then(blob => URL.createObjectURL(blob))
+        const url = `${BASE_URL}/files/fotos/postulante/${id}/${filename}`
+        return fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+          .then(r => {
+            if (!r.ok) throw new Error('No se pudo cargar la foto de perfil')
+            return r.blob()
+          })
+          .then(blob => URL.createObjectURL(blob))
       })
       .then(blobUrl => setProfilePicUrl(blobUrl))
       .catch(() => setProfilePicError('Error al subir la imagen. Intente de nuevo.'))

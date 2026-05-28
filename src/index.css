@@ -819,7 +819,8 @@ body {
   transition: background 0.2s;
 }
 
-.postulant-profile__avatar:hover .profile-pic__overlay {
+.postulant-profile__avatar:hover .profile-pic__overlay,
+.postulant-profile__avatar:focus-within .profile-pic__overlay {
   background: rgba(0, 0, 0, 0.45);
   color: #ff9500;
 }
@@ -832,7 +833,8 @@ body {
   transition: opacity 0.2s;
 }
 
-.postulant-profile__avatar:hover .profile-pic__label {
+.postulant-profile__avatar:hover .profile-pic__label,
+.postulant-profile__avatar:focus-within .profile-pic__label {
   opacity: 1;
 }
 
