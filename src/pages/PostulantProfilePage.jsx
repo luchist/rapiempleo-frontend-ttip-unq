@@ -12,7 +12,6 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
 
 const PostulantProfilePage = () => {
   const { id } = useParams()
-  const { user } = useContext(UserContext)
   const [postulant, setPostulant] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)

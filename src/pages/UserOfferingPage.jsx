@@ -10,7 +10,6 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
 
 const UserOfferingPage = () => {
     const { id } = useParams()
-    const { user } = useContext(UserContext)
     const [loading, setLoading] = useState(true)
     const [userOf, setUserOf] = useState(null)
     const [error, setError] = useState(null)
