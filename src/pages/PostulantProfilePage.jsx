@@ -1,7 +1,6 @@
-import { useEffect, useState, useRef, useContext } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 import CvModal from "../components/CvModal"
-import UserContext from "../components/UserProvider"
 
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
@@ -23,6 +22,10 @@ const PostulantProfilePage = () => {
   const [profilePicUrl, setProfilePicUrl] = useState(null)
   const [profilePicError, setProfilePicError] = useState(null)
   const fileInputRef = useRef(null)
+
+  useEffect(() => {
+    return () => { if (profilePicUrl) URL.revokeObjectURL(profilePicUrl) }
+  }, [profilePicUrl])
   const currentSlotIndex = useRef(null)
   const profilePicInputRef = useRef(null)
   const token = localStorage.getItem("token")

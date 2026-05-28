@@ -1,8 +1,7 @@
-import { useState, useEffect, useContext, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import OfferCardOfertante from '../components/offers/OfferCardOfertante'
 import CvModal from '../components/CvModal'
-import UserContext from '../components/UserProvider'
 
 const BASE_URL = "http://localhost:8080"
 const MAX_SIZE_BYTES = 5 * 1024 * 1024
@@ -24,6 +23,10 @@ const UserOfferingPage = () => {
     const [profilePicUrl, setProfilePicUrl] = useState(null)
     const [profilePicError, setProfilePicError] = useState(null)
     const profilePicInputRef = useRef(null)
+
+    useEffect(() => {
+        return () => { if (profilePicUrl) URL.revokeObjectURL(profilePicUrl) }
+    }, [profilePicUrl])
 
     const token = localStorage.getItem("token")
 
