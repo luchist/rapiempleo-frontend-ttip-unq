@@ -44,8 +44,7 @@ const UserOfferingPage = () => {
             .then(data => {
                 setUserOf(data)
                 if (data.fotoPerfil) {
-                    const filename = data.fotoPerfil.split('/').pop()
-                    const url = `${BASE_URL}/files/fotos/ofertante/${id}/${filename}`
+                    const url = `${BASE_URL}/files/fotos/${data.fotoPerfil}`
                     fetch(url, { headers: { Authorization: `Bearer ${token}` } })
                         .then(r => {
                             if (!r.ok) throw new Error('No se pudo cargar la imagen de perfil')
@@ -80,8 +79,7 @@ const UserOfferingPage = () => {
         })
             .then(res => { if (!res.ok) throw new Error(); return res.json() })
             .then(data => {
-                const filename = data.fotoPath.split('/').pop()
-                const url = `${BASE_URL}/files/fotos/ofertante/${id}/${filename}`
+                const url = `${BASE_URL}/files/fotos/${data.fotoPath}`
                 return fetch(url, { headers: { Authorization: `Bearer ${token}` } })
                     .then(r => {
                         if (!r.ok) throw new Error('No se pudo cargar la imagen de perfil')

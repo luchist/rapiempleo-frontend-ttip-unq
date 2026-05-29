@@ -49,8 +49,7 @@ const PostulantProfilePage = () => {
         setCvSlots(slots)
         setCvFavorito(data.cvFavorito)
         if (data.fotoPerfil) {
-          const filename = data.fotoPerfil.split('/').pop()
-          const url = `${BASE_URL}/files/fotos/postulante/${id}/${filename}`
+          const url = `${BASE_URL}/files/fotos/${data.fotoPerfil}`
           fetch(url, { headers: { Authorization: `Bearer ${token}` } })
             .then(r => {
               if (!r.ok) throw new Error('No se pudo cargar la foto de perfil')
@@ -143,8 +142,7 @@ const PostulantProfilePage = () => {
     })
       .then(res => { if (!res.ok) throw new Error(); return res.json() })
       .then(data => {
-        const filename = data.imgPath.split('/').pop()
-        const url = `${BASE_URL}/files/fotos/postulante/${id}/${filename}`
+        const url = `${BASE_URL}/files/fotos/${data.imgPath}`
         return fetch(url, { headers: { Authorization: `Bearer ${token}` } })
           .then(r => {
             if (!r.ok) throw new Error('No se pudo cargar la foto de perfil')
