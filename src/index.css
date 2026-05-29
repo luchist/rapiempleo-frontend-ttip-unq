@@ -794,6 +794,55 @@ body {
   border: 2px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.04);
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.postulant-profile__avatar .profile-pic__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-pic__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.postulant-profile__avatar:hover .profile-pic__overlay,
+.postulant-profile__avatar:focus-within .profile-pic__overlay {
+  background: rgba(0, 0, 0, 0.45);
+  color: #ff9500;
+}
+
+.profile-pic__label {
+  color: #ff9500;
+  font-size: 0.7rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.postulant-profile__avatar:hover .profile-pic__label,
+.postulant-profile__avatar:focus-within .profile-pic__label {
+  opacity: 1;
+}
+
+.profile-pic__error {
+  color: #ff9500;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  text-align: center;
 }
 
 .postulant-profile__name-block {
