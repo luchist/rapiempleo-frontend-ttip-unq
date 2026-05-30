@@ -15,32 +15,32 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-      if (!user) return;
-      if (user.typeUser) {
-        fetchNotificationsPostulant();
-      } else {
-        fetchNotificationsOfferer()
-      }
-      setModalOpen(false)
-      
+    if (!user) return;
+    if (user.typeUser) {
+      fetchNotificationsPostulant();
+    } else {
+      fetchNotificationsOfferer()
+    }
+    setModalOpen(false)
+
   }, [user]);
 
   const fetchNotificationsOfferer = () => {
-      fetch(`http://localhost:8080/ofertante/${user.id}`, {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          }
-      })
+    fetch(`http://localhost:8080/ofertante/${user.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(res => {
-        if (res.status == 401 || res.status == 403 ) {
-            handleLogOut()
-            return
+        if (res.status == 401 || res.status == 403) {
+          handleLogOut()
+          return
         }
         if (!res.ok) throw new Error('Ofertante no encontrado')
         return res.json()
       })
       .then(data => {
-          setNotifs(data.avisosPostulacion)
+        setNotifs(data.avisosPostulacion)
       })
       .catch(err => {
         setError(err.message)
@@ -48,24 +48,24 @@ const Sidebar = () => {
   }
 
   const fetchNotificationsPostulant = () => {
-      fetch(`http://localhost:8080/postulante/${user.id}`, {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          }
-      })
+    fetch(`http://localhost:8080/postulante/${user.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(res => {
-          if (res.status == 401 || res.status == 403 ) {
-            handleLogOut()
-            return
-          }
-          if (!res.ok) throw new Error('Postulante no encontrado')
-          return res.json()
+        if (res.status == 401 || res.status == 403) {
+          handleLogOut()
+          return
+        }
+        if (!res.ok) throw new Error('Postulante no encontrado')
+        return res.json()
       })
       .then(data => {
-          setNotifs(data.notificacionesCv)
+        setNotifs(data.notificacionesCv)
       })
       .catch(err => {
-          setError(err.message)
+        setError(err.message)
       })
   }
 
@@ -127,7 +127,7 @@ const Sidebar = () => {
         </svg>
       )
     })
-    
+
   } else {
     NAV_ITEMS.push({
       path: `/ofertante/${user.id}`,
@@ -150,15 +150,15 @@ const Sidebar = () => {
   }
 
   const handleDeleteNotify = (indexRemove) => {
-      let typeUs  
-      if (user.typeUser) { typeUs = "postulante" } else { typeUs = "ofertante" }
-      
-      fetch(`http://localhost:8080/${typeUs}/deleteNotify/${user.id}/${indexRemove}`, {
-          method: 'DELETE',
-          headers: {
-              Authorization: `Bearer ${token}`,
-          }
-      })
+    let typeUs
+    if (user.typeUser) { typeUs = "postulante" } else { typeUs = "ofertante" }
+
+    fetch(`http://localhost:8080/${typeUs}/deleteNotify/${user.id}/${indexRemove}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(res => {
         if (!res.ok) { throw new Error('No se pudo borrar la notificación') }
 
@@ -176,60 +176,63 @@ const Sidebar = () => {
 
   return (
     <aside className="sidebar">
-      {NAV_ITEMS.map((item) => (
-        <Link
-          key={item.path}
-          to={item.path}
-          onClick={() => handleNotifyModalOff()}
-          className={`sidebar-icon ${location.pathname === item.path ? 'sidebar-icon--active' : ''}`}
-        >
-          {item.icon}
-          <span className="tooltip">{item.label}</span>
-        </Link>
-      ))}
-      <span className='sidebar-icon' onClick={() => handleNotifyModal()}>
-        {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="2"
-          strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bell-ring-icon lucide-bell-ring">
-          <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-          <path d="M22 8c0-2.3-.8-4.3-2-6" />
-          <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-          <path d="M4 2C2.8 3.7 2 5.7 2 8" />
-        </svg>}
-        {isLogged && (notifs.length != 0) ?
-          <span className="counter-notify">
-            {notifs.length}
-          </span> : <></>}
-        <span className="tooltip">Notificaciones</span>
-      </span>
-      { isLogged && modalOpen && !user.typeUser ?
-        <NotificationModalOfertante className="notification-panel-offerer" 
-          notifications={notifs} 
-          tituloNotif={"Hay un nuevo CV en oferta: "} 
+      {isLogged &&
+        NAV_ITEMS.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            onClick={() => handleNotifyModalOff()}
+            className={`sidebar-icon ${location.pathname === item.path ? 'sidebar-icon--active' : ''}`}
+          >
+            {item.icon}
+            <span className="tooltip">{item.label}</span>
+          </Link>
+        ))}
+      {isLogged &&
+        <span className='sidebar-icon' onClick={() => handleNotifyModal()}>
+          {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2"
+            strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bell-ring-icon lucide-bell-ring">
+            <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+            <path d="M22 8c0-2.3-.8-4.3-2-6" />
+            <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+            <path d="M4 2C2.8 3.7 2 5.7 2 8" />
+          </svg>}
+          {isLogged && (notifs.length != 0) ?
+            <span className="counter-notify">
+              {notifs.length}
+            </span> : <></>}
+          <span className="tooltip">Notificaciones</span>
+        </span>
+      }
+      {isLogged && modalOpen && !user.typeUser ?
+        <NotificationModalOfertante className="notification-panel-offerer"
+          notifications={notifs}
+          tituloNotif={"Hay un nuevo CV en oferta: "}
           mensajeSinNotif={"A la espera de nuevas postulaciones"}
-          handleDeleteNotify={handleDeleteNotify}/>
+          handleDeleteNotify={handleDeleteNotify} />
         :
         isLogged && modalOpen && user.typeUser ?
-        <NotificationModalPostulante className="notification-panel-postulant"
-          notifications={notifs} 
-          mensajeSinNotif={"A la espera que tus postulaciones sean revisadas"}
-          handleDeleteNotify={handleDeleteNotify}/>
+          <NotificationModalPostulante className="notification-panel-postulant"
+            notifications={notifs}
+            mensajeSinNotif={"A la espera que tus postulaciones sean revisadas"}
+            handleDeleteNotify={handleDeleteNotify} />
+          :
+          <></>
+      }
+      {isLogged ?
+        <span className='sidebar-icon log-out-icon' onClick={() => handleLogOut()}>
+          {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2"
+            strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
+            <path d="m16 17 5-5-5-5" />
+            <path d="M21 12H9" />
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          </svg>}
+          <span className="tooltip">Cerrar sesión</span>
+        </span>
         :
         <></>
-      }
-      { isLogged ? 
-      <span className='sidebar-icon log-out-icon' onClick={() => handleLogOut()}>
-        {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
-          stroke="currentColor" strokeWidth="2" 
-          strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
-          <path d="m16 17 5-5-5-5"/>
-          <path d="M21 12H9"/>
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-        </svg>}
-        <span className="tooltip">Cerrar sesión</span>
-      </span>
-      :
-      <></>
       }
     </aside>
   )
