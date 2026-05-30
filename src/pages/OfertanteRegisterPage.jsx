@@ -20,7 +20,7 @@ const OfertanteRegisterPage = () => {
                     <RegisterFormOfertante setReturnToLogin={() => setReadyToLogin(true)}/>
                 </div>
                 {readyToLogin ?
-                    <Link to="/login" className="link-after-register">
+                    <Link to="/" className="link-after-register">
                         ¡Haga click aquí para ir a la página de login! / O espere a ser redirigido en 5 segundos
                     </Link>
                 :

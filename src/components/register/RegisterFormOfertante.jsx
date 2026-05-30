@@ -154,6 +154,12 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
           ...businessForm,
           [comapanyData.target.name]: comapanyData.target.value,
         });
+        if (comapanyData.target.name == "company") {
+            setForm({
+            ...form,
+            ["company"]: comapanyData.target.value,
+        })
+        }
     };
 
 
