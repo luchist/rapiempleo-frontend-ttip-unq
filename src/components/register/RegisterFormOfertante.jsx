@@ -192,7 +192,9 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
                     {errors.company && <span className="error-login">{errors.ubication}</span>}
                     <div className="last-line-verification">
                         <button className="login-button" type="button" disabled={businessVerified}
-                                onClick={handleCompanyVerification} > Verificar su negocio</button>
+                                onClick={handleCompanyVerification} >
+                                {businessVerified ? "Negocio verificado": "Verificar su negocio"} 
+                        </button>
                         {businessVerified ?
                         <div className="verification-tick-message">
                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" 
@@ -204,7 +206,6 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
                                 <path d="M21 19L3 19"/>
                                 <path d="M9 15L4 10"/>
                             </svg>
-                            <span style={{textDecorationLine : "underline", marginLeft : "3px"}}>Negocio verificado</span>
                         </div>
                         : 
                         <></>

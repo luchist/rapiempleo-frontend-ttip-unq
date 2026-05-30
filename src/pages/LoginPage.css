@@ -161,6 +161,7 @@
     background-color: rgb(19, 154, 154);
     color: #1f1c17;
     border: 2px solid #07090c;
+    cursor: not-allowed;
 }
 
 .text-register-ofertante {
