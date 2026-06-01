@@ -566,7 +566,7 @@ body {
   gap: 20px;
   padding-top: 15px;
 }
-
+/*
 .cv-unit-section {
   display: flex;
   flex-direction: column;
@@ -577,28 +577,58 @@ body {
   cursor: pointer;
   border: 2px solid rgb(255, 255, 255)
 }
-
-.cv-unit-section.CONSIDERACION {
-  border: 2px solid rgb(12, 158, 1)
+*/
+.cv-document {
+  position: relative;
 }
 
-.cv-unit-section.RECHAZADO {
-  border: 2px solid rgb(159, 5, 5)
+.cv-document .cv-svg {
+    cursor: pointer;
+    stroke: white;
 }
 
-.cv-unit-section:hover {
-  border: 2px solid aqua;
-  opacity: 0.9;
+.cv-document:hover .cv-svg {
+  stroke: rgb(3, 177, 200);
 }
 
-.temporal-cv-unit-text {
-  padding: 12px;
+.cv-document.CONSIDERACION .cv-svg {
+    stroke: #009603;
 }
 
-.cv-unit-footer {
-  padding: 4px;
-  font-size: small;
-  overflow-x: hidden;
+.cv-document.RECHAZADO .cv-svg {
+    stroke: #930000;
+}
+
+.cv-name {
+  position: absolute;
+  top: 35%;
+  padding: 0 1px;
+  text-align: center;
+  overflow:visible;
+  cursor: pointer;
+}
+
+.cv-label-tooltip {
+    position: absolute;
+    font-size: small;
+
+    bottom: 3%;
+    left: 65%;
+    transform: translateX(-50%);
+
+    background: #e9d5ff;
+    color: black;
+    border: 1px solid black;
+
+    padding: 2px 5px;
+    white-space: nowrap;
+
+    visibility: hidden;
+}
+
+.cv-document:hover .cv-label-tooltip {
+    visibility: visible;
+    opacity: 1;
 }
 
 .cv-unit-buttons-section {
@@ -607,26 +637,34 @@ body {
 }
 
 .cv-unit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  border: 2px solid rgb(194, 194, 194);
-  height: 30px;
+  border: 3px solid rgb(204, 204, 204);
+  height: 33px;
   width: 66px;
+  
 }
 
 .cv-unit-button.tick {
   background-color:green;
+  border-bottom-left-radius: 10px;
 }
 
 .cv-unit-button.cross {
   background-color: brown;
+  border-bottom-right-radius: 10px;
 }
 
 .cv-unit-button-unique {
   position: relative;
-  background-color:darkgrey;
+  background-color:rgb(145, 145, 145);
   width: 132px;
-  border: 2px solid rgb(114, 114, 114);
+  border: 3px solid rgb(204, 204, 204);
   border-top: 1px solid black;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .cv-unit-button-unique:disabled {
