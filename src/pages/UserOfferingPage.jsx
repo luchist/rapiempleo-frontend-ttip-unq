@@ -215,9 +215,13 @@ const UserOfferingPage = () => {
                     )}
                 </div>
                 {profilePicError && <p className="profile-pic__error">{profilePicError}</p>}
-                <h1 className="title-name">{userOf.nombre}</h1>
-                <hr className="separation-user" />
-                <h1 className="title-name">Empresa : {userOf.empresa}</h1>
+                <div className="name-section">
+                    <h1 className="title-name">{userOf.nombre}</h1>
+                </div>
+                <div className="separation-user"></div>
+                <div className="company-section">
+                    <h1 className="title-name">Empresa : {userOf.empresa}</h1>
+                </div>
             </div>
             <div className="grid-cv-visor-offer">
                 <div className="section-visor">

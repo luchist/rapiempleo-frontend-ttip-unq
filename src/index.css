@@ -514,24 +514,37 @@ body {
 /* Página Ofertante y OfferCard de página*/
 
 .section-name {
+  display : flex;
+  flex-direction: row;
+  align-items: center;
   background-color: #b86a2d;
-  padding: 3px 0 3px 20px;
+  padding: 10px 20px 8px 20px;
   margin-bottom: 20px;
   border: 3px solid rgba(33, 197, 175, 0.3);
+}
+.name-section {
+  flex: 1;
+  display: flex;
+  
 }
 
 .title-name {
   text-decoration-color: azure;
   text-shadow: #0d1117;
-  margin-top: 12px
+  margin-left: 10px;
+  margin-top: 6px
 }
 
+.company-section {
+  flex: 1;
+}
 
 .separation-user {
-  border: '3px double white';
-  border-color: white;
-  margin-left: 0;
-  width: 50%;
+  width: 2px;
+  height: 70px;
+  background-color: white;
+  margin: 0 10px 0 -60px;
+  
 }
 
 .grid-cv-visor-offer {
