@@ -1,19 +1,14 @@
-import {createContext, useState, useCallback, useMemo, useEffect} from "react";
+import {createContext, useState, useCallback, useMemo} from "react";
 
 const UserContext = createContext()
 
 function UserProvider ({children}) {
-    const [user, setUser] = useState()
-    const [isLogged, setIsLogged] = useState(false)
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-            setIsLogged(true)
-        }
-    }, []);
+    const [user, setUser] = useState(() => {
+        const stored = localStorage.getItem("user");
+        if (!stored) { return undefined; }
+        return JSON.parse(stored);
+    })
+    const [isLogged, setIsLogged] = useState(() => localStorage.getItem("user") !== null)
 
     const setAuth = useCallback((userData) => {
         setUser(userData)
