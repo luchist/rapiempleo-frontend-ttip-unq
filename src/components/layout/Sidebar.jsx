@@ -14,17 +14,6 @@ const Sidebar = () => {
   const token = localStorage.getItem("token")
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) return;
-    if (user.typeUser) {
-      fetchNotificationsPostulant();
-    } else {
-      fetchNotificationsOfferer()
-    }
-    setModalOpen(false)
-
-  }, [user]);
-
   const fetchNotificationsOfferer = () => {
     fetch(`http://localhost:8080/ofertante/${user.id}`, {
       headers: {
@@ -68,6 +57,17 @@ const Sidebar = () => {
         setError(err.message)
       })
   }
+
+  useEffect(() => {
+    if (!user) return;
+    if (user.typeUser) {
+      fetchNotificationsPostulant();
+    } else {
+      fetchNotificationsOfferer()
+    }
+    setModalOpen(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const handleLogOut = () => {
     localStorage.clear() // Remove key and user
