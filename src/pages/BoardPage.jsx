@@ -36,7 +36,7 @@ const BoardPage = () => {
                 setError(err.message)
                 setLoading(false)
             })
-    }, [id])
+    }, [id, token])
 
     const moveCardToColumn = (prev, cardId, targetEstado, destIndex) => {
         const card = prev.find(p => p.id_postulacion_estado === cardId)

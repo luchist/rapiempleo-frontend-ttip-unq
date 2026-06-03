@@ -13,7 +13,7 @@ function UserProvider ({children}) {
     const setAuth = useCallback((userData) => {
         setUser(userData)
         localStorage.setItem("user", JSON.stringify(userData))
-    })
+    }, [])
 
     const changeLogin = useCallback(() => {
         const logged = !isLogged

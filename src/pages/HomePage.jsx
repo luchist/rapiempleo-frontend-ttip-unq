@@ -48,9 +48,7 @@ const HomePage = () => {
   const [error, setError] = useState(null)
 
   const { user } = useContext(UserContext);
-
   const token = localStorage.getItem("token")
-
 
   useEffect(() => {
     if (aiQuery !== null) {
@@ -102,7 +100,7 @@ const HomePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [query, aiQuery])
+  }, [query, aiQuery, token])
 
 
   const handleAiSearch = (value) => {

@@ -37,7 +37,7 @@ const OfferDetailPage = () => {
                 setError(err.message)
                 setLoading(false)
             })
-    }, [id])
+    }, [id, token])
 
     const spawnParticles = () => {
         const count = 8
