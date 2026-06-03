@@ -53,11 +53,7 @@ const HomePage = () => {
 
 
   useEffect(() => {
-    setLoading(true)
-    setError(null)
-
     if (aiQuery !== null) {
-      setAiLoading(true)
       fetch(buildAiSearchUrl(aiQuery), {
         headers: {
           Authorization: `Bearer ${token}`
@@ -112,12 +108,17 @@ const HomePage = () => {
   const handleAiSearch = (value) => {
     setSearchInput(value)
     setAiQuery(value)
+    setLoading(true)
+    setError(null)
+    setAiLoading(true)
   }
 
   const handleSearch = (value) => {
     setAiQuery(null)
     setSearchInput(value)
     setQuery(value)
+    setLoading(true)
+    setError(null)
   }
 
   return (
