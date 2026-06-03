@@ -51,7 +51,7 @@ const LoginPage = () => {
 
             try {
                 data = await response.json();
-            } catch (e) {
+            } catch {
                 data = null;
             }
             if (!response.ok) {

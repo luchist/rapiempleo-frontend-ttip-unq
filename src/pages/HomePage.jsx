@@ -34,8 +34,7 @@ const buildSearchUrl = (query) => {
   return `http://localhost:8080/search?${urlParams}`
 }
 
-const buildAiSearchUrl = (query) => {
-  const urlParams = new URLSearchParams({ query })
+const buildAiSearchUrl = () => {
   return `http://localhost:8080/ai/context`
 }
 

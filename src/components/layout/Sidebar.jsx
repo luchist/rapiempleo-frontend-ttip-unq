@@ -7,7 +7,7 @@ import NotificationModalPostulante from '../NotificationModalPostulante';
 const Sidebar = () => {
   const [notifs, setNotifs] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
-  const [error, setError] = useState(null)
+  const [_error, setError] = useState(null)
 
   const { user, isLogged, changeLogin, setUser } = useContext(UserContext);
 

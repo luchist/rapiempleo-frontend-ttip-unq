@@ -53,7 +53,7 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
 
             try {
                 data = await response.json();
-            } catch (e) {
+            } catch {
                 data = null;
             }
             if (!response.ok) {
@@ -62,7 +62,7 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
             }
             return data;
         })
-        .then((data) => {
+        .then(() => {
             setErrorVerification(null)
             setBusinessVerified(true)
         })
@@ -114,7 +114,7 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
 
             try {
                 data = await response.json();
-            } catch (e) {
+            } catch {
                 data = null;
             }
             if (!response.ok) {

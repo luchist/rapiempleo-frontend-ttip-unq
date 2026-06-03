@@ -50,7 +50,7 @@ const RegisterFormPostulante = () => {
 
             try {
                 data = await response.json();
-            } catch (e) {
+            } catch {
                 data = null;
             }
             if (!response.ok) {
