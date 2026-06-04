@@ -67,7 +67,7 @@ const Sidebar = () => {
     }
     setModalOpen(false)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, token]);
 
   const handleLogOut = () => {
     localStorage.clear() // Remove key and user
