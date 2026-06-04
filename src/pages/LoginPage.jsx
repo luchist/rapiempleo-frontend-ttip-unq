@@ -56,7 +56,7 @@ const LoginPage = () => {
             }
             if (!response.ok) {
                 console.log(`Data log: ${data}`)
-                setErrorLogin(`Error: ${data.message}`);
+                setErrorLogin(`Error: ${data?.message ?? "Login failed"}`);
                 throw new Error("Login failed"); 
             }
             return data;

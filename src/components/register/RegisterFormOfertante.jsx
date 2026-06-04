@@ -57,7 +57,7 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
                 data = null;
             }
             if (!response.ok) {
-                setErrorVerification(`Error: ${data.message}`);
+                setErrorVerification(`Error: ${data?.message ?? "No se pudo verificar la empresa"}`);
                 throw new Error("Verification failed"); 
             }
             return data;
@@ -119,14 +119,14 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
             }
             if (!response.ok) {
                 console.log(`Data log: ${data}`)
-                setErrorRegister(`Error: ${data.message}`);
+                setErrorRegister(`Error: ${data?.message ?? "No se pudo completar el registro"}`);
                 throw new Error("Register failed"); 
             }
             return data;
         })
         .then((data) => {
             setErrorRegister(null)
-            setResponseOk(`${data.message}`)
+            setResponseOk(`${data?.message ?? ""}`)
             setForm({
             name: "",
             email: "",
