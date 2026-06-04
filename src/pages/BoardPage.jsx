@@ -21,6 +21,9 @@ const BoardPage = () => {
     const [dragError, setDragError] = useState(null)
     const token = localStorage.getItem('token')
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setLoading(true)
+        setError(null)
         fetch(`${BASE_URL}/postulante/${id}/board`, {
             headers: { Authorization: `Bearer ${token}` }
         })

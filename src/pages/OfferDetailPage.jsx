@@ -19,6 +19,8 @@ const OfferDetailPage = () => {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
+        setLoading(true)
+        setError(null)
         fetch(`http://localhost:8080/oferta/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
