@@ -2,13 +2,20 @@ import {createContext, useState, useCallback, useMemo} from "react";
 
 const UserContext = createContext()
 
+const loadStoredUser = () => {
+    const stored = localStorage.getItem("user")
+    if (!stored) return undefined
+    try {
+        return JSON.parse(stored)
+    } catch {
+        localStorage.removeItem("user")
+        return undefined
+    }
+}
+
 function UserProvider ({children}) {
-    const [user, setUser] = useState(() => {
-        const stored = localStorage.getItem("user");
-        if (!stored) { return undefined; }
-        return JSON.parse(stored);
-    })
-    const [isLogged, setIsLogged] = useState(() => localStorage.getItem("user") !== null)
+    const [user, setUser] = useState(loadStoredUser)
+    const [isLogged, setIsLogged] = useState(() => loadStoredUser() !== undefined)
 
     const setAuth = useCallback((userData) => {
         setUser(userData)
