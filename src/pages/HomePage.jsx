@@ -52,7 +52,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (aiQuery !== null) {
-      fetch(buildAiSearchUrl(aiQuery), {
+      fetch(buildAiSearchUrl(), {
         headers: {
           Authorization: `Bearer ${token}`
         }
