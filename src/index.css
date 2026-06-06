@@ -703,6 +703,150 @@ body {
   transition: 0.5s;
 }
 
+/* CreateOfertaPage */
+
+.create-oferta-page {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.create-oferta-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 2rem 2.5rem;
+}
+
+.create-oferta-card__title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 1.4rem;
+  color: #ff9500;
+  margin: 0 0 1.5rem 0;
+}
+
+.create-oferta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.create-oferta-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.create-oferta-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.create-oferta-form__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(230, 237, 243, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.create-oferta-form__input,
+.create-oferta-form__select,
+.create-oferta-form__textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #e6edf3;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.create-oferta-form__input:focus,
+.create-oferta-form__select:focus,
+.create-oferta-form__textarea:focus {
+  outline: none;
+  border-color: rgba(255, 149, 0, 0.55);
+}
+
+.create-oferta-form__input:disabled {
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+
+.create-oferta-form__select {
+  cursor: pointer;
+}
+
+.create-oferta-form__select option {
+  background: #1c2330;
+  color: #e6edf3;
+}
+
+.create-oferta-form__textarea {
+  resize: vertical;
+  min-height: 160px;
+}
+
+.create-oferta-form__field-error {
+  font-size: 0.8rem;
+  color: #f87171;
+}
+
+.create-oferta-form__submit-error {
+  font-size: 0.875rem;
+  color: #f87171;
+  margin: 0;
+}
+
+.create-oferta-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.create-oferta-form__submit {
+  background-color: #ff9500;
+  color: #0d1117;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.create-oferta-form__submit:hover {
+  opacity: 0.85;
+  border-color: #e6edf3;
+}
+
+.create-oferta-form__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.create-oferta-form__cancel {
+  background: transparent;
+  color: rgba(230, 237, 243, 0.6);
+  font-size: 0.95rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.create-oferta-form__cancel:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e6edf3;
+}
+
 .offer-create-card {
   margin-bottom: 25px;
 }
