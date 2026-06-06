@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 import CvModal from "../components/CvModal"
+import OfferCard from "../components/offers/OfferCard"
 
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
@@ -295,11 +296,31 @@ const PostulantProfilePage = () => {
 
       <div className="postulant-profile__favorite-block">
         <div className="postulant-profile__favorite-grid">
+          {postulant.ofertasFavoritas.length == 0 ?
+          <>
           {Array.from({ length: FAVORITE_SLOTS }).map((_, i) => (
             <div key={i} className="postulant-profile__favorite-slot" aria-label={`Slot Fav ${i + 1}`}>
               <span className="postulant-profile__favorite-slot-icon">＊</span>
             </div>
           ))}
+          </>
+          :
+          <>
+          {postulant.ofertasFavoritas.map((oferta) => 
+
+              <OfferCard 
+                id={oferta.id}
+                title={oferta.titulo}
+                company={oferta.empresa}
+                workType={oferta.modalidad}
+                location={oferta.ubicacion}
+                salaryMin={oferta.sueldoMin}
+                salaryMax={oferta.sueldoMax}
+                favorite={oferta.favorito}
+              />
+          )}
+          </>
+          }
         </div>
       </div>
 

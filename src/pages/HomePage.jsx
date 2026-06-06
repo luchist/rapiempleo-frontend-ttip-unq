@@ -51,6 +51,7 @@ const HomePage = () => {
   const { user } = useContext(UserContext);
 
   const token = localStorage.getItem("token")
+  const userStoraged = JSON.parse(localStorage.getItem("user"))
 
 
   useEffect(() => {
@@ -86,6 +87,8 @@ const HomePage = () => {
     let url
     if (query !== null) {
       url = buildSearchUrl(query)
+    } else if (userStoraged.typeUser) {
+      url = `http://localhost:8080/oferta/recuperarOfertas/${userStoraged.id}`
     } else {
       url = 'http://localhost:8080/oferta/obtenerOfertas'
     }
