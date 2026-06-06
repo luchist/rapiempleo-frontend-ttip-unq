@@ -50,12 +50,12 @@ const RegisterFormPostulante = () => {
 
             try {
                 data = await response.json();
-            } catch (e) {
+            } catch {
                 data = null;
             }
             if (!response.ok) {
                 console.log(`Data log: ${data}`)
-                setErrorRegister(`Error: ${data.message}`);
+                setErrorRegister(`Error: ${data?.message ?? "No se pudo completar el registro"}`);
                 throw new Error("Register failed"); 
             }
             console.log(data)
@@ -67,7 +67,7 @@ const RegisterFormPostulante = () => {
             name: "",
             email: "",
             password: ""})
-            setResponseOk(`${data.message}`)
+            setResponseOk(`${data?.message ?? ""}`)
         })
         .catch((error) => {
           console.error("Error:", error);

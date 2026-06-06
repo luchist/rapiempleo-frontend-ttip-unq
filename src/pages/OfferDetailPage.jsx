@@ -19,6 +19,8 @@ const OfferDetailPage = () => {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
+        setLoading(true)
+        setError(null)
         fetch(`http://localhost:8080/oferta/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -37,7 +39,7 @@ const OfferDetailPage = () => {
                 setError(err.message)
                 setLoading(false)
             })
-    }, [id])
+    }, [id, token])
 
     const spawnParticles = () => {
         const count = 8

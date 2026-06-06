@@ -7,23 +7,12 @@ import NotificationModalPostulante from '../NotificationModalPostulante';
 const Sidebar = () => {
   const [notifs, setNotifs] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
-  const [error, setError] = useState(null)
+  const [_error, setError] = useState(null)
 
   const { user, isLogged, changeLogin, setUser } = useContext(UserContext);
 
   const token = localStorage.getItem("token")
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) return;
-    if (user.typeUser) {
-      fetchNotificationsPostulant();
-    } else {
-      fetchNotificationsOfferer()
-    }
-    setModalOpen(false)
-
-  }, [user]);
 
   const fetchNotificationsOfferer = () => {
     fetch(`http://localhost:8080/ofertante/${user.id}`, {
@@ -68,6 +57,17 @@ const Sidebar = () => {
         setError(err.message)
       })
   }
+
+  useEffect(() => {
+    if (!user) return;
+    if (user.typeUser) {
+      fetchNotificationsPostulant();
+    } else {
+      fetchNotificationsOfferer()
+    }
+    setModalOpen(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, token]);
 
   const handleLogOut = () => {
     localStorage.clear() // Remove key and user
@@ -224,7 +224,7 @@ const Sidebar = () => {
         <span className='sidebar-icon log-out-icon' onClick={() => handleLogOut()}>
           {<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2"
-            strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
+            strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out-icon lucide-log-out">
             <path d="m16 17 5-5-5-5" />
             <path d="M21 12H9" />
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />

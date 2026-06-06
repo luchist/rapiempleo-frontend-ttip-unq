@@ -34,8 +34,7 @@ const buildSearchUrl = (query) => {
   return `http://localhost:8080/search?${urlParams}`
 }
 
-const buildAiSearchUrl = (query) => {
-  const urlParams = new URLSearchParams({ query })
+const buildAiSearchUrl = () => {
   return `http://localhost:8080/ai/context`
 }
 
@@ -49,17 +48,11 @@ const HomePage = () => {
   const [error, setError] = useState(null)
 
   const { user } = useContext(UserContext);
-
   const token = localStorage.getItem("token")
 
-
   useEffect(() => {
-    setLoading(true)
-    setError(null)
-
     if (aiQuery !== null) {
-      setAiLoading(true)
-      fetch(buildAiSearchUrl(aiQuery), {
+      fetch(buildAiSearchUrl(), {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -107,18 +100,23 @@ const HomePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [query, aiQuery])
+  }, [query, aiQuery, token])
 
 
   const handleAiSearch = (value) => {
     setSearchInput(value)
     setAiQuery(value)
+    setLoading(true)
+    setError(null)
+    setAiLoading(true)
   }
 
   const handleSearch = (value) => {
     setAiQuery(null)
     setSearchInput(value)
     setQuery(value)
+    setLoading(true)
+    setError(null)
   }
 
   return (
