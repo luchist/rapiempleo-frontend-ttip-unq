@@ -21,6 +21,7 @@ const CreateOfertaPage = () => {
     const [submitError, setSubmitError] = useState(null)
     const [loading, setLoading] = useState(false)
     const [prefilling, setPrefilling] = useState(true)
+    const [touched, setTouched] = useState({})
 
     useEffect(() => {
         fetch(`${BASE_URL}/ofertante/${id}`, {
@@ -35,10 +36,55 @@ const CreateOfertaPage = () => {
             .finally(() => setPrefilling(false))
     }, [id, token])
 
+    const validateField = (name, value, currentForm) => {
+        switch (name) {
+            case 'titulo': return !value.trim() ? 'El título es requerido.' : null
+            case 'empresa': return !value.trim() ? 'La empresa es requerida.' : null
+            case 'modalidad': return !value ? 'La modalidad es requerida.' : null
+            case 'ubicacion': return !value.trim() ? 'La ubicación es requerida.' : null
+
+            case 'sueldoMin': {
+                if (!value) return 'El sueldo mínimo es requerido.'
+                if (parseInt(value) < 0) return 'Debe ser un valor positivo.'
+                if (currentForm.sueldoMax && parseInt(value) > parseInt(currentForm.sueldoMax))
+                    return 'El sueldo mínimo no puede superar el máximo.'
+                return null
+            }
+            case 'sueldoMax': {
+                if (!value) return 'El sueldo máximo es requerido.'
+                if (parseInt(value) < 0) return 'Debe ser un valor positivo.'
+                if (currentForm.sueldoMin && parseInt(value) < parseInt(currentForm.sueldoMin))
+                    return 'El sueldo máximo debe ser mayor o igual al mínimo.'
+                return null
+            }
+            
+            case 'descripcion': return !value.trim() ? 'La descripción es requerida.' : null
+            default: return null
+        }
+    }
+
     const handleChange = (e) => {
         const { name, value } = e.target
-        setForm(prev => ({ ...prev, [name]: value }))
-        if (errors[name]) setErrors(prev => ({ ...prev, [name]: null }))
+        const updatedForm = { ...form, [name]: value }
+        setForm(updatedForm)
+        if (touched[name]) {
+            const error = validateField(name, value, updatedForm)
+            const sibling = name === 'sueldoMin' ? 'sueldoMax' : name === 'sueldoMax' ? 'sueldoMin' : null
+            setErrors(prev => ({
+                ...prev,
+                [name]: error,
+                ...(sibling && touched[sibling]
+                    ? { [sibling]: validateField(sibling, updatedForm[sibling], updatedForm) }
+                    : {})
+            }))
+        }
+    }
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target
+        setTouched(prev => ({ ...prev, [name]: true }))
+        const error = validateField(name, value, form)
+        setErrors(prev => ({ ...prev, [name]: error }))
     }
 
     const validate = () => {
@@ -47,7 +93,7 @@ const CreateOfertaPage = () => {
         if (!form.empresa.trim()) e.empresa = 'La empresa es requerida.'
         if (!form.modalidad) e.modalidad = 'La modalidad es requerida.'
         if (!form.ubicacion.trim()) e.ubicacion = 'La ubicación es requerida.'
-        
+
         if (!form.sueldoMin) e.sueldoMin = 'El sueldo mínimo es requerido.'
         else if (parseInt(form.sueldoMin) < 0) e.sueldoMin = 'Debe ser un valor positivo.'
         if (!form.sueldoMax) e.sueldoMax = 'El sueldo máximo es requerido.'
@@ -62,6 +108,7 @@ const CreateOfertaPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        setTouched(Object.fromEntries(Object.keys(form).map(k => [k, true])))
         const validationErrors = validate()
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors)
@@ -109,6 +156,7 @@ const CreateOfertaPage = () => {
                             name="titulo"
                             value={form.titulo}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="Ej: Desarrollador Full Stack Sr."
                         />
                         {errors.titulo && <span className="create-oferta-form__field-error">{errors.titulo}</span>}
@@ -120,8 +168,6 @@ const CreateOfertaPage = () => {
                             className="create-oferta-form__input"
                             name="empresa"
                             value={form.empresa}
-                            // onChange={handleChange}
-                            // placeholder="Nombre de la empresa"
                             disabled
                         />
                         {errors.empresa && <span className="create-oferta-form__field-error">{errors.empresa}</span>}
@@ -135,6 +181,7 @@ const CreateOfertaPage = () => {
                                 name="modalidad"
                                 value={form.modalidad}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                             >
                                 <option value="">Seleccionar...</option>
                                 <option value="Presencial">Presencial</option>
@@ -151,6 +198,7 @@ const CreateOfertaPage = () => {
                                 name="ubicacion"
                                 value={form.ubicacion}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                                 placeholder="Ciudad, Provincia"
                             />
                             {errors.ubicacion && <span className="create-oferta-form__field-error">{errors.ubicacion}</span>}
@@ -166,6 +214,7 @@ const CreateOfertaPage = () => {
                                 name="sueldoMin"
                                 value={form.sueldoMin}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                                 placeholder="0"
                                 min="0"
                             />
@@ -180,6 +229,7 @@ const CreateOfertaPage = () => {
                                 name="sueldoMax"
                                 value={form.sueldoMax}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                                 placeholder="0"
                                 min="0"
                             />
@@ -194,6 +244,7 @@ const CreateOfertaPage = () => {
                             name="descripcion"
                             value={form.descripcion}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="Describe el puesto, requisitos, beneficios..."
                             rows={8}
                         />
