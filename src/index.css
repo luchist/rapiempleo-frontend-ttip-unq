@@ -195,9 +195,6 @@ body {
   display: flex;
   flex-direction: column;
   border-left: 3px solid rgba(0, 0, 0, 0.2);
-  /* border-top: 4px solid rgba(34, 219, 195, 0.4);
-  border-bottom: 4px solid rgba(34, 219, 195, 0.4);
-  border-right: 4px solid rgba(34, 219, 195, 0.4); */
   left: 65px;
   padding-left: 2px;
   padding-right: 4px;
@@ -283,6 +280,7 @@ body {
   justify-content: space-between;
   height: 100%;
   width: 100%;
+  cursor: default;
 }
 
 .offer-card:hover {
@@ -307,11 +305,18 @@ body {
 
 .offer-card__favorite {
   display: flex;
-  cursor:default;
   border: 0;
   padding: 0;
   background-color: rgba(255, 255, 255, 0);
   color: rgba(34, 219, 195, 0.3);
+}
+
+.favorite-pointer {
+  cursor: pointer;
+}
+
+.favorite-hidden {
+  visibility: hidden;
 }
 
 .offer-card__footer {
@@ -584,18 +589,7 @@ body {
   gap: 20px;
   padding-top: 15px;
 }
-/*
-.cv-unit-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #8a8a8abb;
-  height: 200px;
-  width: 128px;
-  cursor: pointer;
-  border: 2px solid rgb(255, 255, 255)
-}
-*/
+
 .cv-document {
   position: relative;
 }

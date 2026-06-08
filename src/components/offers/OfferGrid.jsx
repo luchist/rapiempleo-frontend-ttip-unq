@@ -1,7 +1,7 @@
 import OfferCard from './OfferCard'
 import { Link } from 'react-router-dom'
 
-const OfferGrid = ({ offers }) => {
+const OfferGrid = ({ offers, changedFavorite }) => {
   return (
     <div className="offer-grid">
       {offers.map((offer) => (
@@ -15,6 +15,7 @@ const OfferGrid = ({ offers }) => {
             salaryMin={offer.sueldoMin}
             salaryMax={offer.sueldoMax}
             favorite={offer.favorito}
+            changedFavorite={changedFavorite}
           />
         </Link>
       ))}
