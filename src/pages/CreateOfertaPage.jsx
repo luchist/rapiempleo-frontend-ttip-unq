@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import MDEditor from '@uiw/react-md-editor'
 
 const BASE_URL = 'http://localhost:8080'
 
@@ -85,6 +86,26 @@ const CreateOfertaPage = () => {
         setTouched(prev => ({ ...prev, [name]: true }))
         const error = validateField(name, value, form)
         setErrors(prev => ({ ...prev, [name]: error }))
+    }
+
+    const handleDescriptionChange = (val) => {
+        const value = val ?? ''
+        const updatedForm = { ...form, descripcion: value }
+        setForm(updatedForm)
+        if (touched.descripcion) {
+            setErrors(prev => ({
+                ...prev,
+                descripcion: validateField('descripcion', value, updatedForm)
+            }))
+        }
+    }
+
+    const handleDescriptionBlur = () => {
+        setTouched(prev => ({ ...prev, descripcion: true }))
+        setErrors(prev => ({
+            ...prev,
+            descripcion: validateField('descripcion', form.descripcion, form)
+        }))
     }
 
     const validate = () => {
@@ -239,15 +260,19 @@ const CreateOfertaPage = () => {
 
                     <div className="create-oferta-form__group">
                         <label className="create-oferta-form__label">Descripción</label>
-                        <textarea
-                            className="create-oferta-form__textarea"
-                            name="descripcion"
-                            value={form.descripcion}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            placeholder="Describe el puesto, requisitos, beneficios..."
-                            rows={8}
-                        />
+                        <div
+                            data-color-mode="dark"
+                            className="create-oferta-form__md-wrapper"
+                            onBlur={(e) => {
+                                if (!e.currentTarget.contains(e.relatedTarget)) handleDescriptionBlur()
+                            }}
+                        >
+                            <MDEditor
+                                value={form.descripcion}
+                                onChange={handleDescriptionChange}
+                                height={280}
+                            />
+                        </div>
                         {errors.descripcion && <span className="create-oferta-form__field-error">{errors.descripcion}</span>}
                     </div>
 

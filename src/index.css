@@ -791,6 +791,15 @@ body {
   min-height: 160px;
 }
 
+.create-oferta-form__md-wrapper .w-md-editor {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.create-oferta-form__md-wrapper:focus-within .w-md-editor {
+  border-color: rgba(255, 149, 0, 0.55);
+}
+
 .create-oferta-form__field-error {
   font-size: 0.8rem;
   color: #f87171;
