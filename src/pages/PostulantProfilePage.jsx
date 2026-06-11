@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 import CvModal from "../components/CvModal"
-import OfferCard from "../components/offers/OfferCard"
+import OfferCardFavorite from "../components/offers/OfferCardFavorite"
 
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
@@ -22,7 +22,23 @@ const PostulantProfilePage = () => {
   const [cvModalCvPath, setCvModalCvPath] = useState(null)
   const [profilePicUrl, setProfilePicUrl] = useState(null)
   const [profilePicError, setProfilePicError] = useState(null)
+  const [ofertasFavoritas, setOfertasFavoritas] = useState([])
   const fileInputRef = useRef(null)
+  const favoritesRef = useRef(null)
+
+  const scrollLeft = () => {
+    favoritesRef.current?.scrollBy({
+      left: -300,
+      behavior: 'smooth'
+    })
+  }
+  
+  const scrollRight = () => {
+    favoritesRef.current?.scrollBy({
+      left: 300,
+      behavior: 'smooth'
+    })
+  }
 
   useEffect(() => {
     return () => { if (profilePicUrl) URL.revokeObjectURL(profilePicUrl) }
@@ -43,6 +59,7 @@ const PostulantProfilePage = () => {
       })
       .then(data => {
         setPostulant(data)
+        setOfertasFavoritas(data.ofertasFavoritas)
         const slots = Array(CV_SLOTS).fill(null)
         data.cvPaths.forEach((path, i) => {
           if (i < CV_SLOTS) slots[i] = path
@@ -188,6 +205,12 @@ const PostulantProfilePage = () => {
     event.target.value = null
   }
 
+  const handleRemoveFavorite = (idToRemove) => {
+    const ofertasModified = ofertasFavoritas.filter(oferta => oferta.id !== idToRemove)
+    setOfertasFavoritas(ofertasModified)
+  }
+
+
   if (loading) return <p>Cargando perfil...</p>
   if (error) return <p>Error: {error}</p>
   return (
@@ -295,34 +318,42 @@ const PostulantProfilePage = () => {
       <h3 className="postulant-profile__section-title"><span className="accent">▍</span>Favoritos</h3>
 
       <div className="postulant-profile__favorite-block">
-        <div className="postulant-profile__favorite-grid">
-          {postulant.ofertasFavoritas.length == 0 ?
-          <>
-          {Array.from({ length: FAVORITE_SLOTS }).map((_, i) => (
-            <div key={i} className="postulant-profile__favorite-slot" aria-label={`Slot Fav ${i + 1}`}>
-              <span className="postulant-profile__favorite-slot-icon">＊</span>
-            </div>
-          ))}
-          </>
+          {ofertasFavoritas.length == 0 ?
+          <div className="postulant-profile__favorite-grid">
+            {Array.from({ length: FAVORITE_SLOTS }).map((_, i) => (
+              <div key={i} className="postulant-profile__favorite-slot" aria-label={`Slot Fav ${i + 1}`}>
+                <span className="postulant-profile__favorite-slot-icon">＊</span>
+              </div>
+            ))}
+          </div>
           :
-          <>
-          {postulant.ofertasFavoritas.map((oferta) => 
-
-              <OfferCard 
-                id={oferta.id}
-                title={oferta.titulo}
-                company={oferta.empresa}
-                workType={oferta.modalidad}
-                location={oferta.ubicacion}
-                salaryMin={oferta.sueldoMin}
-                salaryMax={oferta.sueldoMax}
-                favorite={oferta.favorito}
-              />
-          )}
-          </>
+          <div className="favorite-container">
+            <div className="postulant-profile__favorite-grid" ref={favoritesRef}>
+              {ofertasFavoritas.map((oferta) => 
+                  <OfferCardFavorite key={oferta.id}
+                    id={oferta.id}
+                    title={oferta.titulo}
+                    company={oferta.empresa}
+                    workType={oferta.modalidad}
+                    salaryMin={oferta.sueldoMin}
+                    salaryMax={oferta.sueldoMax}
+                    favorite={oferta.favorito}
+                    handleRemove={handleRemoveFavorite}
+                  />
+              )}
+            </div>
+            <div className="favorite-scroll-arrows">
+              <button className="favorite-arrow " onClick={() => scrollLeft()}>
+                ◀
+              </button>
+              <button className="favorite-arrow" onClick={() => scrollRight()}>
+                ▶
+              </button>
+            </div>
+            
+          </div>
           }
         </div>
-      </div>
 
     </div>
   )

@@ -1,0 +1,75 @@
+.offer-card-favorite {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 180px;
+  max-width: 270px;
+  min-width: 240px;
+  cursor: default;
+}
+
+.offer-card-favorite:hover {
+  border-color: rgba(255, 149, 0, 0.4);
+  box-shadow: 0 8px 30px rgba(255, 149, 0, 0.08);
+}
+
+.offer-card-favorite__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+}
+
+.offer-card-favorite__company {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.offer-card-favorite__favorite-icon {
+  display: flex;
+  border: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0);
+  color: rgba(34, 219, 195, 0.3);
+  cursor: pointer;
+}
+/*
+.favorite-pointer {
+  cursor: pointer;
+}
+*/
+
+.offer-card-favorite__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 0 0;
+}
+
+.offer-card-favorite__title {
+  margin: 0;
+  font-family: Geist Mono, monospace;
+  font-size: 17px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.offer-card-favorite__salary {
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+.offer-card-favorite__work-type {
+  font-size: 13px;
+  color: rgba(93, 85, 85, 0.6);
+  margin-top: 0px;
+  margin-bottom: auto;
+}

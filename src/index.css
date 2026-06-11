@@ -1014,8 +1014,26 @@ body {
   display: flex;
   flex-direction: row;
   gap: 12px;
-  overflow-x: scroll;
   padding-bottom: 5px;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  
+}
+
+.postulant-profile__favorite-grid::-webkit-scrollbar {
+  display: none; 
+}
+
+.favorite-scroll-arrows {
+  display: flex;
+  width: 860px;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.favorite-arrow {
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .postulant-profile__favorite-slot {
