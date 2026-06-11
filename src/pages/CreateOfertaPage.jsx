@@ -24,6 +24,7 @@ const CreateOfertaPage = () => {
     const [submitError, setSubmitError] = useState(null)
     const [loading, setLoading] = useState(false)
     const [prefilling, setPrefilling] = useState(true)
+    const [prefillFailed, setPrefillFailed] = useState(false)
     const [touched, setTouched] = useState({})
 
     useEffect(() => {
@@ -39,7 +40,7 @@ const CreateOfertaPage = () => {
                 return res.json()
             })
             .then(data => setForm(prev => ({ ...prev, empresa: data.empresa })))
-            .catch(() => {})
+            .catch(() => setPrefillFailed(true))
             .finally(() => setPrefilling(false))
     }, [id, token])
 
@@ -195,8 +196,11 @@ const CreateOfertaPage = () => {
                             className="create-oferta-form__input"
                             name="empresa"
                             value={form.empresa}
-                            disabled
+                            disabled={!prefillFailed}
+                            onChange={prefillFailed ? handleChange : undefined}
+                            onBlur={prefillFailed ? handleBlur : undefined}
                         />
+                        {prefillFailed && <span className="create-oferta-form__field-hint">No se pudo cargar la empresa automáticamente.</span>}
                         {errors.empresa && <span className="create-oferta-form__field-error">{errors.empresa}</span>}
                     </div>
 

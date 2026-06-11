@@ -805,6 +805,11 @@ body {
   color: #f87171;
 }
 
+.create-oferta-form__field-hint {
+  font-size: 0.8rem;
+  color: rgba(255, 149, 0, 0.8);
+}
+
 .create-oferta-form__submit-error {
   font-size: 0.875rem;
   color: #f87171;
