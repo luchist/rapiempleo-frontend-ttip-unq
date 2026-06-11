@@ -270,7 +270,7 @@ const CreateOfertaPage = () => {
                             <MDEditor
                                 value={form.descripcion}
                                 onChange={handleDescriptionChange}
-                                preview="live"
+                                preview="edit"
                                 height={320}
                                 textareaProps={{
                                     placeholder: "Describe las responsabilidades, requisitos y beneficios del puesto...",
@@ -295,6 +295,9 @@ const CreateOfertaPage = () => {
                                     commands.heading, commands.hr, commands.divider,
                                     commands.unorderedListCommand, commands.orderedListCommand, commands.checkedListCommand, commands.divider,
                                     commands.link, commands.quote, commands.code, commands.codeBlock, commands.divider
+                                ]}
+                                extraCommands={[
+                                    commands.codeEdit,commands.codePreview
                                 ]}
                             />
                         </div>
