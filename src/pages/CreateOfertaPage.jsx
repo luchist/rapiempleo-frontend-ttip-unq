@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import MDEditor ,  { commands } from '@uiw/react-md-editor'
+import rehypeSanitize from 'rehype-sanitize'
 import UserContext from '../components/UserProvider'
 
 const BASE_URL = 'http://localhost:8080'
@@ -272,6 +273,9 @@ const CreateOfertaPage = () => {
                                 onChange={handleDescriptionChange}
                                 preview="edit"
                                 height={320}
+                                previewOptions={{
+                                    rehypePlugins: [[rehypeSanitize]],
+                                }}
                                 textareaProps={{
                                     placeholder: "Describe las responsabilidades, requisitos y beneficios del puesto...",
                                     maxLength: 5000

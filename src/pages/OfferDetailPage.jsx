@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
+import rehypeSanitize from 'rehype-sanitize'
 
 import UserContext from '../components/UserProvider'
 
@@ -109,7 +110,7 @@ const OfferDetailPage = () => {
 
             <div className="offer-detail__body">
                 {offer.descripcion
-                    ? <ReactMarkdown>{offer.descripcion}</ReactMarkdown>
+                    ? <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{offer.descripcion}</ReactMarkdown>
                     : <p className="offer-detail__no-description">Descripción no disponible.</p>
                 }
             </div>
