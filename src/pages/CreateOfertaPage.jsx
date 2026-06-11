@@ -53,15 +53,15 @@ const CreateOfertaPage = () => {
 
             case 'sueldoMin': {
                 if (!value) return 'El sueldo mínimo es requerido.'
-                if (parseInt(value) < 0) return 'Debe ser un valor positivo.'
-                if (currentForm.sueldoMax && parseInt(value) > parseInt(currentForm.sueldoMax))
+                if (parseInt(value, 10) < 0) return 'Debe ser un valor positivo.'
+                if (currentForm.sueldoMax && parseInt(value, 10) > parseInt(currentForm.sueldoMax, 10))
                     return 'El sueldo mínimo no puede superar el máximo.'
                 return null
             }
             case 'sueldoMax': {
                 if (!value) return 'El sueldo máximo es requerido.'
-                if (parseInt(value) < 0) return 'Debe ser un valor positivo.'
-                if (currentForm.sueldoMin && parseInt(value) < parseInt(currentForm.sueldoMin))
+                if (parseInt(value, 10) < 0) return 'Debe ser un valor positivo.'
+                if (currentForm.sueldoMin && parseInt(value, 10) < parseInt(currentForm.sueldoMin, 10))
                     return 'El sueldo máximo debe ser mayor o igual al mínimo.'
                 return null
             }
@@ -143,10 +143,10 @@ const CreateOfertaPage = () => {
             body: JSON.stringify({
                 titulo: form.titulo.trim(),
                 empresa: form.empresa.trim(),
-                descripcion: form.descripcion,
+                descripcion: form.descripcion.trim(),
                 modalidad: form.modalidad,
-                sueldoMin: parseInt(form.sueldoMin),
-                sueldoMax: parseInt(form.sueldoMax),
+                sueldoMin: parseInt(form.sueldoMin, 10),
+                sueldoMax: parseInt(form.sueldoMax, 10),
                 ubicacion: form.ubicacion.trim(),
             })
         })
@@ -297,7 +297,7 @@ const CreateOfertaPage = () => {
                                     commands.link, commands.quote, commands.code, commands.codeBlock, commands.divider
                                 ]}
                                 extraCommands={[
-                                    commands.codeEdit,commands.codePreview
+                                    commands.codeEdit, commands.codePreview
                                 ]}
                             />
                         </div>
