@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import MDEditor ,  { commands } from '@uiw/react-md-editor'
+import UserContext from '../components/UserProvider'
 
 const BASE_URL = 'http://localhost:8080'
 
 const CreateOfertaPage = () => {
     const { id } = useParams()
     const navigate = useNavigate()
+    const { user } = useContext(UserContext)
     const token = localStorage.getItem('token')
 
     const [form, setForm] = useState({
@@ -23,6 +25,10 @@ const CreateOfertaPage = () => {
     const [loading, setLoading] = useState(false)
     const [prefilling, setPrefilling] = useState(true)
     const [touched, setTouched] = useState({})
+
+    useEffect(() => {
+        if (user && String(user.id) !== id) navigate(`/ofertante/${id}`)
+    }, [user, id, navigate])
 
     useEffect(() => {
         fetch(`${BASE_URL}/ofertante/${id}`, {
