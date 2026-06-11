@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useState, useEffect, useRef, useContext } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import OfferCardOfertante from '../components/offers/OfferCardOfertante'
 import CvModal from '../components/CvModal'
+import UserContext from '../components/UserProvider'
 
 const BASE_URL = "http://localhost:8080"
 const MAX_SIZE_BYTES = 5 * 1024 * 1024
@@ -9,6 +10,9 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
 
 const UserOfferingPage = () => {
     const { id } = useParams()
+    const navigate = useNavigate()
+    const { user } = useContext(UserContext)
+    const isOwner = user && String(user.id) === id
     const [loading, setLoading] = useState(true)
     const [userOf, setUserOf] = useState(null)
     const [error, setError] = useState(null)
@@ -293,9 +297,14 @@ const UserOfferingPage = () => {
                 <div className="section-offers">
                     <div className="offers-header">
                         <h2 className="title-offers">Ofertas creadas</h2>
-                        <button className='create-offer-button'>
-                            Crear nueva oferta
-                        </button>
+                        {isOwner && (
+                            <button
+                                className='create-offer-button'
+                                onClick={() => navigate(`/ofertante/${id}/create-oferta`)}
+                            >
+                                Crear nueva oferta
+                            </button>
+                        )}
                     </div>
                     <div className="list-created-offers">
                         {userOf.ofertasCreadas.map((offer) => (
