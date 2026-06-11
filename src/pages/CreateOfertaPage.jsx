@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import MDEditor from '@uiw/react-md-editor'
+import MDEditor ,  { commands } from '@uiw/react-md-editor'
 
 const BASE_URL = 'http://localhost:8080'
 
@@ -270,7 +270,32 @@ const CreateOfertaPage = () => {
                             <MDEditor
                                 value={form.descripcion}
                                 onChange={handleDescriptionChange}
-                                height={280}
+                                preview="live"
+                                height={320}
+                                textareaProps={{
+                                    placeholder: "Describe las responsabilidades, requisitos y beneficios del puesto...",
+                                    maxLength: 5000
+                                }}
+                                commands={[
+                                    commands.bold, commands.italic, commands.strikethrough, commands.divider,
+                                    commands.group(
+                                    [
+                                        commands.title1,
+                                        commands.title2,
+                                        commands.title3,
+                                        commands.title4,
+                                        commands.title5,
+                                        commands.title6
+                                    ],
+                                    {
+                                        name: "title",
+                                        groupName: "title",
+                                        buttonProps: { "aria-label": "Insert title", "title": "Insert title" }
+                                    }),
+                                    commands.heading, commands.hr, commands.divider,
+                                    commands.unorderedListCommand, commands.orderedListCommand, commands.checkedListCommand, commands.divider,
+                                    commands.link, commands.quote, commands.code, commands.codeBlock, commands.divider
+                                ]}
                             />
                         </div>
                         {errors.descripcion && <span className="create-oferta-form__field-error">{errors.descripcion}</span>}
