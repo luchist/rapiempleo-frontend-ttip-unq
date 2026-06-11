@@ -143,7 +143,6 @@ const CreateOfertaPage = () => {
             },
             body: JSON.stringify({
                 titulo: form.titulo.trim(),
-                empresa: form.empresa.trim(),
                 descripcion: form.descripcion.trim(),
                 modalidad: form.modalidad,
                 sueldoMin: parseInt(form.sueldoMin, 10),
