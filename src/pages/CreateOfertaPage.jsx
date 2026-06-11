@@ -116,22 +116,12 @@ const CreateOfertaPage = () => {
     }
 
     const validate = () => {
-        const e = {}
-        if (!form.titulo.trim()) e.titulo = 'El título es requerido.'
-        if (!form.empresa.trim()) e.empresa = 'La empresa es requerida.'
-        if (!form.modalidad) e.modalidad = 'La modalidad es requerida.'
-        if (!form.ubicacion.trim()) e.ubicacion = 'La ubicación es requerida.'
-
-        if (!form.sueldoMin) e.sueldoMin = 'El sueldo mínimo es requerido.'
-        else if (parseInt(form.sueldoMin) < 0) e.sueldoMin = 'Debe ser un valor positivo.'
-        if (!form.sueldoMax) e.sueldoMax = 'El sueldo máximo es requerido.'
-        else if (parseInt(form.sueldoMax) < 0) e.sueldoMax = 'Debe ser un valor positivo.'
-        if (form.sueldoMin && form.sueldoMax && parseInt(form.sueldoMin) > parseInt(form.sueldoMax))
-            e.sueldoMax = 'El sueldo máximo debe ser mayor o igual al mínimo.'
-
-        if (!form.descripcion.trim()) e.descripcion = 'La descripción es requerida.'
-
-        return e
+        const errors = {}
+        Object.keys(form).forEach(field => {
+            const error = validateField(field, form[field], form)
+            if (error) errors[field] = error
+        })
+        return errors
     }
 
     const handleSubmit = (e) => {
