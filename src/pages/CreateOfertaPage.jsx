@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import MDEditor ,  { commands } from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
@@ -27,6 +27,7 @@ const CreateOfertaPage = () => {
     const [prefilling, setPrefilling] = useState(true)
     const [prefillFailed, setPrefillFailed] = useState(false)
     const [touched, setTouched] = useState({})
+    const markdownFileInputRef = useRef(null)
 
     useEffect(() => {
         if (user && String(user.id) !== id) navigate(`/ofertante/${id}`)
@@ -108,6 +109,49 @@ const CreateOfertaPage = () => {
         }
     }
 
+    const handleMarkdownUpload = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+        if (!file.name.toLowerCase().endsWith('.md')) {
+            setErrors(prev => ({ ...prev, descripcion: 'Solo se permiten archivos .md' }))
+            setTouched(prev => ({ ...prev, descripcion: true }))
+            e.target.value = ''
+            return
+        }
+        if (file.size > 20000) {
+            setErrors(prev => ({ ...prev, descripcion: 'El archivo es demasiado grande (máx. ~5000 caracteres)' }))
+            setTouched(prev => ({ ...prev, descripcion: true }))
+            e.target.value = ''
+            return
+        }
+        const reader = new FileReader()
+        reader.onload = (ev) => {
+            handleDescriptionChange(ev.target.result.slice(0, 5000))
+            setTouched(prev => ({ ...prev, descripcion: true }))
+        }
+        reader.onerror = () => {
+            setErrors(prev => ({ ...prev, descripcion: 'Error al leer el archivo. Intente de nuevo.' }))
+            setTouched(prev => ({ ...prev, descripcion: true }))
+        }
+        reader.readAsText(file)
+        e.target.value = ''
+    }
+
+    const withTooltip = (cmd, label) => ({ ...cmd, buttonProps: { 'aria-label': label, title: label } })
+
+    const uploadMarkdownCommand = {
+        name: 'uploadMd',
+        keyCommand: 'uploadMd',
+        buttonProps: { 'aria-label': 'Cargar archivo .md', title: 'Cargar archivo .md' },
+        icon: (
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+            </svg>
+        ),
+        execute: () => markdownFileInputRef.current?.click(),
+    }
+
     const handleDescriptionBlur = () => {
         setTouched(prev => ({ ...prev, descripcion: true }))
         setErrors(prev => ({
@@ -163,6 +207,7 @@ const CreateOfertaPage = () => {
 
     return (
         <div className="create-oferta-page">
+            <input type="file" accept=".md" ref={markdownFileInputRef} style={{ display: 'none' }} onChange={handleMarkdownUpload} />
             <div className="create-oferta-card">
                 <h1 className="create-oferta-card__title">Nueva oferta de trabajo</h1>
                 <form className="create-oferta-form" onSubmit={handleSubmit} noValidate>
@@ -280,27 +325,55 @@ const CreateOfertaPage = () => {
                                     maxLength: 5000
                                 }}
                                 commands={[
-                                    commands.bold, commands.italic, commands.strikethrough, commands.divider,
+                                    withTooltip(commands.bold, 'Negrita (ctrl + b)'),
+                                    withTooltip(commands.italic, 'Cursiva (ctrl + i)'),
+                                    withTooltip(commands.strikethrough, 'Tachado (ctrl + shift + x)'),
+                                    commands.divider,
+                                    withTooltip(commands.heading, 'Insertar título'),
                                     commands.group(
                                     [
-                                        commands.title1,
-                                        commands.title2,
-                                        commands.title3,
-                                        commands.title4,
-                                        commands.title5,
-                                        commands.title6
+                                        withTooltip(commands.title1, 'Encabezado 1 (ctrl + 1)'),
+                                        withTooltip(commands.title2, 'Encabezado 2 (ctrl + 2)'),
+                                        withTooltip(commands.title3, 'Encabezado 3 (ctrl + 3)'),
+                                        withTooltip(commands.title4, 'Encabezado 4 (ctrl + 4)'),
+                                        withTooltip(commands.title5, 'Encabezado 5 (ctrl + 5)'),
+                                        withTooltip(commands.title6, 'Encabezado 6 (ctrl + 6)'),
                                     ],
                                     {
                                         name: "title",
                                         groupName: "title",
-                                        buttonProps: { "aria-label": "Insert title", "title": "Insert title" }
+                                        buttonProps: { "aria-label": "Insertar títulos...", "title": "Insertar títulos..." }
                                     }),
-                                    commands.heading, commands.hr, commands.divider,
-                                    commands.unorderedListCommand, commands.orderedListCommand, commands.checkedListCommand, commands.divider,
-                                    commands.link, commands.quote, commands.code, commands.codeBlock, commands.divider
+                                    withTooltip(commands.hr, 'Línea horizontal (ctrl + h)'),
+                                    commands.divider,
+                                    withTooltip(commands.unorderedListCommand, 'Lista sin orden (ctrl + shift + u)'),
+                                    withTooltip(commands.orderedListCommand, 'Lista ordenada (ctrl + shift + o)'),
+                                    withTooltip(commands.checkedListCommand, 'Lista con casillas (ctrl + shift + c)'),
+                                    commands.divider,
+                                    withTooltip(commands.link, 'Insertar enlace (ctrl + l)'),
+                                    withTooltip(commands.quote, 'Insertar cita (ctrl + q)'),
+                                    withTooltip(commands.code, 'Código en línea (ctrl + j)'),
+                                    withTooltip(commands.codeBlock, 'Bloque de código (ctrl + shift + j)'),
                                 ]}
                                 extraCommands={[
-                                    commands.codeEdit, commands.codePreview
+                                    commands.divider, uploadMarkdownCommand, commands.divider,
+                                    {
+                                        ...withTooltip(commands.codeEdit, 'Editar (ctrl + 7)'),
+                                        icon: (
+                                            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
+                                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                                            </svg>
+                                        ),
+                                    },
+                                    {
+                                        ...withTooltip(commands.codePreview, 'Vista previa (ctrl + 9)'),
+                                        icon: (
+                                            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.822-2.214C4.433 4.33 6.09 2.5 8 2.5s3.567 1.83 5.005 3.286A13 13 0 0 1 14.827 8a13 13 0 0 1-1.822 2.214C11.567 11.67 9.91 13.5 8 13.5s-3.567-1.83-5.005-3.286A13 13 0 0 1 1.173 8"/>
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                            </svg>
+                                        ),
+                                    },
                                 ]}
                             />
                         </div>
