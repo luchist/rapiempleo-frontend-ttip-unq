@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import MDEditor ,  { commands } from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
@@ -27,6 +27,7 @@ const CreateOfertaPage = () => {
     const [prefilling, setPrefilling] = useState(true)
     const [prefillFailed, setPrefillFailed] = useState(false)
     const [touched, setTouched] = useState({})
+    const markdownFileInputRef = useRef(null)
 
     useEffect(() => {
         if (user && String(user.id) !== id) navigate(`/ofertante/${id}`)
@@ -108,6 +109,31 @@ const CreateOfertaPage = () => {
         }
     }
 
+    const handleMarkdownUpload = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+        const reader = new FileReader()
+        reader.onload = (ev) => {
+            handleDescriptionChange(ev.target.result)
+            setTouched(prev => ({ ...prev, descripcion: true }))
+        }
+        reader.readAsText(file)
+        e.target.value = ''
+    }
+
+    const uploadMarkdownCommand = {
+        name: 'uploadMd',
+        keyCommand: 'uploadMd',
+        buttonProps: { 'aria-label': 'Cargar archivo .md', title: 'Cargar archivo .md' },
+        icon: (
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+            </svg>
+        ),
+        execute: () => markdownFileInputRef.current?.click(),
+    }
+
     const handleDescriptionBlur = () => {
         setTouched(prev => ({ ...prev, descripcion: true }))
         setErrors(prev => ({
@@ -163,6 +189,7 @@ const CreateOfertaPage = () => {
 
     return (
         <div className="create-oferta-page">
+            <input type="file" accept=".md" ref={markdownFileInputRef} style={{ display: 'none' }} onChange={handleMarkdownUpload} />
             <div className="create-oferta-card">
                 <h1 className="create-oferta-card__title">Nueva oferta de trabajo</h1>
                 <form className="create-oferta-form" onSubmit={handleSubmit} noValidate>
@@ -297,9 +324,10 @@ const CreateOfertaPage = () => {
                                     }),
                                     commands.heading, commands.hr, commands.divider,
                                     commands.unorderedListCommand, commands.orderedListCommand, commands.checkedListCommand, commands.divider,
-                                    commands.link, commands.quote, commands.code, commands.codeBlock, commands.divider
+                                    commands.link, commands.quote, commands.code, commands.codeBlock
                                 ]}
                                 extraCommands={[
+                                    commands.divider, uploadMarkdownCommand, commands.divider,
                                     commands.codeEdit, commands.codePreview
                                 ]}
                             />
