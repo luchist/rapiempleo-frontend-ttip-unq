@@ -210,6 +210,38 @@ const PostulantProfilePage = () => {
     setOfertasFavoritas(ofertasModified)
   }
 
+    const handleRemoveCV = (e, idCv, cvPath) => {
+      e.stopPropagation()
+
+      fetch(`${BASE_URL}/postulante/removeCV`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          idPostulante : id,
+          cvPath : cvPath
+        }),
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Error al eliminar el CV")
+        return res.text()
+      })
+      .then(data => {
+        const updatedSlots = cvSlots.filter(slot => slot !== cvPath)
+        updatedSlots.push(null)
+        setCvSlots(updatedSlots)
+        if (updatedSlots.every(slot => slot == null)) {
+          setCvFavorito(null)
+        } else if (cvPath === cvFavorito) {
+          const firstAvailable = updatedSlots.find(slot => slot != null)
+          setCvFavorito(firstAvailable)
+        }
+      })
+      .catch(err => console.error(err))
+  }
+
 
   if (loading) return <p>Cargando perfil...</p>
   if (error) return <p>Error: {error}</p>
@@ -302,6 +334,14 @@ const PostulantProfilePage = () => {
                     >
                       ★
                     </button>
+
+                    <button
+                      className="postulant-profile__cv-slot-remove"
+                      onClick={(e) => handleRemoveCV(e, i, cvPath)}
+                      title={`Eliminar CV`}
+                    >
+                      ✖
+                    </button>
                   </>
                 ) : (
                   <span className="postulant-profile__cv-slot-icon">＋</span>
@@ -342,16 +382,20 @@ const PostulantProfilePage = () => {
                   />
               )}
             </div>
+            {ofertasFavoritas.length > 3 ?
             <div className="favorite-scroll-arrows">
-              <button className="favorite-arrow " onClick={() => scrollLeft()}>
+              <button className="favorite-arrow left-arrow" onClick={() => scrollLeft()}>
                 ◀
               </button>
-              <button className="favorite-arrow" onClick={() => scrollRight()}>
+              <button className="favorite-arrow right-arrow" onClick={() => scrollRight()}>
                 ▶
               </button>
             </div>
-            
+            :
+            <></>
+            }
           </div>
+          
           }
         </div>
 
