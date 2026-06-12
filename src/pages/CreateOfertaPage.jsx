@@ -121,6 +121,8 @@ const CreateOfertaPage = () => {
         e.target.value = ''
     }
 
+    const withTooltip = (cmd, label) => ({ ...cmd, buttonProps: { 'aria-label': label, title: label } })
+
     const uploadMarkdownCommand = {
         name: 'uploadMd',
         keyCommand: 'uploadMd',
@@ -307,28 +309,40 @@ const CreateOfertaPage = () => {
                                     maxLength: 5000
                                 }}
                                 commands={[
-                                    commands.bold, commands.italic, commands.strikethrough, commands.divider,
+                                    withTooltip(commands.bold, 'Negrita (ctrl + b)'),
+                                    withTooltip(commands.italic, 'Cursiva (ctrl + i)'),
+                                    withTooltip(commands.strikethrough, 'Tachado (ctrl + shift + x)'),
+                                    commands.divider,
+                                    withTooltip(commands.heading, 'Insertar título'),
                                     commands.group(
                                     [
-                                        commands.title1,
-                                        commands.title2,
-                                        commands.title3,
-                                        commands.title4,
-                                        commands.title5,
-                                        commands.title6
+                                        withTooltip(commands.title1, 'Encabezado 1 (ctrl + 1)'),
+                                        withTooltip(commands.title2, 'Encabezado 2 (ctrl + 2)'),
+                                        withTooltip(commands.title3, 'Encabezado 3 (ctrl + 3)'),
+                                        withTooltip(commands.title4, 'Encabezado 4 (ctrl + 4)'),
+                                        withTooltip(commands.title5, 'Encabezado 5 (ctrl + 5)'),
+                                        withTooltip(commands.title6, 'Encabezado 6 (ctrl + 6)'),
                                     ],
                                     {
                                         name: "title",
                                         groupName: "title",
-                                        buttonProps: { "aria-label": "Insert title", "title": "Insert title" }
+                                        buttonProps: { "aria-label": "Insertar títulos...", "title": "Insertar títulos..." }
                                     }),
-                                    commands.heading, commands.hr, commands.divider,
-                                    commands.unorderedListCommand, commands.orderedListCommand, commands.checkedListCommand, commands.divider,
-                                    commands.link, commands.quote, commands.code, commands.codeBlock
+                                    withTooltip(commands.hr, 'Línea horizontal (ctrl + h)'),
+                                    commands.divider,
+                                    withTooltip(commands.unorderedListCommand, 'Lista sin orden (ctrl + shift + u)'),
+                                    withTooltip(commands.orderedListCommand, 'Lista ordenada (ctrl + shift + o)'),
+                                    withTooltip(commands.checkedListCommand, 'Lista con casillas (ctrl + shift + c)'),
+                                    commands.divider,
+                                    withTooltip(commands.link, 'Insertar enlace (ctrl + l)'),
+                                    withTooltip(commands.quote, 'Insertar cita (ctrl + q)'),
+                                    withTooltip(commands.code, 'Código en línea (ctrl + j)'),
+                                    withTooltip(commands.codeBlock, 'Bloque de código (ctrl + shift + j)'),
                                 ]}
                                 extraCommands={[
                                     commands.divider, uploadMarkdownCommand, commands.divider,
-                                    commands.codeEdit, commands.codePreview
+                                    withTooltip(commands.codeEdit, 'Editar (ctrl + 7)'),
+                                    withTooltip(commands.codePreview, 'Vista previa (ctrl + 9)'),
                                 ]}
                             />
                         </div>
