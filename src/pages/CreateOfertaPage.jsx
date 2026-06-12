@@ -114,12 +114,23 @@ const CreateOfertaPage = () => {
         if (!file) return
         if (!file.name.toLowerCase().endsWith('.md')) {
             setErrors(prev => ({ ...prev, descripcion: 'Solo se permiten archivos .md' }))
+            setTouched(prev => ({ ...prev, descripcion: true }))
+            e.target.value = ''
+            return
+        }
+        if (file.size > 20000) {
+            setErrors(prev => ({ ...prev, descripcion: 'El archivo es demasiado grande (máx. ~5000 caracteres)' }))
+            setTouched(prev => ({ ...prev, descripcion: true }))
             e.target.value = ''
             return
         }
         const reader = new FileReader()
         reader.onload = (ev) => {
-            handleDescriptionChange(ev.target.result)
+            handleDescriptionChange(ev.target.result.slice(0, 5000))
+            setTouched(prev => ({ ...prev, descripcion: true }))
+        }
+        reader.onerror = () => {
+            setErrors(prev => ({ ...prev, descripcion: 'Error al leer el archivo. Intente de nuevo.' }))
             setTouched(prev => ({ ...prev, descripcion: true }))
         }
         reader.readAsText(file)
