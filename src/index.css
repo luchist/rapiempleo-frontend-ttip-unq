@@ -460,6 +460,22 @@ body {
   cursor: not-allowed;
 }
 
+.offer-detail__favorite {
+  display: flex;
+  border: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0);
+  color: rgba(34, 219, 195, 0.3);
+}
+
+.favorite-pointer {
+  cursor: pointer;
+}
+
+.favorite-hidden {
+  visibility: hidden;
+}
+
 
 .apply-particle {
   position: absolute;
