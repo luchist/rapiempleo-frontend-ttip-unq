@@ -11,10 +11,6 @@ const KEY_MAP = {
   ubicacion: 'location',
 }
 
-
-
-
-
 const HomePage = () => {
   const [query, setQuery] = useState(null)
   const [aiQuery, setAiQuery] = useState(null)
@@ -51,9 +47,6 @@ const HomePage = () => {
 
   const buildSearchUrl = (query) => {
     const params = parseQuery(query)
-    if (userStoraged.typeUser) {
-      params.idPostulante = userStoraged.id
-    }
     const urlParams = new URLSearchParams(params)
     return `http://localhost:8080/search?${urlParams}`
   }
@@ -97,7 +90,7 @@ const HomePage = () => {
     if (query !== null) {
       url = buildSearchUrl(query)
     } else if (userStoraged.typeUser) {
-      url = `http://localhost:8080/oferta/recuperarOfertas/${userStoraged.id}`
+      url = `http://localhost:8080/oferta/recuperarOfertasYFavoritos`
     } else {
       url = 'http://localhost:8080/oferta/obtenerOfertas'
     }
