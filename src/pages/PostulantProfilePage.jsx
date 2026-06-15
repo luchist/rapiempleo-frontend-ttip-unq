@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 import CvModal from "../components/CvModal"
+import OfferCardFavorite from "../components/offers/OfferCardFavorite"
 
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
@@ -21,7 +22,23 @@ const PostulantProfilePage = () => {
   const [cvModalCvPath, setCvModalCvPath] = useState(null)
   const [profilePicUrl, setProfilePicUrl] = useState(null)
   const [profilePicError, setProfilePicError] = useState(null)
+  const [ofertasFavoritas, setOfertasFavoritas] = useState([])
   const fileInputRef = useRef(null)
+  const favoritesRef = useRef(null)
+
+  const scrollLeft = () => {
+    favoritesRef.current?.scrollBy({
+      left: -300,
+      behavior: 'smooth'
+    })
+  }
+  
+  const scrollRight = () => {
+    favoritesRef.current?.scrollBy({
+      left: 300,
+      behavior: 'smooth'
+    })
+  }
 
   useEffect(() => {
     return () => { if (profilePicUrl) URL.revokeObjectURL(profilePicUrl) }
@@ -42,6 +59,7 @@ const PostulantProfilePage = () => {
       })
       .then(data => {
         setPostulant(data)
+        setOfertasFavoritas(data.ofertasFavoritas)
         const slots = Array(CV_SLOTS).fill(null)
         data.cvPaths.forEach((path, i) => {
           if (i < CV_SLOTS) slots[i] = path
@@ -187,6 +205,44 @@ const PostulantProfilePage = () => {
     event.target.value = null
   }
 
+  const handleRemoveFavorite = (idToRemove) => {
+    const ofertasModified = ofertasFavoritas.filter(oferta => oferta.id !== idToRemove)
+    setOfertasFavoritas(ofertasModified)
+  }
+
+    const handleRemoveCV = (e, idCv, cvPath) => {
+      e.stopPropagation()
+
+      fetch(`${BASE_URL}/postulante/removeCV`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          idPostulante : id,
+          cvPath : cvPath
+        }),
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Error al eliminar el CV")
+        return res.text()
+      })
+      .then(() => {
+        const updatedSlots = cvSlots.filter(slot => slot !== cvPath)
+        updatedSlots.push(null)
+        setCvSlots(updatedSlots)
+        if (updatedSlots.every(slot => slot == null)) {
+          setCvFavorito(null)
+        } else if (cvPath === cvFavorito) {
+          const firstAvailable = updatedSlots.find(slot => slot != null)
+          setCvFavorito(firstAvailable)
+        }
+      })
+      .catch(err => console.error(err))
+  }
+
+
   if (loading) return <p>Cargando perfil...</p>
   if (error) return <p>Error: {error}</p>
   return (
@@ -278,6 +334,14 @@ const PostulantProfilePage = () => {
                     >
                       ★
                     </button>
+
+                    <button
+                      className="postulant-profile__cv-slot-remove"
+                      onClick={(e) => handleRemoveCV(e, i, cvPath)}
+                      title={`Eliminar CV`}
+                    >
+                      ✖
+                    </button>
                   </>
                 ) : (
                   <span className="postulant-profile__cv-slot-icon">＋</span>
@@ -294,14 +358,45 @@ const PostulantProfilePage = () => {
       <h3 className="postulant-profile__section-title"><span className="accent">▍</span>Favoritos</h3>
 
       <div className="postulant-profile__favorite-block">
-        <div className="postulant-profile__favorite-grid">
-          {Array.from({ length: FAVORITE_SLOTS }).map((_, i) => (
-            <div key={i} className="postulant-profile__favorite-slot" aria-label={`Slot Fav ${i + 1}`}>
-              <span className="postulant-profile__favorite-slot-icon">＊</span>
+          {ofertasFavoritas.length == 0 ?
+          <div className="postulant-profile__favorite-grid">
+            {Array.from({ length: FAVORITE_SLOTS }).map((_, i) => (
+              <div key={i} className="postulant-profile__favorite-slot" aria-label={`Slot Fav ${i + 1}`}>
+                <span className="postulant-profile__favorite-slot-icon">＊</span>
+              </div>
+            ))}
+          </div>
+          :
+          <div className="favorite-container">
+            <div className="postulant-profile__favorite-grid" ref={favoritesRef}>
+              {ofertasFavoritas.map((oferta) => 
+                  <OfferCardFavorite key={oferta.id}
+                    id={oferta.id}
+                    title={oferta.titulo}
+                    company={oferta.empresa}
+                    workType={oferta.modalidad}
+                    salaryMin={oferta.sueldoMin}
+                    salaryMax={oferta.sueldoMax}
+                    handleRemove={handleRemoveFavorite}
+                  />
+              )}
             </div>
-          ))}
+            {ofertasFavoritas.length > 3 ?
+            <div className="favorite-scroll-arrows">
+              <button className="favorite-arrow left-arrow" onClick={() => scrollLeft()}>
+                ◀
+              </button>
+              <button className="favorite-arrow right-arrow" onClick={() => scrollRight()}>
+                ▶
+              </button>
+            </div>
+            :
+            <></>
+            }
+          </div>
+          
+          }
         </div>
-      </div>
 
     </div>
   )

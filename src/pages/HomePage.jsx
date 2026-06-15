@@ -11,33 +11,6 @@ const KEY_MAP = {
   ubicacion: 'location',
 }
 
-const parseQuery = (query) => {
-  if (!query.includes(':')) {
-    return { title: query }
-  }
-  const params = {}
-  query.split(',').forEach((part) => {
-    const [rawKey, ...rest] = part.split(':')
-    const key = rawKey.trim().toLowerCase()
-    const value = rest.join(':').trim()
-    const mappedKey = KEY_MAP[key]
-    if (mappedKey && value) {
-      params[mappedKey] = value
-    }
-  })
-  return params
-}
-
-const buildSearchUrl = (query) => {
-  const params = parseQuery(query)
-  const urlParams = new URLSearchParams(params)
-  return `http://localhost:8080/search?${urlParams}`
-}
-
-const buildAiSearchUrl = () => {
-  return `http://localhost:8080/ai/context`
-}
-
 const HomePage = () => {
   const [query, setQuery] = useState(null)
   const [aiQuery, setAiQuery] = useState(null)
@@ -49,6 +22,35 @@ const HomePage = () => {
 
   const { user } = useContext(UserContext);
   const token = localStorage.getItem("token")
+  const userStoraged = JSON.parse(localStorage.getItem("user"))
+
+  const parseQuery = (query) => {
+    if (!query.includes(':')) {
+      return { title: query }
+    }
+    const params = {}
+    query.split(',').forEach((part) => {
+      const [rawKey, ...rest] = part.split(':')
+      const key = rawKey.trim().toLowerCase()
+      const value = rest.join(':').trim()
+      const mappedKey = KEY_MAP[key]
+      if (mappedKey && value) {
+        params[mappedKey] = value
+      }
+    })
+    return params
+  }
+
+
+  const buildSearchUrl = (query) => {
+    const params = parseQuery(query)
+    const urlParams = new URLSearchParams(params)
+    return `http://localhost:8080/search?${urlParams}`
+  }
+
+  const buildAiSearchUrl = () => {
+    return `http://localhost:8080/ai/context`
+  }
 
   useEffect(() => {
     if (aiQuery !== null) {
@@ -75,10 +77,11 @@ const HomePage = () => {
         })
       return
     }
-
     let url
     if (query !== null) {
       url = buildSearchUrl(query)
+    } else if (userStoraged.typeUser) {
+      url = `http://localhost:8080/oferta/recuperarOfertasYFavoritos`
     } else {
       url = 'http://localhost:8080/oferta/obtenerOfertas'
     }
@@ -119,6 +122,17 @@ const HomePage = () => {
     setError(null)
   }
 
+  const handleFavoriteChanged = (offerId, newFavoriteState) => {
+    console.log("Updating offer", offerId, newFavoriteState)
+    setOffers(prev =>
+      prev.map(offer =>
+        offer.id === offerId
+          ? { ...offer, favorito: newFavoriteState }
+          : offer
+      )
+    )
+  }
+
   return (
     <div>
       <SearchBar
@@ -139,7 +153,7 @@ const HomePage = () => {
           </h2>
           {loading && <p>Cargando ofertas...</p>}
           {error && <p>Error: {error}</p>}
-          {!loading && !error && <OfferGrid offers={offers} />}
+          {!loading && !error && <OfferGrid offers={offers} changedFavorite={handleFavoriteChanged}/>}
         </>
       )}
     </div>

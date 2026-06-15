@@ -14,6 +14,7 @@ const OfferDetailPage = () => {
 
     const [hasApplied, setHasApplied] = useState(false)
     const [particles, setParticles] = useState([])
+    const [stateFavorite, setStateFavorite] = useState(null)
     const btnRef = useRef(null)
 
     const token = localStorage.getItem("token");
@@ -33,6 +34,7 @@ const OfferDetailPage = () => {
             })
             .then(data => {
                 setOffer(data)
+                setStateFavorite(data.favorito)
                 setHasApplied(data.yaPostulado)
                 setLoading(false)
             })
@@ -79,6 +81,46 @@ const OfferDetailPage = () => {
         }
     }
 
+    const handleFavorite = () => {
+    if (stateFavorite) {
+      fetch(`http://localhost:8080/postulante/removeFavorito/${user.id}/${offer.id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('No pudo sacar favorito a la oferta')
+        return res.text()
+      })
+      .then(
+        setStateFavorite(false)
+      )
+      .catch(err => {
+        setError(err.message)
+      })
+
+    } else {
+
+      fetch(`http://localhost:8080/postulante/addFavorito/${user.id}/${offer.id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('No pudo dar favorito a la oferta')
+        return res.text()
+      })
+      .then(
+        setStateFavorite(true)
+      )
+      .catch(err => {
+        setError(err.message)
+      })
+    }
+  }
+
     if (loading) return <p>Cargando oferta...</p>
     if (error) return (
         <div className="offer-detail">
@@ -114,28 +156,38 @@ const OfferDetailPage = () => {
                     : <p className="offer-detail__no-description">Descripción no disponible.</p>
                 }
             </div>
-
-            {/* Contenedor relativo para que las partículas se posicionen respecto al btn */}
-            <div style={{ position: 'relative', width: 'fit-content' }}>
-                {particles.map(p => (
-                    <span
-                        key={p.id}
-                        className="apply-particle"
-                        style={{
-                            '--tx': `${p.x}px`,
-                            '--ty': `${p.y}px`,
-                        }}
-                    />
-                ))}
-                <button
-                    ref={btnRef}
-                    type="button"
-                    className={`offer-detail__apply-btn${hasApplied ? ' offer-detail__apply-btn--applied' : ''
-                        }`}
-                    onClick={handleApply}
-                    disabled={applying || hasApplied}
-                >
-                    {applying ? 'Enviando...' : hasApplied ? '✓ Enviado' : 'Postularse'}
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '15px'}}>
+                {/* Contenedor relativo para que las partículas se posicionen respecto al btn */}
+                <div style={{ position: 'relative', width: 'fit-content' }}>
+                    {particles.map(p => (
+                        <span
+                            key={p.id}
+                            className="apply-particle"
+                            style={{
+                                '--tx': `${p.x}px`,
+                                '--ty': `${p.y}px`,
+                            }}
+                        />
+                    ))}
+                    <button
+                        ref={btnRef}
+                        type="button"
+                        className={`offer-detail__apply-btn${hasApplied ? ' offer-detail__apply-btn--applied' : ''
+                            }`}
+                        onClick={handleApply}
+                        disabled={applying || hasApplied}
+                    >
+                        {applying ? 'Enviando...' : hasApplied ? '✓ Enviado' : 'Postularse'}
+                    </button>
+                </div>
+                <button className={`offer-detail__favorite ${user.typeUser ? "favorite-pointer" : "favorite-hidden"}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleFavorite();
+                    }}>
+                    <svg fill={stateFavorite ? "currentColor" : "none"} xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
                 </button>
             </div>
         </div>

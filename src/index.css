@@ -195,9 +195,6 @@ body {
   display: flex;
   flex-direction: column;
   border-left: 3px solid rgba(0, 0, 0, 0.2);
-  /* border-top: 4px solid rgba(34, 219, 195, 0.4);
-  border-bottom: 4px solid rgba(34, 219, 195, 0.4);
-  border-right: 4px solid rgba(34, 219, 195, 0.4); */
   left: 65px;
   padding-left: 2px;
   padding-right: 4px;
@@ -283,6 +280,7 @@ body {
   justify-content: space-between;
   height: 100%;
   width: 100%;
+  cursor: default;
 }
 
 .offer-card:hover {
@@ -306,7 +304,19 @@ body {
 }
 
 .offer-card__favorite {
+  display: flex;
+  border: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0);
   color: rgba(34, 219, 195, 0.3);
+}
+
+.favorite-pointer {
+  cursor: pointer;
+}
+
+.favorite-hidden {
+  visibility: hidden;
 }
 
 .offer-card__footer {
@@ -450,6 +460,22 @@ body {
   cursor: not-allowed;
 }
 
+.offer-detail__favorite {
+  display: flex;
+  border: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0);
+  color: rgba(34, 219, 195, 0.3);
+}
+
+.favorite-pointer {
+  cursor: pointer;
+}
+
+.favorite-hidden {
+  visibility: hidden;
+}
+
 
 .apply-particle {
   position: absolute;
@@ -514,24 +540,37 @@ body {
 /* Página Ofertante y OfferCard de página*/
 
 .section-name {
+  display : flex;
+  flex-direction: row;
+  align-items: center;
   background-color: #b86a2d;
-  padding: 3px 0 3px 20px;
+  padding: 10px 20px 8px 20px;
   margin-bottom: 20px;
   border: 3px solid rgba(33, 197, 175, 0.3);
+}
+.name-section {
+  flex: 1;
+  display: flex;
+  
 }
 
 .title-name {
   text-decoration-color: azure;
   text-shadow: #0d1117;
-  margin-top: 12px
+  margin-left: 10px;
+  margin-top: 6px
 }
 
+.company-section {
+  flex: 1;
+}
 
 .separation-user {
-  border: '3px double white';
-  border-color: white;
-  margin-left: 0;
-  width: 50%;
+  width: 2px;
+  height: 70px;
+  background-color: white;
+  margin: 0 10px 0 -60px;
+  
 }
 
 .grid-cv-visor-offer {
@@ -567,38 +606,57 @@ body {
   padding-top: 15px;
 }
 
-.cv-unit-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #8a8a8abb;
-  height: 200px;
-  width: 128px;
+.cv-document {
+  position: relative;
+}
+
+.cv-document .cv-svg {
+    cursor: pointer;
+    stroke: white;
+}
+
+.cv-document:hover .cv-svg {
+  stroke: rgb(3, 177, 200);
+}
+
+.cv-document.CONSIDERACION .cv-svg {
+    stroke: #009603;
+}
+
+.cv-document.RECHAZADO .cv-svg {
+    stroke: #930000;
+}
+
+.cv-name {
+  position: absolute;
+  top: 35%;
+  padding: 0 1px;
+  text-align: center;
+  overflow:visible;
   cursor: pointer;
-  border: 2px solid rgb(255, 255, 255)
 }
 
-.cv-unit-section.CONSIDERACION {
-  border: 2px solid rgb(12, 158, 1)
+.cv-label-tooltip {
+    position: absolute;
+    font-size: small;
+
+    bottom: 3%;
+    left: 65%;
+    transform: translateX(-50%);
+
+    background: #e9d5ff;
+    color: black;
+    border: 1px solid black;
+
+    padding: 2px 5px;
+    white-space: nowrap;
+
+    visibility: hidden;
 }
 
-.cv-unit-section.RECHAZADO {
-  border: 2px solid rgb(159, 5, 5)
-}
-
-.cv-unit-section:hover {
-  border: 2px solid aqua;
-  opacity: 0.9;
-}
-
-.temporal-cv-unit-text {
-  padding: 12px;
-}
-
-.cv-unit-footer {
-  padding: 4px;
-  font-size: small;
-  overflow-x: hidden;
+.cv-document:hover .cv-label-tooltip {
+    visibility: visible;
+    opacity: 1;
 }
 
 .cv-unit-buttons-section {
@@ -607,26 +665,34 @@ body {
 }
 
 .cv-unit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  border: 2px solid rgb(194, 194, 194);
-  height: 30px;
+  border: 3px solid rgb(204, 204, 204);
+  height: 33px;
   width: 66px;
+  
 }
 
 .cv-unit-button.tick {
   background-color:green;
+  border-bottom-left-radius: 10px;
 }
 
 .cv-unit-button.cross {
   background-color: brown;
+  border-bottom-right-radius: 10px;
 }
 
 .cv-unit-button-unique {
   position: relative;
-  background-color:darkgrey;
+  background-color:rgb(145, 145, 145);
   width: 132px;
-  border: 2px solid rgb(114, 114, 114);
+  border: 3px solid rgb(204, 204, 204);
   border-top: 1px solid black;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .cv-unit-button-unique:disabled {
@@ -1122,6 +1188,42 @@ body {
   display: flex;
   flex-direction: row;
   gap: 12px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  
+}
+
+.postulant-profile__favorite-grid::-webkit-scrollbar {
+  display: none; 
+}
+
+.favorite-scroll-arrows {
+  display: flex;
+  width: 860px;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.favorite-arrow {
+  flex-shrink: 0;
+  cursor: pointer;
+  border: 2px solid rgb(207, 206, 206);
+}
+
+.favorite-arrow:hover {
+  border: 2px solid rgb(198, 97, 25);
+  transition: 0.2s;
+}
+
+.favorite-arrow.left-arrow {
+  border-top-left-radius: 9px;
+  border-bottom-left-radius: 9px;
+}
+
+.favorite-arrow.right-arrow {
+  border-top-right-radius: 9px;
+  border-bottom-right-radius: 9px;
 }
 
 .postulant-profile__favorite-slot {
@@ -1199,6 +1301,32 @@ body {
   color: #ff9500;
   border-color: rgba(255, 149, 0, 0.8);
   background: rgba(255, 149, 0, 0.25);
+}
+
+.postulant-profile__cv-slot-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(197, 17, 17, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  color: rgba(240, 239, 239, 0.853);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.postulant-profile__cv-slot-remove:hover {
+  border-color: rgba(212, 96, 1, 0.839);
+  background: rgba(253, 26, 26, 0.741);
+
 }
 
 .cv-modal__overlay {

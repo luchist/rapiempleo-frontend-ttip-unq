@@ -219,9 +219,13 @@ const UserOfferingPage = () => {
                     )}
                 </div>
                 {profilePicError && <p className="profile-pic__error">{profilePicError}</p>}
-                <h1 className="title-name">{userOf.nombre}</h1>
-                <hr className="separation-user" />
-                <h1 className="title-name">Empresa : {userOf.empresa}</h1>
+                <div className="name-section">
+                    <h1 className="title-name">{userOf.nombre}</h1>
+                </div>
+                <div className="separation-user"></div>
+                <div className="company-section">
+                    <h1 className="title-name">Empresa : {userOf.empresa}</h1>
+                </div>
             </div>
             <div className="grid-cv-visor-offer">
                 <div className="section-visor">
@@ -236,14 +240,22 @@ const UserOfferingPage = () => {
                             <div className="all-cv-section">
                                 {offersCV.map((cv) => (
                                     <div className="cv-unit-wrapper">
-                                        <div className={`cv-unit-section ${cv.estadoCv}`}
+                                        <div className={`cv-document ${cv.estadoCv || "ESPERA"}`}
                                             onClick={() => handleOpenCV(cv.id_postulante, cv.cvPathPostulacion, cv.id_oferta, cv.estadoCv)}>
-                                            <div className="temporal-cv-unit-text">
-                                                Haga click para ver en detalle el CV :
-                                            </div>
-                                            <div className="cv-unit-footer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" display="block"
+                                                width="137" height="170" viewBox="3.8 7.5 17 8.3" fill="#646464c0" 
+                                                strokeWidth="0.38" strokeLinecap="round" strokeLinejoin="round"
+                                                fontWeight="300"
+                                                className="cv-svg lucide lucide-file-icon lucide-file">
+                                                <path d="M6 22 H4 V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8 V22 Z"/>
+                                                <path d="M14 2v5a1 1 0 0 0 1 1h5"/>
+                                            </svg>
+                                            <span className="cv-name">
                                                 {cv.cvPathPostulacion.split('/').pop()}
-                                            </div>
+                                            </span>
+                                            <span className='cv-label-tooltip'>
+                                                Haga click para ver el CV en detalle
+                                            </span>
                                         </div>
                                         {cv.estadoCv == "RECHAZADO" || cv.estadoCv == "CONSIDERACION" ?
                                             <div className="cv-unit-buttons-section">
