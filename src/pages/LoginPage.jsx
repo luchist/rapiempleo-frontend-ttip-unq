@@ -51,12 +51,12 @@ const LoginPage = () => {
 
             try {
                 data = await response.json();
-            } catch (e) {
+            } catch {
                 data = null;
             }
             if (!response.ok) {
                 console.log(`Data log: ${data}`)
-                setErrorLogin(`Error: ${data.message}`);
+                setErrorLogin(`Error: ${data?.message ?? "Login failed"}`);
                 throw new Error("Login failed"); 
             }
             return data;

@@ -21,6 +21,9 @@ const BoardPage = () => {
     const [dragError, setDragError] = useState(null)
     const token = localStorage.getItem('token')
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setLoading(true)
+        setError(null)
         fetch(`${BASE_URL}/postulante/${id}/board`, {
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -36,7 +39,7 @@ const BoardPage = () => {
                 setError(err.message)
                 setLoading(false)
             })
-    }, [id])
+    }, [id, token])
 
     const moveCardToColumn = (prev, cardId, targetEstado, destIndex) => {
         const card = prev.find(p => p.id_postulacion_estado === cardId)
