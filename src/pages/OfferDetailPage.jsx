@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
+import rehypeSanitize from 'rehype-sanitize'
 
 import UserContext from '../components/UserProvider'
 
@@ -20,6 +21,8 @@ const OfferDetailPage = () => {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
+        setLoading(true)
+        setError(null)
         fetch(`http://localhost:8080/oferta/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -39,7 +42,7 @@ const OfferDetailPage = () => {
                 setError(err.message)
                 setLoading(false)
             })
-    }, [id])
+    }, [id, token])
 
     const spawnParticles = () => {
         const count = 8
@@ -149,7 +152,7 @@ const OfferDetailPage = () => {
 
             <div className="offer-detail__body">
                 {offer.descripcion
-                    ? <ReactMarkdown>{offer.descripcion}</ReactMarkdown>
+                    ? <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{offer.descripcion}</ReactMarkdown>
                     : <p className="offer-detail__no-description">Descripción no disponible.</p>
                 }
             </div>

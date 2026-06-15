@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage'
 import { UserProvider } from './components/UserProvider'
 import BoardPage from './pages/BoardPage'
 import OfertanteRegisterPage from './pages/OfertanteRegisterPage'
+import CreateOfertaPage from './pages/CreateOfertaPage'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="register" element={<OfertanteRegisterPage />}/>
             <Route path="ofertas/:id" element={<OfferDetailPage />}/>
             <Route path="ofertante/:id" element={<UserOfferingPage />}/>
+            <Route path="ofertante/:id/create-oferta" element={<CreateOfertaPage />}/>
             <Route path="postulante/:id" element={<PostulantProfilePage />}/>
             <Route path="postulante/:id/board" element={<BoardPage />}/>
           </Route>

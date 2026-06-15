@@ -53,16 +53,16 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
 
             try {
                 data = await response.json();
-            } catch (e) {
+            } catch {
                 data = null;
             }
             if (!response.ok) {
-                setErrorVerification(`Error: ${data.message}`);
+                setErrorVerification(`Error: ${data?.message ?? "No se pudo verificar la empresa"}`);
                 throw new Error("Verification failed"); 
             }
             return data;
         })
-        .then((data) => {
+        .then(() => {
             setErrorVerification(null)
             setBusinessVerified(true)
         })
@@ -114,19 +114,19 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
 
             try {
                 data = await response.json();
-            } catch (e) {
+            } catch {
                 data = null;
             }
             if (!response.ok) {
                 console.log(`Data log: ${data}`)
-                setErrorRegister(`Error: ${data.message}`);
+                setErrorRegister(`Error: ${data?.message ?? "No se pudo completar el registro"}`);
                 throw new Error("Register failed"); 
             }
             return data;
         })
         .then((data) => {
             setErrorRegister(null)
-            setResponseOk(`${data.message}`)
+            setResponseOk(`${data?.message ?? ""}`)
             setForm({
             name: "",
             email: "",
@@ -207,7 +207,7 @@ const RegisterFormOfertante = ({setReturnToLogin}) => {
                                 viewBox="0 0 24 24" fill="none" 
                                 stroke="#44c520" strokeWidth="2" 
                                 strokeLinecap="round" strokeLinejoin="round" 
-                                class="lucide lucide-check-line-icon lucide-check-line">
+                                className="lucide lucide-check-line-icon lucide-check-line">
                                 <path d="M20 4L9 15"/>
                                 <path d="M21 19L3 19"/>
                                 <path d="M9 15L4 10"/>

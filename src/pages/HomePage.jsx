@@ -21,11 +21,8 @@ const HomePage = () => {
   const [error, setError] = useState(null)
 
   const { user } = useContext(UserContext);
-
   const token = localStorage.getItem("token")
   const userStoraged = JSON.parse(localStorage.getItem("user"))
-
-
 
   const parseQuery = (query) => {
     if (!query.includes(':')) {
@@ -56,14 +53,9 @@ const HomePage = () => {
     return `http://localhost:8080/ai/context`
   }
 
-
   useEffect(() => {
-    setLoading(true)
-    setError(null)
-
     if (aiQuery !== null) {
-      setAiLoading(true)
-      fetch(buildAiSearchUrl(aiQuery), {
+      fetch(buildAiSearchUrl(), {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -112,18 +104,23 @@ const HomePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [query, aiQuery])
+  }, [query, aiQuery, token])
 
 
   const handleAiSearch = (value) => {
     setSearchInput(value)
     setAiQuery(value)
+    setLoading(true)
+    setError(null)
+    setAiLoading(true)
   }
 
   const handleSearch = (value) => {
     setAiQuery(null)
     setSearchInput(value)
     setQuery(value)
+    setLoading(true)
+    setError(null)
   }
 
   const handleFavoriteChanged = (offerId, newFavoriteState) => {
