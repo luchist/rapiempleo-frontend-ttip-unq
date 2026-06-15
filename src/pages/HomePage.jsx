@@ -52,7 +52,6 @@ const HomePage = () => {
   }
 
   const buildAiSearchUrl = (query) => {
-    const urlParams = new URLSearchParams({ query })
     return `http://localhost:8080/ai/context`
   }
 

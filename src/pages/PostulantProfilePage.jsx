@@ -228,7 +228,7 @@ const PostulantProfilePage = () => {
         if (!res.ok) throw new Error("Error al eliminar el CV")
         return res.text()
       })
-      .then(data => {
+      .then(() => {
         const updatedSlots = cvSlots.filter(slot => slot !== cvPath)
         updatedSlots.push(null)
         setCvSlots(updatedSlots)

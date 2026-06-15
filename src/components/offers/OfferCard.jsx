@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const OfferCard = ({ id, title, company, workType, location, salaryMin, salaryMax, favorite, changedFavorite }) => {
   
   const user = JSON.parse(localStorage.getItem("user"))
-  const navigate = useNavigate()
 
-  const [currentState, setCurrentState] = useState(favorite)
   const [error, setError] = useState()
 
   const handleFavorite = () => {
@@ -22,9 +19,9 @@ const OfferCard = ({ id, title, company, workType, location, salaryMin, salaryMa
         if (!res.ok) throw new Error('Ofertante no encontrado')
         return res.text()
       })
-      .then(data => {
+      .then(
         changedFavorite(id, false)
-      })
+      )
       .catch(err => {
         setError(err.message)
       })
@@ -41,9 +38,9 @@ const OfferCard = ({ id, title, company, workType, location, salaryMin, salaryMa
         if (!res.ok) throw new Error('Ofertante no encontrado')
         return res.text()
       })
-      .then(data => {
+      .then(
         changedFavorite(id, true)
-      })
+      )
       .catch(err => {
         setError(err.message)
       })
@@ -51,6 +48,8 @@ const OfferCard = ({ id, title, company, workType, location, salaryMin, salaryMa
   }
 
   return (
+    <>
+    {error && <p>Error : {error}</p>}
     <div className="offer-card">
       <div className="offer-card__header">
         <span className="offer-card__company accent">{company}</span>
@@ -81,6 +80,7 @@ const OfferCard = ({ id, title, company, workType, location, salaryMin, salaryMa
         </button>
       </div>
     </div>
+    </>
   )
 }
 

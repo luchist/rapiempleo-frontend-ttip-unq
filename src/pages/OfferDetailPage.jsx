@@ -90,9 +90,9 @@ const OfferDetailPage = () => {
         if (!res.ok) throw new Error('No pudo sacar favorito a la oferta')
         return res.text()
       })
-      .then(data => {
+      .then(
         setStateFavorite(false)
-      })
+      )
       .catch(err => {
         setError(err.message)
       })
@@ -109,9 +109,9 @@ const OfferDetailPage = () => {
         if (!res.ok) throw new Error('No pudo dar favorito a la oferta')
         return res.text()
       })
-      .then(data => {
+      .then(
         setStateFavorite(true)
-      })
+      )
       .catch(err => {
         setError(err.message)
       })

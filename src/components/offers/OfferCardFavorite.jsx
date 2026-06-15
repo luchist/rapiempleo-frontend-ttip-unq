@@ -2,12 +2,11 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import "./OfferCardFavorite.css";
 
-const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax, favorite, changedFavorite, handleRemove }) => {
+const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax, favorite, handleRemove }) => {
   
   const user = JSON.parse(localStorage.getItem("user"))
   const navigate = useNavigate()
 
-  const [currentState, setCurrentState] = useState(favorite)
   const [error, setError] = useState()
 
   const handleRemoveFavorite = () => {
@@ -21,9 +20,9 @@ const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax,
       if (!res.ok) throw new Error('Ofertante no encontrado')
       return res.text()
     })
-    .then(data => {
+    .then(
       handleRemove(id)
-    })
+    )
     .catch(err => {
       setError(err.message)
     })
@@ -31,6 +30,8 @@ const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax,
   
 
   return (
+    <>
+    {error && <p>Error: {error}</p> }
     <div className="offer-card-favorite" onClick={() => navigate(`/ofertas/${id}`)}>
       <div className="offer-card-favorite__header">
         <span className="offer-card-favorite__company accent">{company}</span>
@@ -53,6 +54,7 @@ const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax,
         </button>
       </div>
     </div>
+    </>
   )
 }
 
