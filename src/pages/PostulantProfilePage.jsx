@@ -377,7 +377,6 @@ const PostulantProfilePage = () => {
                     workType={oferta.modalidad}
                     salaryMin={oferta.sueldoMin}
                     salaryMax={oferta.sueldoMax}
-                    favorite={oferta.favorito}
                     handleRemove={handleRemoveFavorite}
                   />
               )}

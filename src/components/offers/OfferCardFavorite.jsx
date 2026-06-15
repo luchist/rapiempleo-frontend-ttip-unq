@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import "./OfferCardFavorite.css";
 
-const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax, favorite, handleRemove }) => {
+const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax, handleRemove }) => {
   
   const user = JSON.parse(localStorage.getItem("user"))
   const navigate = useNavigate()

@@ -48,7 +48,7 @@ const HomePage = () => {
     return `http://localhost:8080/search?${urlParams}`
   }
 
-  const buildAiSearchUrl = (query) => {
+  const buildAiSearchUrl = () => {
     return `http://localhost:8080/ai/context`
   }
 
