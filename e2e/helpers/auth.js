@@ -1,5 +1,9 @@
 import { expect } from '@playwright/test'
 
+if (!process.env.E2E_EMAIL || !process.env.E2E_PASSWORD) {
+  throw new Error('E2E_EMAIL and E2E_PASSWORD must be set in .env.test')
+}
+
 const EMAIL = process.env.E2E_EMAIL
 const PASSWORD = process.env.E2E_PASSWORD
 

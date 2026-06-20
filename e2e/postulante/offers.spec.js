@@ -27,17 +27,31 @@ test.describe('Postulante - Offers', () => {
     await expect(applyBtn).toBeDisabled()
   })
 
-  test('already-applied offer shows sent state on revisit without clicking', async ({ page }) => {
-    // Navigates to the same first offer — assumed already applied from the test above
+  test('already-applied offer shows sent state on revisit', async ({ page }) => {
+    // Establish known state: ensure the first offer is applied
     const firstCard = page.locator('.offer-card').first()
     await firstCard.click()
     await page.waitForURL('**/ofertas/**', { timeout: 10_000 })
 
     const applyBtn = page.locator('.offer-detail__apply-btn')
     await expect(applyBtn).toBeVisible({ timeout: 10_000 })
-    // Button must show "✓ Enviado" and be disabled from the initial render — no click needed
-    await expect(applyBtn).toHaveText('✓ Enviado', { timeout: 10_000 })
-    await expect(applyBtn).toBeDisabled()
+    const currentText = await applyBtn.textContent()
+    if (currentText?.trim() !== '✓ Enviado') {
+      await expect(applyBtn).toBeEnabled()
+      await applyBtn.click()
+      await expect(applyBtn).toHaveText('✓ Enviado', { timeout: 10_000 })
+    }
+
+    // Navigate away and come back — verifies persisted state survives a full page load
+    await page.goto('/home')
+    await page.waitForURL('**/home', { timeout: 10_000 })
+    await page.locator('.offer-card').first().click()
+    await page.waitForURL('**/ofertas/**', { timeout: 10_000 })
+
+    const revisitBtn = page.locator('.offer-detail__apply-btn')
+    await expect(revisitBtn).toBeVisible({ timeout: 10_000 })
+    await expect(revisitBtn).toHaveText('✓ Enviado', { timeout: 10_000 })
+    await expect(revisitBtn).toBeDisabled()
   })
 
   // ─── Search ───────────────────────────────────────────────────────────────
@@ -97,9 +111,7 @@ test.describe('Postulante - Offers', () => {
     }
 
     await heartBtn.click()
-    // BUG WATCH: if this fails, the homepage grid may not be reflecting favorito state
-    // from /oferta/recuperarOfertasYFavoritos — check that the API returns favorito: true
-    // on the offer objects (profile favorites section works, so data exists in backend).
+
     await expect(heartSvg).toHaveAttribute('fill', 'currentColor', { timeout: 5_000 })
   })
 

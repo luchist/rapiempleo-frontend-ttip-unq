@@ -1,21 +1,11 @@
 import { test, expect } from '@playwright/test'
-
-const EMAIL    = process.env.E2E_EMAIL
-const PASSWORD = process.env.E2E_PASSWORD
+import { login } from './helpers/auth.js'
 
 test('logs in and applies to first offer', async ({ page }) => {
-  // Login
-  await page.goto('/')
-  await page.getByPlaceholder('E-mail').fill(EMAIL)
-  await page.getByPlaceholder('Contraseña').fill(PASSWORD)
-  await page.getByRole('button', { name: 'Ingresar' }).click()
-
-  // Wait for home
-  await page.waitForURL('**/home', { timeout: 15_000 })
+  await login(page)
 
   // Click first offer card
   const firstCard = page.locator('.offer-card').first()
-  await expect(firstCard).toBeVisible({ timeout: 10_000 })
   await firstCard.click()
 
   // Wait for offer detail page

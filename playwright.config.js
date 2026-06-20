@@ -15,7 +15,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     launchOptions: {
-      slowMo: process.env.SLOW_MO ? parseInt(process.env.SLOW_MO) : 0,
+      slowMo: process.env.SLOW_MO ? (parseInt(process.env.SLOW_MO, 10) || 0) : 0,
     },
   },
   outputDir: 'test-results',
