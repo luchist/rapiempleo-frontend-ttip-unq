@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import MDEditor ,  { commands } from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
 import UserContext from '../components/UserProvider'
+import ErrorAlert from '../components/alerts/ErrorAlert'
+import ConfirmationAlert from '../components/alerts/ConfirmationAlert'
 
 const BASE_URL = 'http://localhost:8080'
 
@@ -28,6 +30,8 @@ const CreateOfertaPage = () => {
     const [prefillFailed, setPrefillFailed] = useState(false)
     const [touched, setTouched] = useState({})
     const markdownFileInputRef = useRef(null)
+    const [errorUploadMD, setErrorUploadMD] = useState(null)
+    const [showConfirmButton, setShowConfirmButton] = useState(false)
 
     useEffect(() => {
         if (user && String(user.id) !== id) navigate(`/ofertante/${id}`)
@@ -114,12 +118,14 @@ const CreateOfertaPage = () => {
         if (!file) return
         if (!file.name.toLowerCase().endsWith('.md')) {
             setErrors(prev => ({ ...prev, descripcion: 'Solo se permiten archivos .md' }))
+            setErrorUploadMD("Solo se permiten archivos .md")
             setTouched(prev => ({ ...prev, descripcion: true }))
             e.target.value = ''
             return
         }
         if (file.size > 20000) {
             setErrors(prev => ({ ...prev, descripcion: 'El archivo es demasiado grande (máx. ~5000 caracteres)' }))
+            setErrorUploadMD("El archivo es demasiado grande (máx. ~5000 caracteres")
             setTouched(prev => ({ ...prev, descripcion: true }))
             e.target.value = ''
             return
@@ -171,14 +177,41 @@ const CreateOfertaPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        
         setTouched(Object.fromEntries(Object.keys(form).map(k => [k, true])))
         const validationErrors = validate()
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors)
             return
         }
+        setShowConfirmButton(true)
         setLoading(true)
         setSubmitError(null)
+    //    fetch(`${BASE_URL}/ofertante/${id}/oferta`, {
+    //        method: 'POST',
+    //        headers: {
+    //            'Content-Type': 'application/json',
+    //            Authorization: `Bearer ${token}`
+    //        },
+    //        body: JSON.stringify({
+    //            titulo: form.titulo.trim(),
+    //            descripcion: form.descripcion.trim(),
+    //            modalidad: form.modalidad,
+    //            sueldoMin: parseInt(form.sueldoMin, 10),
+    //            sueldoMax: parseInt(form.sueldoMax, 10),
+    //            ubicacion: form.ubicacion.trim(),
+    //        })
+    //    })
+    //        .then(res => {
+    //            if (!res.ok) throw new Error('No se pudo crear la oferta. Intente de nuevo.')
+    //            return res.json()
+    //        })
+    //        .then(() => navigate(`/ofertante/${id}`))
+    //        .catch(err => setSubmitError(err.message))
+    //        .finally(() => setLoading(false))
+    }
+
+    const handleConfirm = () => {
         fetch(`${BASE_URL}/ofertante/${id}/oferta`, {
             method: 'POST',
             headers: {
@@ -194,18 +227,40 @@ const CreateOfertaPage = () => {
                 ubicacion: form.ubicacion.trim(),
             })
         })
-            .then(res => {
-                if (!res.ok) throw new Error('No se pudo crear la oferta. Intente de nuevo.')
-                return res.json()
-            })
-            .then(() => navigate(`/ofertante/${id}`))
-            .catch(err => setSubmitError(err.message))
-            .finally(() => setLoading(false))
+        .then(res => {
+            if (!res.ok) throw new Error('No se pudo crear la oferta. Intente de nuevo.')
+            return res.json()
+        })
+        .then(() => {
+            setShowConfirmButton(false)
+            navigate(`/ofertante/${id}`)
+        })
+        .catch(err => setSubmitError(err.message))
+        .finally(() => setLoading(false))
+    }
+
+    const handleCancel = () => {
+        setShowConfirmButton(false)
+        setLoading(false)
     }
 
     if (prefilling) return <p>Cargando...</p>
 
     return (
+        <>
+        <div className="create-oferta-alerts-wrapper">
+            {errorUploadMD ? <ErrorAlert textForError={errorUploadMD} page="create-offer"/> : <></>}
+        </div>
+        <div>
+            {showConfirmButton ? 
+                <ConfirmationAlert 
+                    questionMessage="¿Esta seguro que desea crear la oferta?"
+                    onConfirm={handleConfirm}
+                    onCancel={handleCancel}
+                /> 
+                :
+                <></>}
+        </div>
         <div className="create-oferta-page">
             <input type="file" accept=".md" ref={markdownFileInputRef} style={{ display: 'none' }} onChange={handleMarkdownUpload} />
             <div className="create-oferta-card">
@@ -401,6 +456,7 @@ const CreateOfertaPage = () => {
                 </form>
             </div>
         </div>
+        </>
     )
 }
 

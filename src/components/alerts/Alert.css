@@ -1,0 +1,56 @@
+.alert-corner-right {
+    margin-bottom: 5px;
+}
+
+.alert-corner-right.offerer {
+    width: 360px;
+}
+
+.alert-corner-right.postulant {
+    width: 400px;
+}
+
+.alert-corner-right.create-offer {
+    width: 340px;
+}
+
+.alert-center-top {
+    position: fixed;
+    justify-content: center;
+    top: 20px;
+    
+    margin-bottom: 5px;
+}
+
+.alert-confirmation-center {
+    position: absolute;
+    top: 60%;
+    right: 35%;
+    width: 420px;
+    z-index: 2;
+    text-align: center;
+    border: 3px solid chocolate;
+    border-radius: 6px;
+}
+
+.alert-button-display {
+    display: flex;
+    width: 380px;
+    margin-top: 10px;
+    gap: 20px;
+    justify-content: center;
+}
+
+.alert-button {
+    cursor: pointer;
+    width: 100px;
+    border-radius: 8px;
+    padding: 6px 0;
+    background-color: #ff9500;
+}
+
+.alert-button:hover {
+  opacity: 0.85;
+  border: 2px solid rgb(34, 225, 202);
+  transition: 0.5s;
+}

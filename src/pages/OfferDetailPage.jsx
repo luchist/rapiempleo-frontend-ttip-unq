@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
 
 import UserContext from '../components/UserProvider'
+import ErrorAlertPage from '../components/alerts/ErrorAlertPage'
 
 const OfferDetailPage = () => {
     const { id } = useParams()
@@ -29,7 +30,7 @@ const OfferDetailPage = () => {
             }
         })
             .then(res => {
-                if (!res.ok) throw new Error('Oferta no encontrada')
+                if (!res.ok) throw new Error('Oferta no encontrada o inexistente')
                 return res.json()
             })
             .then(data => {
@@ -125,13 +126,13 @@ const OfferDetailPage = () => {
     if (error) return (
         <div className="offer-detail">
             <Link to="/" className="offer-detail__back">← Volver</Link>
-            <p>{error}</p>
+            <ErrorAlertPage textForError={error}/>
         </div>
     )
     if (!offer) return (
         <div className="offer-detail">
             <Link to="/" className="offer-detail__back">← Volver</Link>
-            <p>Oferta no encontrada.</p>
+            <ErrorAlertPage textForError={error}/>
         </div>
     )
 

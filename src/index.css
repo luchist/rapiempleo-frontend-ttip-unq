@@ -539,14 +539,24 @@ body {
 
 /* Página Ofertante y OfferCard de página*/
 
+
+.offerer-profile__alerts-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 20px;
+  right: 15px;
+}
+
 .section-name {
   display : flex;
   flex-direction: row;
   align-items: center;
-  background-color: #b86a2d;
+  background-color: rgba(132, 69, 5, 0.098);
+  border-radius: 10px;
   padding: 10px 20px 8px 20px;
   margin-bottom: 20px;
-  border: 3px solid rgba(33, 197, 175, 0.3);
+  border: 2px solid #b86a2d;
 }
 .name-section {
   flex: 1;
@@ -777,6 +787,15 @@ body {
   padding: 0 1rem;
 }
 
+.create-oferta-alerts-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 40px;
+  top: 65px
+}
+
+
 .create-oferta-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1003,6 +1022,16 @@ body {
   flex-direction: column;
   gap: 2.5rem;
   max-width: 860px;
+}
+
+.postulant-profile__alerts-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  position: fixed;
+  top: 20px;
+  right: 15px;
+
 }
 
 .postulant-profile__header {

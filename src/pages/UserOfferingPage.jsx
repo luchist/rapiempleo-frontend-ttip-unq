@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import OfferCardOfertante from '../components/offers/OfferCardOfertante'
 import CvModal from '../components/CvModal'
 import UserContext from '../components/UserProvider'
+import ErrorAlert from '../components/alerts/ErrorAlert'
+import ErrorAlertPage from '../components/alerts/ErrorAlertPage'
 
 const BASE_URL = "http://localhost:8080"
 const MAX_SIZE_BYTES = 5 * 1024 * 1024
@@ -27,6 +29,8 @@ const UserOfferingPage = () => {
 
     const [profilePicUrl, setProfilePicUrl] = useState(null)
     const [profilePicError, setProfilePicError] = useState(null)
+    const [errorCVOpen, setErrorCVOpen] = useState(null)
+    const [errorActionCV, setErrorActionCV] = useState(null)
     const profilePicInputRef = useRef(null)
 
     useEffect(() => {
@@ -81,19 +85,19 @@ const UserOfferingPage = () => {
             headers: { Authorization: `Bearer ${token}` },
             body: formData
         })
-            .then(res => { if (!res.ok) throw new Error(); return res.json() })
-            .then(data => {
-                const url = `${BASE_URL}/files/fotos/${data.fotoPath}`
-                return fetch(url, { headers: { Authorization: `Bearer ${token}` } })
-                    .then(r => {
-                        if (!r.ok) throw new Error('No se pudo cargar la imagen de perfil')
-                        return r.blob()
-                    })
-                    .then(blob => URL.createObjectURL(blob))
-            })
-            .then(blobUrl => setProfilePicUrl(blobUrl))
-            .catch(() => setProfilePicError('Error al subir la imagen. Intente de nuevo.'))
-            .finally(() => { e.target.value = null })
+        .then(res => { if (!res.ok) throw new Error(); return res.json() })
+        .then(data => {
+            const url = `${BASE_URL}/files/fotos/${data.fotoPath}`
+            return fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+                .then(r => {
+                    if (!r.ok) throw new Error('No se pudo cargar la imagen de perfil')
+                    return r.blob()
+                })
+                .then(blob => URL.createObjectURL(blob))
+        })
+        .then(blobUrl => setProfilePicUrl(blobUrl))
+        .catch(() => setProfilePicError('Error al subir la imagen. Intente de nuevo.'))
+        .finally(() => { e.target.value = null })
     }
 
     const handleOpenCV = (id_postulante, cvPath, id_oferta, estadoCv) => {
@@ -132,6 +136,7 @@ const UserOfferingPage = () => {
             })
             .catch((err) => {
                 console.error(err)
+                setErrorCVOpen(err.message)
             })
     }
 
@@ -157,7 +162,7 @@ const UserOfferingPage = () => {
             })
         })
             .then(res => {
-                if (!res.ok) throw new Error('Accion en CV no pudo ser procesada')
+                if (!res.ok) throw new Error('No se pudo procesar la acción en el CV seleccionado')
                 return res
             })
             .then(() => {
@@ -168,19 +173,19 @@ const UserOfferingPage = () => {
                 setOffersCV(modifiedCvs)
             })
             .catch(err => {
-                setError(err.message)
+                setErrorActionCV(err.message)
             })
     }
 
     if (loading) return <p>Cargando perfil...</p>
-    if (error) return <p>Error: {error}</p>
+    if (error) return <ErrorAlertPage textForError={error}/>
     return (
         <div>
-            {loading && error &&
-                <div className='section-name'>
-                    <h1 className='title-name'>{error.message}</h1>
-                </div>
-            }
+            <div className="offerer-profile__alerts-wrapper">
+              {profilePicError ? <ErrorAlert textForError={profilePicError} page="offerer"/> : <></>}
+              {errorCVOpen ? <ErrorAlert textForError={errorCVOpen} page="offerer"/> : <></>}
+              {errorActionCV ? <ErrorAlert textForError={errorActionCV} page="offerer"/> : <></>}
+            </div>
             {cvModalOpened && (
                 <CvModal
                     blobUrl={cvModalBlobUrl}

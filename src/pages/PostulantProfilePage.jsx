@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 import CvModal from "../components/CvModal"
 import OfferCardFavorite from "../components/offers/OfferCardFavorite"
+import ErrorAlert from "../components/alerts/ErrorAlert"
+import ErrorAlertPage from "../components/alerts/ErrorAlertPage"
 
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
@@ -25,6 +27,10 @@ const PostulantProfilePage = () => {
   const [ofertasFavoritas, setOfertasFavoritas] = useState([])
   const fileInputRef = useRef(null)
   const favoritesRef = useRef(null)
+  const [errorCVOpen, setErrorCVOpen] = useState(null)
+  const [errorCVFavorite, setErrorCVFavorite] = useState(null)
+  const [errorCVUpload, setErrorCVUpload] = useState(null)
+  const [errorCVRemove, setErrorCVRemove] = useState(null)
 
   const scrollLeft = () => {
     favoritesRef.current?.scrollBy({
@@ -54,7 +60,7 @@ const PostulantProfilePage = () => {
       }
     })
       .then(res => {
-        if (!res.ok) throw new Error('Postulante no encontrado')
+        if (!res.ok) throw new Error('Postulante no encontrado, intente iniciar sesión nuevamente')
         return res.json()
       })
       .then(data => {
@@ -100,7 +106,11 @@ const PostulantProfilePage = () => {
           const blobUrl = URL.createObjectURL(blob)
           setCvModalBlobUrl(blobUrl)
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+            console.error(err)
+            setErrorCVOpen(err.message)
+          }
+        )
     } else {
       currentSlotIndex.current = cvSlots.indexOf(null)
       fileInputRef.current.click()
@@ -109,6 +119,7 @@ const PostulantProfilePage = () => {
 
   const handleSetFavorito = (e, cvPath) => {
     e.stopPropagation()
+    console.log(cvPath)
     fetch(`${BASE_URL}/postulante/${id}/cv/favorito?cvPath=${encodeURIComponent(cvPath)}`, {
       method: 'PATCH',
       headers: {
@@ -119,7 +130,10 @@ const PostulantProfilePage = () => {
         if (!res.ok) throw new Error('No se pudo actualizar el CV favorito')
         setCvFavorito(cvPath)
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+        setErrorCVFavorite(err.message)
+      })
   }
 
   const handleSetFavoritoFromModal = () => {
@@ -132,7 +146,10 @@ const PostulantProfilePage = () => {
         if (!res.ok) throw new Error('No se pudo actualizar el CV favorito')
         setCvFavorito(cvModalCvPath)
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+        setErrorCVFavorite(err.message)
+      })
   }
 
   const handleCloseModal = () => {
@@ -188,7 +205,7 @@ const PostulantProfilePage = () => {
       body: formData
     })
       .then(res => {
-        if (!res.ok) throw new Error("Error al subir el CV")
+        if (!res.ok) throw new Error("No se pudo subir su CV, verifique que sea un pdf")
         return res.json()
       })
       .then(data => {
@@ -200,7 +217,10 @@ const PostulantProfilePage = () => {
           setCvFavorito(data.cvPath)
         }
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+        setErrorCVUpload(err.message)
+      })
 
     event.target.value = null
   }
@@ -225,7 +245,7 @@ const PostulantProfilePage = () => {
         }),
       })
       .then(res => {
-        if (!res.ok) throw new Error("Error al eliminar el CV")
+        if (!res.ok) throw new Error("No se pudo eliminar el CV deseado")
         return res.text()
       })
       .then(() => {
@@ -239,15 +259,24 @@ const PostulantProfilePage = () => {
           setCvFavorito(firstAvailable)
         }
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+        setErrorCVRemove(err.message)
+      })
   }
 
 
   if (loading) return <p>Cargando perfil...</p>
-  if (error) return <p>Error: {error}</p>
+  if (error) return <ErrorAlertPage textForError={error}/>
   return (
     <div className="postulant-profile">
-
+      <div className="postulant-profile__alerts-wrapper">
+        {profilePicError ? <ErrorAlert textForError={profilePicError}  page="postulant"/> : <></>}
+        {errorCVFavorite ? <ErrorAlert textForError={errorCVFavorite}  page="postulant"/> : <></>}
+        {errorCVOpen ? <ErrorAlert textForError={errorCVOpen}  page="postulant"/> : <></>}
+        {errorCVUpload ? <ErrorAlert textForError={errorCVUpload} page="postulant"/> : <></>}
+        {errorCVRemove ? <ErrorAlert textForError={errorCVRemove} page="postulant"/> : <></>}
+      </div>
       <input
         type="file"
         accept=".pdf"
