@@ -17,8 +17,9 @@
 .alert-center-top {
     position: fixed;
     justify-content: center;
+    /*left: 50%;
+    transform: translateX(-50%);*/
     top: 20px;
-    
     margin-bottom: 5px;
 }
 

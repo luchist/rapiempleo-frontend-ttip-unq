@@ -101,6 +101,7 @@ const UserOfferingPage = () => {
     }
 
     const handleOpenCV = (id_postulante, cvPath, id_oferta, estadoCv) => {
+        setErrorCVOpen(null)
         const filename = cvPath.split('/').pop()
         const url = `http://localhost:8080/files/cvs/${id_postulante}/${filename}`
         console.log(url)

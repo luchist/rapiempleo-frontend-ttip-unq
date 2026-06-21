@@ -1,5 +1,4 @@
 import { Alert } from "@mui/material"
-import { useState } from "react";
 import "./Alert.css";
 
 const ErrorAlertPage = ({textForError}) => {

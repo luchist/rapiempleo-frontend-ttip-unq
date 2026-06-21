@@ -324,7 +324,6 @@ const PostulantProfilePage = () => {
             </button>
           )}
         </div>
-        {profilePicError && <p className="profile-pic__error">{profilePicError}</p>}
         <div className="postulant-profile__name-block">
           <h1 className="postulant-profile__name">{postulant.nombre}</h1>
           <div className="postulant-profile__underline" />
