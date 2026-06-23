@@ -31,6 +31,27 @@ const PostulantProfilePage = () => {
   const [errorCVFavorite, setErrorCVFavorite] = useState(null)
   const [errorCVUpload, setErrorCVUpload] = useState(null)
   const [errorCVRemove, setErrorCVRemove] = useState(null)
+  const [isEditingPreference, setIsEditingPreference] = useState(false)
+  const [preferenceText, setPreferenceText] = useState('')
+  const [errorPreferenceSave, setErrorPreferenceSave] = useState(null)
+
+  const handleSavePreference = () => {
+    if (preferenceText.length > 1000) return
+    fetch(`${BASE_URL}/postulante/${id}/preferencia`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ preferencias: preferenceText })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo guardar las preferencias')
+        setPostulant(prev => ({ ...prev, preferencia: preferenceText }))
+        setIsEditingPreference(false)
+      })
+      .catch(err => setErrorPreferenceSave(err.message))
+  }
 
   const scrollLeft = () => {
     favoritesRef.current?.scrollBy({
@@ -65,6 +86,7 @@ const PostulantProfilePage = () => {
       })
       .then(data => {
         setPostulant(data)
+        setPreferenceText(data.preferencia || '')
         setOfertasFavoritas(data.ofertasFavoritas)
         const slots = Array(CV_SLOTS).fill(null)
         data.cvPaths.forEach((path, i) => {
@@ -276,6 +298,7 @@ const PostulantProfilePage = () => {
         {errorCVOpen ? <ErrorAlert textForError={errorCVOpen}  page="postulant"/> : <></>}
         {errorCVUpload ? <ErrorAlert textForError={errorCVUpload} page="postulant"/> : <></>}
         {errorCVRemove ? <ErrorAlert textForError={errorCVRemove} page="postulant"/> : <></>}
+        {errorPreferenceSave ? <ErrorAlert textForError={errorPreferenceSave} page="postulant"/> : <></>}
       </div>
       <input
         type="file"
@@ -333,11 +356,33 @@ const PostulantProfilePage = () => {
       <div className="postulant-profile__body">
 
         <div className="postulant-profile__preference-block">
-          <h3 className="postulant-profile__section-title"><span className="accent">▍</span>Preferencias</h3>
+          <div className="postulant-profile__preference-header">
+            <h3 className="postulant-profile__section-title"><span className="accent">▍</span>Preferencias</h3>
+            <button
+              className="postulant-profile__preference-edit-btn"
+              onClick={isEditingPreference ? handleSavePreference : () => setIsEditingPreference(true)}
+            >
+              {isEditingPreference ? 'Guardar' : 'Editar'}
+            </button>
+          </div>
           <div className="postulant-profile__preference-box">
-            <p className="postulant-profile__preference-text">
-              {postulant.preferencia || ''}
-            </p>
+            {isEditingPreference ? (
+              <>
+                <textarea
+                  className="postulant-profile__preference-textarea"
+                  value={preferenceText}
+                  onChange={e => setPreferenceText(e.target.value)}
+                  maxLength={255}
+                />
+                <span className="postulant-profile__preference-charcount">
+                  {preferenceText.length}/255
+                </span>
+              </>
+            ) : (
+              <p className="postulant-profile__preference-text">
+                {postulant.preferencia || ''}
+              </p>
+            )}
           </div>
         </div>
 
