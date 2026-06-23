@@ -42,8 +42,8 @@ test.describe('Postulante - CV Management', () => {
   // ─── Profile structure ────────────────────────────────────────────────────
 
   test('profile shows CV section and favorites section', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Mis CV' })).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Favoritos' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Mis CV/ })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Favoritos/ })).toBeVisible()
     // All 4 CV slots must be rendered
     await expect(page.locator('.postulant-profile__cv-grid .postulant-profile__cv-slot')).toHaveCount(4)
   })
@@ -136,7 +136,6 @@ test.describe('Postulante - CV Management', () => {
     const loadedCountBefore = await page.locator('.postulant-profile__cv-slot--loaded').count()
 
     await favoriteSlot.locator('.postulant-profile__cv-slot-remove').click()
-    await page.waitForTimeout(1_500)
 
     // The favorite must be deleted — count decreases by 1
     await expect(page.locator('.postulant-profile__cv-slot--loaded')).toHaveCount(

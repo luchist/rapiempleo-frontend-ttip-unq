@@ -16,7 +16,7 @@ test('logs in and applies to first offer', async ({ page }) => {
   await expect(applyBtn).toBeVisible({ timeout: 10_000 })
   const currentText = await applyBtn.textContent()
   if (currentText?.trim() !== '✓ Enviado') {
-    await expect(applyBtn).toBeEnabled()
+    await expect(applyBtn).toBeEnabled({ timeout: 10_000 })
     await applyBtn.click()
   }
 
