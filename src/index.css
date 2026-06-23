@@ -1160,6 +1160,51 @@ body {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.55);
   line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+.postulant-profile__preference-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.postulant-profile__preference-edit-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ff9500;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+
+.postulant-profile__preference-edit-btn:hover {
+  border-color: #ff9500;
+  opacity: 0.85;
+}
+
+.postulant-profile__preference-textarea {
+  width: 100%;
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.postulant-profile__preference-charcount {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: right;
+  align-self: flex-end;
 }
 
 .postulant-profile__cv-block {
