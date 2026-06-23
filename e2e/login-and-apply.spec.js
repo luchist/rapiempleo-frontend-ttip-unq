@@ -14,9 +14,9 @@ test('logs in and applies to first offer', async ({ page }) => {
   // Click apply (guard: skip if already applied in a previous run)
   const applyBtn = page.locator('.offer-detail__apply-btn')
   await expect(applyBtn).toBeVisible({ timeout: 10_000 })
-  await expect(applyBtn).toBeEnabled({ timeout: 10_000 })
   const currentText = await applyBtn.textContent()
   if (currentText?.trim() !== '✓ Enviado') {
+    await expect(applyBtn).toBeEnabled()
     await applyBtn.click()
   }
 
