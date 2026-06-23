@@ -118,25 +118,34 @@ test.describe('Postulante - CV Management', () => {
 
   // ─── CV delete ────────────────────────────────────────────────────────────
 
-  test('cannot delete the favorite CV', async ({ page }) => {
-    // BUG: backend currently allows deleting the favorite CV and auto-reassigns the star to
-    // the next CV. Acceptance criteria: "No se puede borrar un CV si este favorito" — not enforced.
-    // NOTE: The frontend shows no error message on rejection (console.error only) — UX gap.
-    test.fail()
+  test('can delete the favorite CV and star auto-reassigns to another CV', async ({ page }) => {
+    // Correct behavior: backend deletes the favorite CV and automatically promotes another loaded
+    // CV to favorite. Requires at least one other loaded CV for reassignment to occur.
+    const nonFavorite = await ensureNonFavoriteCV(page)
+    if (!nonFavorite) {
+      test.skip(true, 'Only one CV slot in use and it is the favorite — cannot verify star reassignment')
+      return
+    }
 
     const favoriteSlot = page.locator('.postulant-profile__cv-slot--loaded').filter({
       has: page.locator('.postulant-profile__cv-slot-star--active'),
     }).first()
     await expect(favoriteSlot).toBeVisible({ timeout: 5_000 })
 
-    const slotName = await favoriteSlot.locator('.postulant-profile__cv-slot-name').textContent()
+    const favoriteName = await favoriteSlot.locator('.postulant-profile__cv-slot-name').textContent()
     const loadedCountBefore = await page.locator('.postulant-profile__cv-slot--loaded').count()
+
     await favoriteSlot.locator('.postulant-profile__cv-slot-remove').click()
     await page.waitForTimeout(1_500)
 
-    // Backend must reject — loaded count must not decrease and the original filename must still exist
-    await expect(page.locator('.postulant-profile__cv-slot--loaded')).toHaveCount(loadedCountBefore)
-    await expect(page.locator('.postulant-profile__cv-slot-name', { hasText: slotName })).toBeVisible()
+    // The favorite must be deleted — count decreases by 1
+    await expect(page.locator('.postulant-profile__cv-slot--loaded')).toHaveCount(
+      loadedCountBefore - 1, { timeout: 5_000 }
+    )
+    // The deleted CV must no longer appear
+    await expect(page.locator('.postulant-profile__cv-slot-name', { hasText: favoriteName })).not.toBeVisible()
+    // The star must be auto-assigned to some remaining loaded CV
+    await expect(page.locator('.postulant-profile__cv-slot-star--active')).toBeVisible({ timeout: 5_000 })
   })
 
   test('can delete a non-favorite CV and the slot is freed', async ({ page }) => {
