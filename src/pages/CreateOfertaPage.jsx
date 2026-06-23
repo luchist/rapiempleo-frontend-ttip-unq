@@ -187,28 +187,6 @@ const CreateOfertaPage = () => {
         setShowConfirmButton(true)
         setLoading(true)
         setSubmitError(null)
-    //    fetch(`${BASE_URL}/ofertante/${id}/oferta`, {
-    //        method: 'POST',
-    //        headers: {
-    //            'Content-Type': 'application/json',
-    //            Authorization: `Bearer ${token}`
-    //        },
-    //        body: JSON.stringify({
-    //            titulo: form.titulo.trim(),
-    //            descripcion: form.descripcion.trim(),
-    //            modalidad: form.modalidad,
-    //            sueldoMin: parseInt(form.sueldoMin, 10),
-    //            sueldoMax: parseInt(form.sueldoMax, 10),
-    //            ubicacion: form.ubicacion.trim(),
-    //        })
-    //    })
-    //        .then(res => {
-    //            if (!res.ok) throw new Error('No se pudo crear la oferta. Intente de nuevo.')
-    //            return res.json()
-    //        })
-    //        .then(() => navigate(`/ofertante/${id}`))
-    //        .catch(err => setSubmitError(err.message))
-    //        .finally(() => setLoading(false))
     }
 
     const handleConfirm = () => {
@@ -249,7 +227,8 @@ const CreateOfertaPage = () => {
     return (
         <>
         <div className="create-oferta-alerts-wrapper">
-            {errorUploadMD ? <ErrorAlert textForError={errorUploadMD} page="create-offer"/> : <></>}
+            {errorUploadMD ? <ErrorAlert textForError={errorUploadMD} page="create-offer"
+                onAlertClose={() => setErrorUploadMD(null)}/> : <></>}
         </div>
         <div>
             {showConfirmButton ? 
@@ -257,6 +236,7 @@ const CreateOfertaPage = () => {
                     questionMessage="¿Esta seguro que desea crear la oferta?"
                     onConfirm={handleConfirm}
                     onCancel={handleCancel}
+                    page="create-offer"
                 /> 
                 :
                 <></>}

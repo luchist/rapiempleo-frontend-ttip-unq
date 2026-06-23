@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
+import ConfirmationAlert from '../components/alerts/ConfirmationAlert'
 
 import UserContext from '../components/UserProvider'
 import ErrorAlertPage from '../components/alerts/ErrorAlertPage'
@@ -17,6 +18,7 @@ const OfferDetailPage = () => {
     const [particles, setParticles] = useState([])
     const [stateFavorite, setStateFavorite] = useState(null)
     const btnRef = useRef(null)
+    const [showConfirmButton, setShowConfirmButton] = useState(false)
 
     const token = localStorage.getItem("token");
     const { user } = useContext(UserContext);
@@ -45,6 +47,18 @@ const OfferDetailPage = () => {
             })
     }, [id, token])
 
+    useEffect(() => {
+        if (showConfirmButton) {
+            document.body.style.overflow = "hidden"
+        } else {
+            document.body.style.overflow = ""
+        }
+
+        return () => {
+            document.body.style.overflow = ""
+        }
+    }, [showConfirmButton])
+
     const spawnParticles = () => {
         const count = 8
         const newParticles = Array.from({ length: count }, (_, i) => ({
@@ -56,31 +70,6 @@ const OfferDetailPage = () => {
         setTimeout(() => setParticles([]), 3200)
     }
 
-    const handleApply = async () => {
-        spawnParticles()
-        try {
-            setApplying(true)
-            const response = await fetch(`http://localhost:8080/postulante/${user.id}/${id}`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-
-            if (response.status === 400) {
-                throw new Error('Necesitas cargar un CV para postularte a esta oferta')
-            }
-
-            if (!response.ok) {
-                throw new Error('No se pudo enviar la postulación')
-            }
-            setHasApplied(true)
-        } catch (err) {
-            setError(err.message)
-        } finally {
-            setApplying(false)
-        }
-    }
 
     const handleFavorite = () => {
     if (stateFavorite) {
@@ -120,7 +109,41 @@ const OfferDetailPage = () => {
         setError(err.message)
       })
     }
-  }
+    }
+
+    const handleApplyConfirm = async () => {
+        spawnParticles()
+        try {
+            setApplying(true)
+            const response = await fetch(`http://localhost:8080/postulante/${user.id}/${id}`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+
+            if (response.status === 400) {
+                throw new Error('Necesitas cargar un CV para postularte a esta oferta')
+            }
+
+            if (!response.ok) {
+                throw new Error('No se pudo enviar la postulación')
+            }
+            setHasApplied(true)
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setApplying(false)
+            setShowConfirmButton(false)
+        }
+    }
+
+    const handleCancel = () => {
+        setShowConfirmButton(false)
+        setLoading(false)
+        setError(null)
+    }
+
 
     if (loading) return <p>Cargando oferta...</p>
     if (error) return (
@@ -139,7 +162,16 @@ const OfferDetailPage = () => {
     return (
         <div className="offer-detail">
             <Link to="/" className="offer-detail__back">← Volver</Link>
-
+            {showConfirmButton ? 
+                <ConfirmationAlert 
+                    questionMessage="¿Esta seguro que desea postularse en esta oferta?"
+                    onConfirm={handleApplyConfirm}
+                    onCancel={handleCancel}
+                    page="offer"
+                /> 
+                :
+                <></>
+            }
             <div className="offer-detail__header">
                 <span className="offer-detail__company accent">{offer.empresa}</span>
                 <h1 className="offer-detail__title">{offer.titulo}</h1>
@@ -175,10 +207,10 @@ const OfferDetailPage = () => {
                         type="button"
                         className={`offer-detail__apply-btn${hasApplied ? ' offer-detail__apply-btn--applied' : ''
                             }`}
-                        onClick={handleApply}
+                        onClick={() => setShowConfirmButton(true)}
                         disabled={applying || hasApplied}
                     >
-                        {applying ? 'Enviando...' : hasApplied ? '✓ Enviado' : 'Postularse'}
+                        {applying || showConfirmButton ? 'Enviando...' : hasApplied ? '✓ Enviado' : 'Postularse'}
                     </button>
                 </div>
                 <button className={`offer-detail__favorite ${user.typeUser ? "favorite-pointer" : "favorite-hidden"}`}

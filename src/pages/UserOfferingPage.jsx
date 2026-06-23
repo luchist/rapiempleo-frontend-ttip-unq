@@ -183,9 +183,12 @@ const UserOfferingPage = () => {
     return (
         <div>
             <div className="offerer-profile__alerts-wrapper">
-              {profilePicError ? <ErrorAlert textForError={profilePicError} page="offerer"/> : <></>}
-              {errorCVOpen ? <ErrorAlert textForError={errorCVOpen} page="offerer"/> : <></>}
-              {errorActionCV ? <ErrorAlert textForError={errorActionCV} page="offerer"/> : <></>}
+              {profilePicError ? <ErrorAlert textForError={profilePicError} page="offerer"
+                onAlertClose={() => setProfilePicError(null)}/> : <></>}
+              {errorCVOpen ? <ErrorAlert textForError={errorCVOpen} page="offerer"
+                onAlertClose={() => setErrorCVOpen(null)}/> : <></>}
+              {errorActionCV ? <ErrorAlert textForError={errorActionCV} page="offerer"
+                onAlertClose={() => setErrorActionCV(null)}/> : <></>}
             </div>
             {cvModalOpened && (
                 <CvModal
@@ -224,7 +227,6 @@ const UserOfferingPage = () => {
                         </button>
                     )}
                 </div>
-                {profilePicError && <p className="profile-pic__error">{profilePicError}</p>}
                 <div className="name-section">
                     <h1 className="title-name">{userOf.nombre}</h1>
                 </div>
