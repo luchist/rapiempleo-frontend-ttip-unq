@@ -55,28 +55,28 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
               </div>
             </div>
             <div className="offer-card-offerer__side-panel">
-              <div className="offer-card-offerer__panel-button top" title="Ver en detalle" onClick={(e) => handleGoToOfferDetails(e)}>
+              <button className="offer-card-offerer__panel-button top" title="Ver en detalle" onClick={(e) => handleGoToOfferDetails(e)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                   viewBox="0 0 24 24" fill="none" 
                   stroke="currentColor" strokeWidth="2" 
                   strokeLinecap="round" strokeLinejoin="round" 
-                  class="lucide lucide-newspaper-icon lucide-newspaper">
+                  className="lucide lucide-newspaper-icon lucide-newspaper">
                   <path d="M15 18h-5"/><path d="M18 14h-8"/>
                   <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/>
                   <rect width="8" height="4" x="10" y="6" rx="1"/>
                 </svg>
-              </div>
-              <div className="offer-card-offerer__panel-button bottom" title="Cerrar/Abrir oferta" onClick={(e) => handleCloseOffer(e)}>
+              </button>
+              <button className="offer-card-offerer__panel-button bottom" title="Cerrar/Abrir oferta" onClick={(e) => handleCloseOffer(e)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                   viewBox="0 0 24 24" fill="none" 
                   stroke="currentColor" strokeWidth="2" 
                   strokeLinecap="round" strokeLinejoin="round" 
-                  class="lucide lucide-trash2-icon lucide-trash-2">
+                  className="lucide lucide-trash2-icon lucide-trash-2">
                   <path d="M10 11v6"/><path d="M14 11v6"/>
                   <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
                   <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
                 </svg>
-              </div>
+              </button>
             </div>
         </div>
     )

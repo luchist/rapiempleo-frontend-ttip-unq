@@ -768,6 +768,7 @@ body {
 
 .offers-pagination-arrow:disabled {
   border: 2px solid rgba(123, 123, 123, 0.585);
+  cursor: default;
 }
 
 .offers-pagination-arrow:hover {
