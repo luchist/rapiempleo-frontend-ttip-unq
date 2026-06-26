@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./OfferCardOfertante.css";
 
 
-const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName, estado, isOwner, onToggleEstado }) => {
+const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName, estado, onToggleEstado }) => {
 
     const navigate = useNavigate()
 

@@ -385,7 +385,6 @@ const UserOfferingPage = () => {
                                 setCVs={setOffersCV}
                                 setOfferName={() => setOfferSelected(offer.titulo)}
                                 estado={offer.estado}
-                                isOwner={isOwner}
                                 onToggleEstado={() => handleToggleEstado(offer.id)}
                             />
                         ))}

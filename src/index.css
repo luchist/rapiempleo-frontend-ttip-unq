@@ -776,6 +776,10 @@ body {
   transition: 0.3s;
 }
 
+.offers-pagination-arrow:disabled:hover {
+  background-color: rgba(150, 150, 150, 0.491);
+}
+
 .offers-pagination-arrow.left-arrow {
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
