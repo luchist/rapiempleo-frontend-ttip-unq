@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./OfferCardOfertante.css";
 
 
-const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName }) => {
+const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName, estado, isOwner, onToggleEstado }) => {
 
     const [hovered, setHovered] = useState()
 
@@ -24,15 +24,24 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
                     <Link to={`/ofertas/${id}`} className="offer-button-hover button-top button-link">
                         Ver detalle
                     </Link>
-                    <button className="offer-button-hover">Eliminar</button>
+                    {isOwner && (
+                        <button className="offer-button-hover" onClick={onToggleEstado}>
+                            {estado === "Abierto" ? "Cerrar" : "Reabrir"}
+                        </button>
+                    )}
                     <button className="offer-button-hover button-bottom" onClick={() => {handleShowCVOffer()}}> 
                         Mostrar CVs
                     </button>
                 </div>
             )}
-            <div className={`offer-card-offerer ${id == idOpened ? "offer-card-offerer-selected" : ""}`}>
+            <div className={`offer-card-offerer ${id == idOpened ? "offer-card-offerer-selected" : ""} ${estado === "Cerrado" ? "offer-card-offerer--closed" : ""}`}>
               <div className="offer-card-offerer__header">
-                <span className="offer-card-offerer__company accent">{company}</span>
+                <div className="offer-card-offerer__header-top">
+                  <span className="offer-card-offerer__company accent">{company}</span>
+                  {estado === "Cerrado" && (
+                    <span className="offer-card-offerer__estado-badge">CERRADA</span>
+                  )}
+                </div>
                 <h3 className="offer-card-offerer__title">{title}</h3>
                 <h4 className="offer-card-offerer__work-type">{workType}</h4>
                 <span className="offer-card-offerer__location">

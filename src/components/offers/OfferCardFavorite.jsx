@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import "./OfferCardFavorite.css";
 
-const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax, handleRemove }) => {
+const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax, estado, handleRemove }) => {
   
   const user = JSON.parse(localStorage.getItem("user"))
   const navigate = useNavigate()
@@ -32,9 +32,14 @@ const OfferCardFavorite = ({ id, title, company, workType, salaryMin, salaryMax,
   return (
     <>
     {error && <p>Error: {error}</p> }
-    <div className="offer-card-favorite" onClick={() => navigate(`/ofertas/${id}`)}>
+    <div className={`offer-card-favorite ${estado === "Cerrado" ? "offer-card-favorite--closed" : ""}`} onClick={() => navigate(`/ofertas/${id}`)}>
       <div className="offer-card-favorite__header">
-        <span className="offer-card-favorite__company accent">{company}</span>
+        <div className="offer-card-favorite__header-top">
+          <span className="offer-card-favorite__company accent">{company}</span>
+          {estado === "Cerrado" && (
+            <span className="offer-card-favorite__estado-badge">CERRADA</span>
+          )}
+        </div>
         <h3 className="offer-card-favorite__title">{title}</h3>
         <h4 className="offer-card-favorite__work-type">{workType}</h4>
       </div>
