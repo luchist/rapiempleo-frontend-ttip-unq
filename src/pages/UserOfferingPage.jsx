@@ -33,6 +33,7 @@ const UserOfferingPage = () => {
     const [errorCVOpen, setErrorCVOpen] = useState(null)
     const [errorActionCV, setErrorActionCV] = useState(null)
     const [page, setPage] = useState(0)
+    const [errorToggleEstado, setErrorToggleEstado] = useState(null)
     const profilePicInputRef = useRef(null)
 
     useEffect(() => {
@@ -155,6 +156,27 @@ const UserOfferingPage = () => {
         setCvModalFilename(null)
     }
 
+    const handleToggleEstado = (offerId) => {
+        setErrorToggleEstado(null)
+        fetch(`${BASE_URL}/ofertante/${id}/oferta/${offerId}/estado`, {
+            method: 'PATCH',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(res => {
+                if (!res.ok) throw new Error('No se pudo cambiar el estado de la oferta')
+                return res.json()
+            })
+            .then(updatedOffer => {
+                setUserOf(prev => ({
+                    ...prev,
+                    ofertasCreadas: prev.ofertasCreadas.map(o =>
+                        o.id === updatedOffer.id ? { ...o, estado: updatedOffer.estado } : o
+                    )
+                }))
+            })
+            .catch(err => setErrorToggleEstado(err.message))
+    }
+
     const handleActionOnCV = (id_postulante, id_oferta, estadoCv) => {
         console.log()
         fetch(`http://localhost:8080/postulante/respuestaCV`, {
@@ -208,6 +230,8 @@ const UserOfferingPage = () => {
                 onAlertClose={() => setErrorCVOpen(null)}/> : <></>}
               {errorActionCV ? <ErrorAlert textForError={errorActionCV} page="offerer"
                 onAlertClose={() => setErrorActionCV(null)}/> : <></>}
+              {errorToggleEstado ? <ErrorAlert textForError={errorToggleEstado} page="offerer" 
+                onAlertClose={() => setErrorToggleEstado(null)}/>: <></>}
             </div>
             {cvModalOpened && (
                 <CvModal
@@ -360,6 +384,9 @@ const UserOfferingPage = () => {
                                 setIdOpened={setOpenedOfferId}
                                 setCVs={setOffersCV}
                                 setOfferName={() => setOfferSelected(offer.titulo)}
+                                estado={offer.estado}
+                                isOwner={isOwner}
+                                onToggleEstado={() => handleToggleEstado(offer.id)}
                             />
                         ))}
                         

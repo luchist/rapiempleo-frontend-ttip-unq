@@ -73,3 +73,23 @@
   margin-top: 0px;
   margin-bottom: auto;
 }
+
+.offer-card-favorite__header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.offer-card-favorite__estado-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+
+.offer-card-favorite--closed {
+  opacity: 0.6;
+}

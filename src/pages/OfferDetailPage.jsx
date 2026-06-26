@@ -205,12 +205,12 @@ const OfferDetailPage = () => {
                     <button
                         ref={btnRef}
                         type="button"
-                        className={`offer-detail__apply-btn${hasApplied ? ' offer-detail__apply-btn--applied' : ''
+                        className={`offer-detail__apply-btn${hasApplied || offer.estado === 'Cerrado' ? ' offer-detail__apply-btn--applied' : ''
                             }`}
                         onClick={() => setShowConfirmButton(true)}
-                        disabled={applying || hasApplied}
+                        disabled={applying || hasApplied || offer.estado === 'Cerrado'}
                     >
-                        {applying || showConfirmButton ? 'Enviando...' : hasApplied ? '✓ Enviado' : 'Postularse'}
+                        {applying || showConfirmButton ? 'Enviando...' : hasApplied ? '✓ Enviado' : offer.estado === 'Cerrado' ? 'Oferta cerrada' : 'Postularse'}
                     </button>
                 </div>
                 <button className={`offer-detail__favorite ${user.typeUser ? "favorite-pointer" : "favorite-hidden"}`}

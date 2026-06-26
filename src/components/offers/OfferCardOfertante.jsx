@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./OfferCardOfertante.css";
 
 
-const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName }) => {
+const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName, estado, isOwner, onToggleEstado }) => {
 
     const navigate = useNavigate()
 
@@ -25,14 +25,19 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
     const handleCloseOffer = (e) => {
       e.preventDefault()
       e.stopPropagation()
-      console.log("Para despues")
+      onToggleEstado()
     }
 
     return (
         <div className="offer-card-wrap" onClick={() => {handleShowCVOffer()}}>
-            <div className={`offer-card-offerer ${id == idOpened ? "offer-card-offerer-selected" : ""}`}>
+            <div className={`offer-card-offerer ${id == idOpened ? "offer-card-offerer-selected" : ""} ${estado === "Cerrado" ? "offer-card-offerer--closed" : ""}`}>
               <div className="offer-card-offerer__header">
-                <span className="offer-card-offerer__company accent">{company}</span>
+                <div className="offer-card-offerer__header-top">
+                  <span className="offer-card-offerer__company accent">{company}</span>
+                  {estado === "Cerrado" && (
+                    <span className="offer-card-offerer__estado-badge">CERRADA</span>
+                  )}
+                </div>
                 <h3 className="offer-card-offerer__title">{title}</h3>
                 <h4 className="offer-card-offerer__work-type">{workType}</h4>
                 <span className="offer-card-offerer__location">
@@ -66,7 +71,7 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
                   <rect width="8" height="4" x="10" y="6" rx="1"/>
                 </svg>
               </button>
-              <button className="offer-card-offerer__panel-button bottom" title="Cerrar/Abrir oferta" onClick={(e) => handleCloseOffer(e)}>
+              <button className="offer-card-offerer__panel-button bottom" title={estado === "Abierto" ? "Cerrar" : "Reabrir"} onClick={(e) => handleCloseOffer(e)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                   viewBox="0 0 24 24" fill="none" 
                   stroke="currentColor" strokeWidth="2" 
