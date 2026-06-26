@@ -649,18 +649,14 @@ body {
 .cv-label-tooltip {
     position: absolute;
     font-size: small;
-
     bottom: 3%;
     left: 65%;
     transform: translateX(-50%);
-
     background: #e9d5ff;
     color: black;
     border: 1px solid black;
-
     padding: 2px 5px;
     white-space: nowrap;
-
     visibility: hidden;
 }
 
@@ -755,6 +751,44 @@ body {
 
 .cv-unit-button.cross:hover {
   background-color: rgb(119, 30, 30);
+}
+
+.offers-pagination-arrows {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 20px;
+}
+
+.offers-pagination-arrow {
+  height: 40px;
+  border: 2px solid chocolate;
+  cursor: pointer;
+}
+
+.offers-pagination-arrow:disabled {
+  border: 2px solid rgba(123, 123, 123, 0.585);
+  cursor: default;
+}
+
+.offers-pagination-arrow:hover {
+  background-color: rgba(233, 232, 232, 0.585);
+  transition: 0.3s;
+}
+
+.offers-pagination-arrow:disabled:hover {
+  background-color: rgba(150, 150, 150, 0.491);
+}
+
+.offers-pagination-arrow.left-arrow {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.offers-pagination-arrow.right-arrow {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+
 }
 
 /* Right side Ofertante Page */

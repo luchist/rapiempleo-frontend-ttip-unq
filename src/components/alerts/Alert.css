@@ -3,11 +3,11 @@
 }
 
 .alert-corner-right.offerer {
-    width: 360px;
+    width: 260px;
 }
 
 .alert-corner-right.postulant {
-    width: 400px;
+    width: 360px;
 }
 
 .alert-corner-right.create-offer {
@@ -23,14 +23,28 @@
 }
 
 .alert-confirmation-center {
-    position: absolute;
-    top: 60%;
-    right: 35%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 420px;
     z-index: 2;
     text-align: center;
     border: 3px solid chocolate;
     border-radius: 6px;
+}
+
+.alert-confirmation-center.offer {
+    position: fixed;
+    top: 45%;
+}
+
+.alert-confirmation-center.create-offer {
+    position: absolute;
+    top: 65%;
+}
+
+.alert-confirmation-center.postulant {
+    position: absolute;
+    top: 45%;
 }
 
 .alert-button-display {

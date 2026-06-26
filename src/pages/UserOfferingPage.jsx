@@ -9,6 +9,7 @@ import ErrorAlertPage from '../components/alerts/ErrorAlertPage'
 const BASE_URL = "http://localhost:8080"
 const MAX_SIZE_BYTES = 5 * 1024 * 1024
 const ALLOWED_TYPES = ['image/jpeg', 'image/png']
+const PAGE_SIZE = 4
 
 const UserOfferingPage = () => {
     const { id } = useParams()
@@ -31,6 +32,7 @@ const UserOfferingPage = () => {
     const [profilePicError, setProfilePicError] = useState(null)
     const [errorCVOpen, setErrorCVOpen] = useState(null)
     const [errorActionCV, setErrorActionCV] = useState(null)
+    const [page, setPage] = useState(0)
     const [errorToggleEstado, setErrorToggleEstado] = useState(null)
     const profilePicInputRef = useRef(null)
 
@@ -39,6 +41,11 @@ const UserOfferingPage = () => {
     }, [profilePicUrl])
 
     const token = localStorage.getItem("token")
+
+    const offersInDisplay = () => {
+        return userOf.ofertasCreadas.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+    }
+
 
     useEffect(() => {
         fetch(`http://localhost:8080/ofertante/${id}`, {
@@ -200,15 +207,31 @@ const UserOfferingPage = () => {
             })
     }
 
+    const handlePreviousPage = () => {
+        if (page != 0) {
+            setPage(page - 1)
+        }
+    }
+
+    const handleNextPage = () => {
+        if (PAGE_SIZE * (page + 1) < userOf.ofertasCreadas.length) {
+            setPage(page + 1)
+        }
+    }
+
     if (loading) return <p>Cargando perfil...</p>
     if (error) return <ErrorAlertPage textForError={error}/>
     return (
         <div>
             <div className="offerer-profile__alerts-wrapper">
-              {profilePicError ? <ErrorAlert textForError={profilePicError} page="offerer"/> : <></>}
-              {errorCVOpen ? <ErrorAlert textForError={errorCVOpen} page="offerer"/> : <></>}
-              {errorActionCV ? <ErrorAlert textForError={errorActionCV} page="offerer"/> : <></>}
-              {errorToggleEstado ? <ErrorAlert textForError={errorToggleEstado} page="offerer"/> : <></>}
+              {profilePicError ? <ErrorAlert textForError={profilePicError} page="offerer"
+                onAlertClose={() => setProfilePicError(null)}/> : <></>}
+              {errorCVOpen ? <ErrorAlert textForError={errorCVOpen} page="offerer"
+                onAlertClose={() => setErrorCVOpen(null)}/> : <></>}
+              {errorActionCV ? <ErrorAlert textForError={errorActionCV} page="offerer"
+                onAlertClose={() => setErrorActionCV(null)}/> : <></>}
+              {errorToggleEstado ? <ErrorAlert textForError={errorToggleEstado} page="offerer" 
+                onAlertClose={() => setErrorToggleEstado(null)}/>: <></>}
             </div>
             {cvModalOpened && (
                 <CvModal
@@ -247,7 +270,6 @@ const UserOfferingPage = () => {
                         </button>
                     )}
                 </div>
-                {profilePicError && <p className="profile-pic__error">{profilePicError}</p>}
                 <div className="name-section">
                     <h1 className="title-name">{userOf.nombre}</h1>
                 </div>
@@ -348,7 +370,7 @@ const UserOfferingPage = () => {
                         )}
                     </div>
                     <div className="list-created-offers">
-                        {userOf.ofertasCreadas.map((offer) => (
+                        {offersInDisplay().map((offer) => (
                             <OfferCardOfertante className="offer-create-card" key={offer.id}
                                 id={offer.id}
                                 title={offer.titulo}
@@ -363,12 +385,23 @@ const UserOfferingPage = () => {
                                 setCVs={setOffersCV}
                                 setOfferName={() => setOfferSelected(offer.titulo)}
                                 estado={offer.estado}
-                                isOwner={isOwner}
                                 onToggleEstado={() => handleToggleEstado(offer.id)}
                             />
                         ))}
+                        
+                    </div>
+                    <div className="offers-pagination-arrows">
+                      <button className="offers-pagination-arrow left-arrow" 
+                        onClick={() => handlePreviousPage()} disabled={page == 0}>
+                        ◀
+                      </button>
+                      <button className="offers-pagination-arrow right-arrow" 
+                        onClick={() => handleNextPage()} disabled={PAGE_SIZE * (page + 1) >= userOf.ofertasCreadas.length}>
+                        ▶
+                      </button>
                     </div>
                 </div>
+                
             </div>
         </div>
     )

@@ -1,10 +1,10 @@
 import { Alert } from "@mui/material"
 import "./Alert.css";
 
-const ConfirmationAlert = ({questionMessage, onConfirm, onCancel}) => {
+const ConfirmationAlert = ({questionMessage, onConfirm, onCancel, page}) => {
 
     return (
-        <div className={`alert-confirmation-center`}>
+        <div className={`alert-confirmation-center ${page}`}>
             <Alert severity="warning" icon={false}  >
                 {questionMessage}
                 <div className="alert-button-display">

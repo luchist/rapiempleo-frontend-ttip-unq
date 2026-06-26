@@ -227,7 +227,8 @@ const CreateOfertaPage = () => {
     return (
         <>
         <div className="create-oferta-alerts-wrapper">
-            {errorUploadMD ? <ErrorAlert textForError={errorUploadMD} page="create-offer"/> : <></>}
+            {errorUploadMD ? <ErrorAlert textForError={errorUploadMD} page="create-offer"
+                onAlertClose={() => setErrorUploadMD(null)}/> : <></>}
         </div>
         <div>
             {showConfirmButton ? 
@@ -235,6 +236,7 @@ const CreateOfertaPage = () => {
                     questionMessage="¿Esta seguro que desea crear la oferta?"
                     onConfirm={handleConfirm}
                     onCancel={handleCancel}
+                    page="create-offer"
                 /> 
                 :
                 <></>}

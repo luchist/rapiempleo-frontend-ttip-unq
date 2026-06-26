@@ -4,6 +4,7 @@ import CvModal from "../components/CvModal"
 import OfferCardFavorite from "../components/offers/OfferCardFavorite"
 import ErrorAlert from "../components/alerts/ErrorAlert"
 import ErrorAlertPage from "../components/alerts/ErrorAlertPage"
+import ConfirmationAlert from "../components/alerts/ConfirmationAlert"
 
 const CV_SLOTS = 4
 const FAVORITE_SLOTS = 3
@@ -31,6 +32,8 @@ const PostulantProfilePage = () => {
   const [errorCVFavorite, setErrorCVFavorite] = useState(null)
   const [errorCVUpload, setErrorCVUpload] = useState(null)
   const [errorCVRemove, setErrorCVRemove] = useState(null)
+  const [showConfirmButton, setShowConfirmButton] = useState(false)
+  const [currentCVOnAction, setCurrentCVOnAction] = useState(null)
   const [isEditingPreference, setIsEditingPreference] = useState(false)
   const [preferenceText, setPreferenceText] = useState('')
   const [errorPreferenceSave, setErrorPreferenceSave] = useState(null)
@@ -252,10 +255,44 @@ const PostulantProfilePage = () => {
     setOfertasFavoritas(ofertasModified)
   }
 
-    const handleRemoveCV = (e, idCv, cvPath) => {
+    const handleRemoveCV = (e, cvPath) => {
       e.stopPropagation()
+      setShowConfirmButton(true)
+      setCurrentCVOnAction(cvPath)
+    //  fetch(`${BASE_URL}/postulante/removeCV`, {
+    //    method: "DELETE",
+    //    headers: {
+    //      Authorization: `Bearer ${token}`,
+    //      "Content-Type": "application/json"
+    //    },
+    //    body: JSON.stringify({
+    //      idPostulante : id,
+    //      cvPath : cvPath
+    //    }),
+    //  })
+    //  .then(res => {
+    //    if (!res.ok) throw new Error("No se pudo eliminar el CV deseado")
+    //    return res.text()
+    //  })
+    //  .then(() => {
+    //    const updatedSlots = cvSlots.filter(slot => slot !== cvPath)
+    //    updatedSlots.push(null)
+    //    setCvSlots(updatedSlots)
+    //    if (updatedSlots.every(slot => slot == null)) {
+    //      setCvFavorito(null)
+    //    } else if (cvPath === cvFavorito) {
+    //      const firstAvailable = updatedSlots.find(slot => slot != null)
+    //      setCvFavorito(firstAvailable)
+    //    }
+    //  })
+    //  .catch(err => {
+    //    console.error(err)
+    //    setErrorCVRemove(err.message)
+    //  })
+  }
 
-      fetch(`${BASE_URL}/postulante/removeCV`, {
+  const handleRemoveConfirm = () => {
+    fetch(`${BASE_URL}/postulante/removeCV`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -263,7 +300,7 @@ const PostulantProfilePage = () => {
         },
         body: JSON.stringify({
           idPostulante : id,
-          cvPath : cvPath
+          cvPath : currentCVOnAction
         }),
       })
       .then(res => {
@@ -271,20 +308,26 @@ const PostulantProfilePage = () => {
         return res.text()
       })
       .then(() => {
-        const updatedSlots = cvSlots.filter(slot => slot !== cvPath)
+        const updatedSlots = cvSlots.filter(slot => slot !== currentCVOnAction)
         updatedSlots.push(null)
         setCvSlots(updatedSlots)
         if (updatedSlots.every(slot => slot == null)) {
           setCvFavorito(null)
-        } else if (cvPath === cvFavorito) {
+        } else if (currentCVOnAction === cvFavorito) {
           const firstAvailable = updatedSlots.find(slot => slot != null)
           setCvFavorito(firstAvailable)
         }
+        setShowConfirmButton(false)
+        setCurrentCVOnAction(null)
       })
       .catch(err => {
         console.error(err)
         setErrorCVRemove(err.message)
       })
+  }
+  
+  const handleCancel = () => {
+    setShowConfirmButton(false)
   }
 
 
@@ -293,13 +336,29 @@ const PostulantProfilePage = () => {
   return (
     <div className="postulant-profile">
       <div className="postulant-profile__alerts-wrapper">
-        {profilePicError ? <ErrorAlert textForError={profilePicError}  page="postulant"/> : <></>}
-        {errorCVFavorite ? <ErrorAlert textForError={errorCVFavorite}  page="postulant"/> : <></>}
-        {errorCVOpen ? <ErrorAlert textForError={errorCVOpen}  page="postulant"/> : <></>}
-        {errorCVUpload ? <ErrorAlert textForError={errorCVUpload} page="postulant"/> : <></>}
-        {errorCVRemove ? <ErrorAlert textForError={errorCVRemove} page="postulant"/> : <></>}
-        {errorPreferenceSave ? <ErrorAlert textForError={errorPreferenceSave} page="postulant"/> : <></>}
+        {profilePicError ? <ErrorAlert textForError={profilePicError}  page="postulant" 
+            onAlertClose={() => setProfilePicError(null)}/> : <></>}
+        {errorCVFavorite ? <ErrorAlert textForError={errorCVFavorite}  page="postulant" 
+            onAlertClose={() => setErrorCVFavorite(null)}/> : <></>}
+        {errorCVOpen ? <ErrorAlert textForError={errorCVOpen}  page="postulant" 
+            onAlertClose={() => setErrorCVOpen(null)}/> : <></>}
+        {errorCVUpload ? <ErrorAlert textForError={errorCVUpload} page="postulant" 
+            onAlertClose={() => setErrorCVUpload(null)}/> : <></>}
+        {errorCVRemove ? <ErrorAlert textForError={errorCVRemove} page="postulant" 
+            onAlertClose={() => setErrorCVRemove(null)}/> : <></>}
+        {errorPreferenceSave ? <ErrorAlert textForError={errorPreferenceSave} page="postulant" 
+            onAlertClose={() => setErrorPreferenceSave(null)}/> : <></>}
       </div>
+      {showConfirmButton ? 
+        <ConfirmationAlert 
+            questionMessage="¿Esta seguro que desea eliminar este CV?"
+            onConfirm={handleRemoveConfirm}
+            onCancel={handleCancel}
+            page="postulant"
+        /> 
+        :
+        <></>
+      }
       <input
         type="file"
         accept=".pdf"
@@ -410,7 +469,7 @@ const PostulantProfilePage = () => {
 
                     <button
                       className="postulant-profile__cv-slot-remove"
-                      onClick={(e) => handleRemoveCV(e, i, cvPath)}
+                      onClick={(e) => handleRemoveCV(e, cvPath)}
                       title={`Eliminar CV`}
                     >
                       ✖
