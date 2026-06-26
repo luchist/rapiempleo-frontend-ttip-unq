@@ -1,11 +1,11 @@
-import { useState } from "react"
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 import "./OfferCardOfertante.css";
 
 
 const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName }) => {
 
-    const [hovered, setHovered] = useState()
+    const navigate = useNavigate()
 
     const handleShowCVOffer = () => {
       setCVs(postulantes)
@@ -17,19 +17,19 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
       }
     }
 
+    const handleGoToOfferDetails = (e) => {
+      e.preventDefault()
+      navigate(`/ofertas/${id}`)
+    }
+
+    const handleCloseOffer = (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      console.log("Para despues")
+    }
+
     return (
-        <div className="offer-card-wrap" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-            {hovered && (
-                <div className="offer-card-hover-panel">
-                    <Link to={`/ofertas/${id}`} className="offer-button-hover button-top button-link">
-                        Ver detalle
-                    </Link>
-                    <button className="offer-button-hover">Eliminar</button>
-                    <button className="offer-button-hover button-bottom" onClick={() => {handleShowCVOffer()}}> 
-                        Mostrar CVs
-                    </button>
-                </div>
-            )}
+        <div className="offer-card-wrap" onClick={() => {handleShowCVOffer()}}>
             <div className={`offer-card-offerer ${id == idOpened ? "offer-card-offerer-selected" : ""}`}>
               <div className="offer-card-offerer__header">
                 <span className="offer-card-offerer__company accent">{company}</span>
@@ -52,6 +52,30 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
                 <span className="offer-card-offerer__salary accent">
                   Cvs Recibidos: {postulantes.length}
                 </span>
+              </div>
+            </div>
+            <div className="offer-card-offerer__side-panel">
+              <div className="offer-card-offerer__panel-button top" title="Ver en detalle" onClick={(e) => handleGoToOfferDetails(e)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                  viewBox="0 0 24 24" fill="none" 
+                  stroke="currentColor" strokeWidth="2" 
+                  strokeLinecap="round" strokeLinejoin="round" 
+                  class="lucide lucide-newspaper-icon lucide-newspaper">
+                  <path d="M15 18h-5"/><path d="M18 14h-8"/>
+                  <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/>
+                  <rect width="8" height="4" x="10" y="6" rx="1"/>
+                </svg>
+              </div>
+              <div className="offer-card-offerer__panel-button bottom" title="Cerrar/Abrir oferta" onClick={(e) => handleCloseOffer(e)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                  viewBox="0 0 24 24" fill="none" 
+                  stroke="currentColor" strokeWidth="2" 
+                  strokeLinecap="round" strokeLinejoin="round" 
+                  class="lucide lucide-trash2-icon lucide-trash-2">
+                  <path d="M10 11v6"/><path d="M14 11v6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                  <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
               </div>
             </div>
         </div>

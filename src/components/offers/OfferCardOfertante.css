@@ -11,7 +11,8 @@
 .offer-card-offerer {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 12px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
@@ -131,4 +132,25 @@
     color: rgb(188, 7, 176);
     opacity: 0.9;
     transition: 0.4s;
+}
+
+
+.offer-card-offerer__panel-button {
+  padding: 28px 6px;
+  border: 2px solid rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+}
+
+.offer-card-offerer__panel-button:hover {
+  border: 2px solid chocolate;
+}
+
+.offer-card-offerer__panel-button.top {
+  background-color:rgba(211, 89, 45, 0.217);
+  border-top-right-radius: 12px;
+}
+
+.offer-card-offerer__panel-button.bottom {
+  background-color:rgba(174, 47, 47, 0.217);
+  border-bottom-right-radius: 12px;
 }

@@ -9,6 +9,7 @@ import ErrorAlertPage from '../components/alerts/ErrorAlertPage'
 const BASE_URL = "http://localhost:8080"
 const MAX_SIZE_BYTES = 5 * 1024 * 1024
 const ALLOWED_TYPES = ['image/jpeg', 'image/png']
+const PAGE_SIZE = 4
 
 const UserOfferingPage = () => {
     const { id } = useParams()
@@ -31,6 +32,7 @@ const UserOfferingPage = () => {
     const [profilePicError, setProfilePicError] = useState(null)
     const [errorCVOpen, setErrorCVOpen] = useState(null)
     const [errorActionCV, setErrorActionCV] = useState(null)
+    const [page, setPage] = useState(0)
     const profilePicInputRef = useRef(null)
 
     useEffect(() => {
@@ -38,6 +40,11 @@ const UserOfferingPage = () => {
     }, [profilePicUrl])
 
     const token = localStorage.getItem("token")
+
+    const offersInDisplay = () => {
+        return userOf.ofertasCreadas.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+    }
+
 
     useEffect(() => {
         fetch(`http://localhost:8080/ofertante/${id}`, {
@@ -176,6 +183,18 @@ const UserOfferingPage = () => {
             .catch(err => {
                 setErrorActionCV(err.message)
             })
+    }
+
+    const handlePreviousPage = () => {
+        if (page != 0) {
+            setPage(page - 1)
+        }
+    }
+
+    const handleNextPage = () => {
+        if (PAGE_SIZE * (page + 1) < userOf.ofertasCreadas.length) {
+            setPage(page + 1)
+        }
     }
 
     if (loading) return <p>Cargando perfil...</p>
@@ -327,7 +346,7 @@ const UserOfferingPage = () => {
                         )}
                     </div>
                     <div className="list-created-offers">
-                        {userOf.ofertasCreadas.map((offer) => (
+                        {offersInDisplay().map((offer) => (
                             <OfferCardOfertante className="offer-create-card" key={offer.id}
                                 id={offer.id}
                                 title={offer.titulo}
@@ -343,8 +362,20 @@ const UserOfferingPage = () => {
                                 setOfferName={() => setOfferSelected(offer.titulo)}
                             />
                         ))}
+                        
+                    </div>
+                    <div className="offers-pagination-arrows">
+                      <button className="offers-pagination-arrow left-arrow" 
+                        onClick={() => handlePreviousPage()} disabled={page == 0}>
+                        ◀
+                      </button>
+                      <button className="offers-pagination-arrow right-arrow" 
+                        onClick={() => handleNextPage()} disabled={PAGE_SIZE * (page + 1) >= userOf.ofertasCreadas.length}>
+                        ▶
+                      </button>
                     </div>
                 </div>
+                
             </div>
         </div>
     )
