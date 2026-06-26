@@ -36,7 +36,12 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
             )}
             <div className={`offer-card-offerer ${id == idOpened ? "offer-card-offerer-selected" : ""} ${estado === "Cerrado" ? "offer-card-offerer--closed" : ""}`}>
               <div className="offer-card-offerer__header">
-                <span className="offer-card-offerer__company accent">{company}</span>
+                <div className="offer-card-offerer__header-top">
+                  <span className="offer-card-offerer__company accent">{company}</span>
+                  {estado === "Cerrado" && (
+                    <span className="offer-card-offerer__estado-badge">CERRADA</span>
+                  )}
+                </div>
                 <h3 className="offer-card-offerer__title">{title}</h3>
                 <h4 className="offer-card-offerer__work-type">{workType}</h4>
                 <span className="offer-card-offerer__location">
@@ -57,9 +62,6 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
                   Cvs Recibidos: {postulantes.length}
                 </span>
               </div>
-              {estado === "Cerrado" && (
-                <span className="offer-card-offerer__estado-badge">CERRADA</span>
-              )}
             </div>
         </div>
     )
