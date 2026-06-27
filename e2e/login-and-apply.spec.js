@@ -18,6 +18,7 @@ test('logs in and applies to first offer', async ({ page }) => {
   if (currentText?.trim() !== '✓ Enviado') {
     await expect(applyBtn).toBeEnabled({ timeout: 10_000 })
     await applyBtn.click()
+    await page.getByRole('button', { name: 'Aceptar' }).click()
   }
 
   // Assert success

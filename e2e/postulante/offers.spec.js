@@ -21,6 +21,7 @@ test.describe('Postulante - Offers', () => {
       // Not yet applied — button must be enabled before clicking
       await expect(applyBtn).toBeEnabled()
       await applyBtn.click()
+      await page.getByRole('button', { name: 'Aceptar' }).click()
     }
 
     await expect(applyBtn).toHaveText('✓ Enviado', { timeout: 10_000 })
@@ -39,6 +40,7 @@ test.describe('Postulante - Offers', () => {
     if (currentText?.trim() !== '✓ Enviado') {
       await expect(applyBtn).toBeEnabled()
       await applyBtn.click()
+      await page.getByRole('button', { name: 'Aceptar' }).click()
       await expect(applyBtn).toHaveText('✓ Enviado', { timeout: 10_000 })
     }
 

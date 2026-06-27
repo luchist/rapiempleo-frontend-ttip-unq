@@ -23,6 +23,7 @@ const HomePage = () => {
   const { user } = useContext(UserContext);
   const token = localStorage.getItem("token")
   const userStoraged = JSON.parse(localStorage.getItem("user"))
+  const typeUser = userStoraged?.typeUser
 
   const parseQuery = (query) => {
     if (!query.includes(':')) {
@@ -41,18 +42,18 @@ const HomePage = () => {
     return params
   }
 
-
-  const buildSearchUrl = (query) => {
-    const params = parseQuery(query)
-    const urlParams = new URLSearchParams(params)
-    return `http://localhost:8080/search?${urlParams}`
-  }
-
-  const buildAiSearchUrl = () => {
-    return `http://localhost:8080/ai/context`
-  }
-
   useEffect(() => {
+
+    const buildAiSearchUrl = () => {
+      return `http://localhost:8080/ai/context`
+    }
+
+    const buildSearchUrl = (query) => {
+      const params = parseQuery(query)
+      const urlParams = new URLSearchParams(params)
+      return `http://localhost:8080/search?${urlParams}`
+    }
+
     if (aiQuery !== null) {
       fetch(buildAiSearchUrl(), {
         headers: {
@@ -80,7 +81,7 @@ const HomePage = () => {
     let url
     if (query !== null) {
       url = buildSearchUrl(query)
-    } else if (userStoraged.typeUser) {
+    } else if (typeUser) {
       url = `http://localhost:8080/oferta/recuperarOfertasYFavoritos`
     } else {
       url = 'http://localhost:8080/oferta/obtenerOfertas'
@@ -103,8 +104,7 @@ const HomePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [query, aiQuery, token])
-
+  }, [query, aiQuery, token, typeUser])
 
   const handleAiSearch = (value) => {
     setSearchInput(value)
@@ -153,7 +153,7 @@ const HomePage = () => {
           </h2>
           {loading && <p>Cargando ofertas...</p>}
           {error && <p>Error: {error}</p>}
-          {!loading && !error && <OfferGrid offers={offers} changedFavorite={handleFavoriteChanged}/>}
+          {!loading && !error && <OfferGrid offers={offers} changedFavorite={handleFavoriteChanged} />}
         </>
       )}
     </div>
