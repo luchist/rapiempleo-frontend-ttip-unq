@@ -23,6 +23,7 @@ const HomePage = () => {
   const { user } = useContext(UserContext);
   const token = localStorage.getItem("token")
   const userStoraged = JSON.parse(localStorage.getItem("user"))
+  const typeUser = userStoraged?.typeUser
 
   const parseQuery = (query) => {
     if (!query.includes(':')) {
@@ -80,7 +81,7 @@ const HomePage = () => {
     let url
     if (query !== null) {
       url = buildSearchUrl(query)
-    } else if (userStoraged.typeUser) {
+    } else if (typeUser) {
       url = `http://localhost:8080/oferta/recuperarOfertasYFavoritos`
     } else {
       url = 'http://localhost:8080/oferta/obtenerOfertas'
@@ -103,7 +104,7 @@ const HomePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [query, aiQuery, token, userStoraged.typeUser])
+  }, [query, aiQuery, token, typeUser])
 
   const handleAiSearch = (value) => {
     setSearchInput(value)
