@@ -136,6 +136,7 @@ test.describe('Postulante - CV Management', () => {
     const loadedCountBefore = await page.locator('.postulant-profile__cv-slot--loaded').count()
 
     await favoriteSlot.locator('.postulant-profile__cv-slot-remove').click()
+    await page.getByRole('button', { name: 'Aceptar' }).click()
 
     // The favorite must be deleted — count decreases by 1
     await expect(page.locator('.postulant-profile__cv-slot--loaded')).toHaveCount(
@@ -156,6 +157,7 @@ test.describe('Postulante - CV Management', () => {
 
     const loadedCountBefore = await page.locator('.postulant-profile__cv-slot--loaded').count()
     await nonFavoriteSlot.locator('.postulant-profile__cv-slot-remove').click()
+    await page.getByRole('button', { name: 'Aceptar' }).click()
 
     // Slot count must decrease by 1
     await expect(page.locator('.postulant-profile__cv-slot--loaded')).toHaveCount(
