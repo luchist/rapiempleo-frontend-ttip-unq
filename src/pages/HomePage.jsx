@@ -41,18 +41,18 @@ const HomePage = () => {
     return params
   }
 
-
-  const buildSearchUrl = (query) => {
-    const params = parseQuery(query)
-    const urlParams = new URLSearchParams(params)
-    return `http://localhost:8080/search?${urlParams}`
-  }
-
-  const buildAiSearchUrl = () => {
-    return `http://localhost:8080/ai/context`
-  }
-
   useEffect(() => {
+
+    const buildAiSearchUrl = () => {
+      return `http://localhost:8080/ai/context`
+    }
+
+    const buildSearchUrl = (query) => {
+      const params = parseQuery(query)
+      const urlParams = new URLSearchParams(params)
+      return `http://localhost:8080/search?${urlParams}`
+    }
+
     if (aiQuery !== null) {
       fetch(buildAiSearchUrl(), {
         headers: {
@@ -103,8 +103,7 @@ const HomePage = () => {
         setError(err.message)
         setLoading(false)
       })
-  }, [query, aiQuery, token])
-
+  }, [query, aiQuery, token, userStoraged.typeUser])
 
   const handleAiSearch = (value) => {
     setSearchInput(value)
@@ -153,7 +152,7 @@ const HomePage = () => {
           </h2>
           {loading && <p>Cargando ofertas...</p>}
           {error && <p>Error: {error}</p>}
-          {!loading && !error && <OfferGrid offers={offers} changedFavorite={handleFavoriteChanged}/>}
+          {!loading && !error && <OfferGrid offers={offers} changedFavorite={handleFavoriteChanged} />}
         </>
       )}
     </div>
