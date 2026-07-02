@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import "./OfferCardOfertante.css";
 
 
-const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, idOpened, setIdOpened, setCVs, setOfferName, estado, onToggleEstado }) => {
+const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin, salaryMax, postulantes, 
+    cvsRevisados, idOpened, setIdOpened, setOfferName, estado, onToggleEstado }) => {
 
     const navigate = useNavigate()
 
     const handleShowCVOffer = () => {
-      setCVs(postulantes)
       setOfferName()
       if (idOpened === id) {
         setIdOpened(null)
@@ -55,7 +55,7 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
                   ${salaryMin} - ${salaryMax}
                 </span>
                 <span className="offer-card-offerer__salary accent">
-                  Cvs Recibidos: {postulantes.length}
+                  Cvs Recibidos: {postulantes.length + cvsRevisados.length}
                 </span>
               </div>
             </div>
@@ -63,7 +63,7 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
               <button className="offer-card-offerer__panel-button top" title="Ver en detalle" onClick={(e) => handleGoToOfferDetails(e)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                   viewBox="0 0 24 24" fill="none" 
-                  stroke="currentColor" strokeWidth="2" 
+                  stroke="white" strokeWidth="2" 
                   strokeLinecap="round" strokeLinejoin="round" 
                   className="lucide lucide-newspaper-icon lucide-newspaper">
                   <path d="M15 18h-5"/><path d="M18 14h-8"/>
@@ -74,7 +74,7 @@ const OfferCardOfertante = ({ id, title, company, workType, location, salaryMin,
               <button className="offer-card-offerer__panel-button bottom" title={estado === "Abierto" ? "Cerrar" : "Reabrir"} onClick={(e) => handleCloseOffer(e)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                   viewBox="0 0 24 24" fill="none" 
-                  stroke="currentColor" strokeWidth="2" 
+                  stroke="white" strokeWidth="2" 
                   strokeLinecap="round" strokeLinejoin="round" 
                   className="lucide lucide-trash2-icon lucide-trash-2">
                   <path d="M10 11v6"/><path d="M14 11v6"/>

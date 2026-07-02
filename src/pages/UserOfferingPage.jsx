@@ -21,8 +21,8 @@ const UserOfferingPage = () => {
     const [error, setError] = useState(null)
 
     const [openedOfferId, setOpenedOfferId] = useState(null)
-    const [offersCV, setOffersCV] = useState([])
     const [offerSelected, setOfferSelected] = useState(null)
+    const [cvVisorSelected, setCvVisorSelected] = useState("PENDING")
 
     const [cvModalOpened, setCvModalOpened] = useState(false)
     const [cvModalBlobUrl, setCvModalBlobUrl] = useState(null)
@@ -32,8 +32,9 @@ const UserOfferingPage = () => {
     const [profilePicError, setProfilePicError] = useState(null)
     const [errorCVOpen, setErrorCVOpen] = useState(null)
     const [errorActionCV, setErrorActionCV] = useState(null)
-    const [page, setPage] = useState(0)
     const [errorToggleEstado, setErrorToggleEstado] = useState(null)
+    const [errorSavedCV, setErrorSavedCV] = useState(null)
+    const [page, setPage] = useState(0)
     const profilePicInputRef = useRef(null)
 
     useEffect(() => {
@@ -45,6 +46,15 @@ const UserOfferingPage = () => {
     const offersInDisplay = () => {
         return userOf.ofertasCreadas.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
     }
+
+    const selectedOffer =
+        userOf?.ofertasCreadas.find(offer => offer.id === openedOfferId)
+
+    const offersCV = {
+        pending: selectedOffer?.cvsRecibidos ?? [],
+        checked: selectedOffer?.cvsRevisados ?? []
+    }
+    
 
 
     useEffect(() => {
@@ -70,6 +80,7 @@ const UserOfferingPage = () => {
                         .catch(() => { })
                 }
                 setLoading(false)
+                console.log(userOf)
             })
             .catch(err => {
                 setError(err.message)
@@ -118,35 +129,35 @@ const UserOfferingPage = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-            .then(res => {
-                if (!res.ok) throw new Error('No se pudo cargar el CV')
-                return res.blob()
-            })
-            .then(blob => {
-                const blobUrl = URL.createObjectURL(blob)
-                setCvModalOpened(true)
-                setCvModalBlobUrl(blobUrl)
-                setCvModalFilename(filename)
+        .then(res => {
+            if (!res.ok) throw new Error('No se pudo cargar el CV')
+            return res.blob()
+        })
+        .then(blob => {
+            const blobUrl = URL.createObjectURL(blob)
+            setCvModalOpened(true)
+            setCvModalBlobUrl(blobUrl)
+            setCvModalFilename(filename)
 
-                if (estadoCv == "ESPERA") {
-                    return fetch("http://localhost:8080/postulante/respuestaCV", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`
-                        },
-                        body: JSON.stringify({
-                            id_postulante: id_postulante,
-                            id_oferta: id_oferta,
-                            tipo_aviso: "VISTO"
-                        })
+            if (estadoCv == "ESPERA") {
+                return fetch("http://localhost:8080/postulante/respuestaCV", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        id_postulante: id_postulante,
+                        id_oferta: id_oferta,
+                        tipo_aviso: "VISTO"
                     })
-                }
-            })
-            .catch((err) => {
-                console.error(err)
-                setErrorCVOpen(err.message)
-            })
+                })
+            }
+        })
+        .catch((err) => {
+            console.error(err)
+            setErrorCVOpen(err.message)
+        })
     }
 
     const handleCloseModal = () => {
@@ -191,22 +202,133 @@ const UserOfferingPage = () => {
                 tipo_aviso: estadoCv
             })
         })
-            .then(res => {
-                if (!res.ok) throw new Error('No se pudo procesar la acción en el CV seleccionado')
-                return res
-            })
-            .then(() => {
-                const modifiedCvs =
-                    offersCV.map(cv => (cv.id_oferta == id_oferta && cv.id_postulante == id_postulante) ?
-                        { ...cv, estadoCv: estadoCv }
-                        : cv)
-                setOffersCV(modifiedCvs)
-            })
-            .catch(err => {
-                setErrorActionCV(err.message)
-            })
+        .then(res => {
+            if (!res.ok) throw new Error('No se pudo procesar la acción en el CV seleccionado')
+            return res
+        })
+        .then(() => {
+            const offerChange = offersCV.pending.find(cv => (cv.id_oferta == id_oferta && cv.id_postulante == id_postulante))
+            if (!offerChange) return
+            const modifiedPending =
+                    offersCV.pending.filter(cv => !(cv.id_oferta == id_oferta && cv.id_postulante == id_postulante))
+            
+            const modifiedChecked = [...offersCV.checked, {...offerChange, estadoCv : estadoCv}]
+            
+            setUserOf(prev => ({
+                ...prev,
+                ofertasCreadas: prev.ofertasCreadas.map(offer =>
+                    offer.id === id_oferta
+                        ? {
+                            ...offer,
+                            cvsRecibidos: modifiedPending,
+                            cvsRevisados: modifiedChecked
+                        }
+                        : offer
+                )
+            }))
+        })
+        .catch(err => {
+            setErrorActionCV(err.message)
+        })
     }
 
+    const handleRemovePostulationCV = (id_postulante, id_oferta) => {
+        fetch(`http://localhost:8080/ofertante/deletePostulationCV`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id_postulante: id_postulante,
+                id_oferta: id_oferta,
+            })
+        })
+        .then(res => {
+                if (!res.ok) throw new Error('No se pudo eliminar el CV')
+                return res.text()
+            })
+        .then(() => {
+            const modifiedCVs = offersCV.checked.filter(cv => !(cv.id_oferta == id_oferta && cv.id_postulante == id_postulante))
+            
+            setUserOf(prev => ({
+                ...prev,
+                ofertasCreadas: prev.ofertasCreadas.map(offer =>
+                    offer.id === id_oferta
+                        ? {
+                            ...offer,
+                            cvsRevisados: modifiedCVs
+                        }
+                        : offer
+                )
+            }))
+        })
+        .catch(err => {
+            setError(err.message)
+        })
+    }
+
+    const handleSaveCV = (id_postulante, cvPath) => {
+        fetch(`http://localhost:8080/ofertante/saveCV`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idPostulante: id_postulante,
+                idOfertante: id,
+                cvPath: cvPath
+            })
+        })
+        .then(async res => {
+                if (res.status === 400) {
+                    const error = await res.json()
+                    throw new Error(error.message)
+                }
+                if (!res.ok) throw new Error('No se pudo guardar el CV')
+                return res.text()
+            })
+        .then(() => {
+            const modifiedList = [...userOf.cvsGuardados, {id_postulante : id_postulante, cvPath : cvPath}]
+            setUserOf(prev => ({
+                ...prev,
+                cvsGuardados : modifiedList}))
+        })
+        .catch(err => {
+            setErrorSavedCV(err.message)
+        })
+    }
+
+    const handleRemoveSavedCV = (id_postulante, cvPath) => {
+        fetch(`http://localhost:8080/ofertante/deleteSavedCV`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idPostulante: id_postulante,
+                idOfertante: id,
+                cvPath: cvPath
+            })
+        })
+        .then(res => {
+                if (!res.ok) throw new Error('No se pudo eliminar el CV')
+                return res.text()
+            })
+        .then(() => {
+            const modifiedList = userOf.cvsGuardados.filter(cv => 
+                !(id_postulante == cv.id_postulante && cvPath == cv.cvPath))
+            setUserOf(prev => ({
+                ...prev,
+                cvsGuardados : modifiedList}))
+        })
+        .catch(err => {
+            setError(err.message)
+        })
+    }
+ 
     const handlePreviousPage = () => {
         if (page != 0) {
             setPage(page - 1)
@@ -217,6 +339,10 @@ const UserOfferingPage = () => {
         if (PAGE_SIZE * (page + 1) < userOf.ofertasCreadas.length) {
             setPage(page + 1)
         }
+    }
+
+    const cvsToShow = () => {
+        return cvVisorSelected === "PENDING" ? offersCV.pending : offersCV.checked
     }
 
     if (loading) return <p>Cargando perfil...</p>
@@ -232,6 +358,8 @@ const UserOfferingPage = () => {
                 onAlertClose={() => setErrorActionCV(null)}/> : <></>}
               {errorToggleEstado ? <ErrorAlert textForError={errorToggleEstado} page="offerer" 
                 onAlertClose={() => setErrorToggleEstado(null)}/>: <></>}
+              {errorSavedCV ? <ErrorAlert textForError={errorSavedCV} page="offerer" 
+                  onAlertClose={() => setErrorSavedCV(null)}/>: <></>}
             </div>
             {cvModalOpened && (
                 <CvModal
@@ -287,9 +415,15 @@ const UserOfferingPage = () => {
                         </div>
                         :
                         <div className="section-cv-visor-opened">
-                            <div>Viendo CVs de oferta: {offerSelected}</div>
+                            <div className="tab-cv-selector">
+                                <button className={`tab-left ${cvVisorSelected === "PENDING" ? "selected" : "non-selected"}`} 
+                                        onClick={() => setCvVisorSelected("PENDING")}>CVs pendientes</button>
+                                <button className={`tab-right ${cvVisorSelected === "CHECKED" ? "selected" : "non-selected"}`} 
+                                        onClick={() => setCvVisorSelected("CHECKED")}>CVs revisados</button>
+                            </div>
+                            <div className='title-visor-cvs'>Viendo CVs de oferta: {offerSelected}</div>
                             <div className="all-cv-section">
-                                {offersCV.map((cv) => (
+                                {cvsToShow().map((cv) => (
                                     <div className="cv-unit-wrapper">
                                         <div className={`cv-document ${cv.estadoCv || "ESPERA"}`}
                                             onClick={() => handleOpenCV(cv.id_postulante, cv.cvPathPostulacion, cv.id_oferta, cv.estadoCv)}>
@@ -310,17 +444,29 @@ const UserOfferingPage = () => {
                                         </div>
                                         {cv.estadoCv == "RECHAZADO" || cv.estadoCv == "CONSIDERACION" ?
                                             <div className="cv-unit-buttons-section">
-                                                <button className="cv-unit-button-unique" disabled={true}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" strokeWidth="2"
-                                                        strokeLinecap="round" strokeLinejoin="round"
-                                                        className="lucide lucide-info-icon lucide-info">
-                                                        <circle cx="12" cy="12" r="10" />
-                                                        <path d="M12 16v-4" />
-                                                        <path d="M12 8h.01" />
+                                                <button className="cv-unit-button tick" onClick={() => handleSaveCV(cv.id_postulante, cv.cvPathPostulacion)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" 
+                                                        width="24" height="24" viewBox="0 0 24 24" 
+                                                        fill="none" stroke="currentColor" 
+                                                        strokeWidth="2" strokeLinecap="round" 
+                                                        strokeLinejoin="round" 
+                                                        className="lucide lucide-bookmark-icon lucide-bookmark">
+                                                        <path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z"/>
                                                     </svg>
-                                                    <span className="tooltip-cv-button unique">Futura acción a definir</span>
+                                                    <span className="tooltip-cv-button">Guardar CV</span>
+                                                </button>
+                                                <button className="cv-unit-button cross" onClick={() => handleRemovePostulationCV(cv.id_postulante, cv.id_oferta)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" 
+                                                        width="24" height="24" viewBox="0 0 24 24" 
+                                                        fill="none" stroke="currentColor" 
+                                                        strokeWidth="2" strokeLinecap="round" 
+                                                        strokeLinejoin="round" 
+                                                        class="lucide lucide-trash2-icon lucide-trash-2">
+                                                        <path d="M10 11v6"/><path d="M14 11v6"/>
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                                        <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                                    </svg>
+                                                    <span className="tooltip-cv-button">Eliminar CV de oferta</span>
                                                 </button>
                                             </div>
                                             :
@@ -356,6 +502,46 @@ const UserOfferingPage = () => {
                             </div>
                         </div>
                     }
+                    <div className="visor-saved-cv">
+                        <div className='title-visor-saved-cvs'>Viendo CVs guardados anteriormente</div>
+                        <div className="saved-cv-list">      
+                        {userOf.cvsGuardados.map((cv) => (
+                            <div className="cv-unit-wrapper">
+                                <div className={`cv-document`}
+                                    onClick={() => handleOpenCV(cv.id_postulante, cv.cvPath, "", "")}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" display="block"
+                                        width="137" height="170" viewBox="3.8 7.5 17 8.3" fill="#646464c0" 
+                                        strokeWidth="0.38" strokeLinecap="round" strokeLinejoin="round"
+                                        fontWeight="300"
+                                        className="cv-svg lucide lucide-file-icon lucide-file">
+                                        <path d="M6 22 H4 V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8 V22 Z"/>
+                                        <path d="M14 2v5a1 1 0 0 0 1 1h5"/>
+                                    </svg>
+                                    <span className="cv-name">
+                                        {cv.cvPath.split('/').pop()}
+                                    </span>
+                                    <span className='cv-label-tooltip'>
+                                        Haga click para ver el CV en detalle
+                                    </span>
+                                </div>
+                                <div className="cv-unit-buttons-section">
+                                   <button className="cv-unit-button-unique" onClick={() => handleRemoveSavedCV(cv.id_postulante, cv.cvPath)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" 
+                                            width="24" height="24" viewBox="0 0 24 24" 
+                                            fill="none" stroke="currentColor" strokeWidth="2"
+                                            strokeLinecap="round" strokeLinejoin="round" 
+                                            class="lucide lucide-trash2-icon lucide-trash-2">
+                                            <path d="M10 11v6"/><path d="M14 11v6"/>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                                            <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                        </svg>
+                                       <span className="tooltip-cv-button unique">Eliminar CV Guardado</span>
+                                   </button>
+                                </div>
+                            </div>   
+                        ))}
+                        </div>
+                    </div>              
                 </div>
                 <div className="section-offers">
                     <div className="offers-header">
@@ -380,9 +566,9 @@ const UserOfferingPage = () => {
                                 salaryMin={offer.sueldoMin}
                                 salaryMax={offer.sueldoMax}
                                 postulantes={offer.cvsRecibidos}
+                                cvsRevisados={offer.cvsRevisados}
                                 idOpened={openedOfferId}
                                 setIdOpened={setOpenedOfferId}
-                                setCVs={setOffersCV}
                                 setOfferName={() => setOfferSelected(offer.titulo)}
                                 estado={offer.estado}
                                 onToggleEstado={() => handleToggleEstado(offer.id)}

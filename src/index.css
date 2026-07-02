@@ -580,7 +580,62 @@ body {
   height: 70px;
   background-color: white;
   margin: 0 10px 0 -60px;
-  
+}
+
+.tab-cv-selector {
+  display: flex;
+  flex-direction: row;
+}
+
+.tab-left {
+  background-color: #b86a2d;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-right: 1px solid black;
+  width: 223px;
+  height: 30px;
+}
+
+.tab-left:hover {
+  background-color: #b8692d81;
+  border-right: 1px solid rgb(5, 172, 172);
+  cursor: pointer;
+}
+
+.tab-left.selected {
+  border: 1px solid #bdbd00;
+}
+
+.tab-left.non-selected {
+  opacity: 0.6;
+}
+
+.tab-right {
+  background-color: #4d79a8;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-left: 1px solid black;
+  width: 223px;
+  height: 30px;
+}
+
+.tab-right:hover {
+  background-color: #2186de7d;
+  border-right: 1px solid rgb(5, 172, 172);
+  cursor: pointer;
+}
+
+.tab-right.selected {
+  border: 1px solid #bdbd00;
+}
+
+.tab-right.non-selected {
+  opacity: 0.6;
+}
+
+.title-visor-cvs {
+  margin-top: 10px;
+  margin-left: 5px;
 }
 
 .grid-cv-visor-offer {
@@ -603,17 +658,19 @@ body {
   padding: 10px;
   border-radius: 8px;
   border : 3px double rgb(4, 166, 210);
-  height: 400px;
-  max-height: 640px;
+  width: 455px;
+  min-height: 400px;
+  max-height: 680px;
   overflow-y: auto;
   overflow: visible;
 }
 
 .all-cv-section {
   display: grid;
+  margin-left: 5px;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  padding-top: 15px;
+  padding-top: 10px;
 }
 
 .cv-document {
@@ -639,11 +696,16 @@ body {
 
 .cv-name {
   position: absolute;
-  top: 35%;
-  padding: 0 1px;
+  top: 36%;
+  width: 100%;
   text-align: center;
-  overflow:visible;
   cursor: pointer;
+  overflow-wrap: break-word;
+  overflow:hidden;
+
+  display:-webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .cv-label-tooltip {
@@ -668,6 +730,7 @@ body {
 .cv-unit-buttons-section {
   display: flex;
   flex-direction: row;
+  margin-bottom: 15px;
 }
 
 .cv-unit-button {
@@ -678,7 +741,6 @@ body {
   border: 3px solid rgb(204, 204, 204);
   height: 33px;
   width: 66px;
-  
 }
 
 .cv-unit-button.tick {
@@ -693,16 +755,17 @@ body {
 
 .cv-unit-button-unique {
   position: relative;
-  background-color:rgb(145, 145, 145);
+  background-color: rgb(49, 134, 199);
   width: 132px;
   border: 3px solid rgb(204, 204, 204);
   border-top: 1px solid black;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  cursor: pointer;
 }
 
-.cv-unit-button-unique:disabled {
-  cursor: not-allowed;
+.cv-unit-button-unique:hover {
+  background-color:rgb(34, 86, 127);
 }
 
 .tooltip-cv-button {
@@ -714,6 +777,7 @@ body {
   color: #000;
   white-space: nowrap;
   visibility: hidden;
+  z-index: 3;
 }
 
 .tooltip-cv-button {
@@ -751,6 +815,34 @@ body {
 
 .cv-unit-button.cross:hover {
   background-color: rgb(119, 30, 30);
+}
+
+.visor-saved-cv {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  border : 3px double chocolate;
+  height: 260px;
+  width: 455px;
+}
+
+.title-visor-saved-cvs {
+  position: static;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+
+.saved-cv-list{
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+  gap: 10px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  overflow: visible;
 }
 
 .offers-pagination-arrows {
