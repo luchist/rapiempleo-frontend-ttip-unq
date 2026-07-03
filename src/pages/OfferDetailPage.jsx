@@ -7,7 +7,7 @@ import ConfirmationAlert from '../components/alerts/ConfirmationAlert'
 import UserContext from '../components/UserProvider'
 import ErrorAlertPage from '../components/alerts/ErrorAlertPage'
 
-const OfferDetailPage = (handlePreviousPage) => {
+const OfferDetailPage = () => {
     const { id } = useParams()
     const [offer, setOffer] = useState(null)
     const [loading, setLoading] = useState(true)
