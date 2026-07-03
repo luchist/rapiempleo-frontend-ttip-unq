@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
 import ConfirmationAlert from '../components/alerts/ConfirmationAlert'
@@ -7,7 +7,7 @@ import ConfirmationAlert from '../components/alerts/ConfirmationAlert'
 import UserContext from '../components/UserProvider'
 import ErrorAlertPage from '../components/alerts/ErrorAlertPage'
 
-const OfferDetailPage = () => {
+const OfferDetailPage = (handlePreviousPage) => {
     const { id } = useParams()
     const [offer, setOffer] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -22,6 +22,7 @@ const OfferDetailPage = () => {
 
     const token = localStorage.getItem("token");
     const { user } = useContext(UserContext);
+    const navigate = useNavigate()
 
     useEffect(() => {
         setLoading(true)
@@ -148,7 +149,7 @@ const OfferDetailPage = () => {
     if (loading) return <p>Cargando oferta...</p>
     if (error) return (
         <div className="offer-detail">
-            <Link to="/" className="offer-detail__back">← Volver</Link>
+            <Button to="/" className="offer-detail__back">← Volver</Button>
             <ErrorAlertPage textForError={error}/>
         </div>
     )
@@ -161,7 +162,7 @@ const OfferDetailPage = () => {
 
     return (
         <div className="offer-detail">
-            <Link to="/" className="offer-detail__back">← Volver</Link>
+            <button className="offer-detail__back" onClick={() => navigate(-1)}>← Volver</button>
             {showConfirmButton ? 
                 <ConfirmationAlert 
                     questionMessage="¿Esta seguro que desea postularse en esta oferta?"
@@ -191,7 +192,7 @@ const OfferDetailPage = () => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '15px'}}>
                 {/* Contenedor relativo para que las partículas se posicionen respecto al btn */}
-                <div style={{ position: 'relative', width: 'fit-content' }}>
+                <div style={{ position: 'relative', width: 'fit-content' }} className={user.typeUser == false ? "postulation-disabled" : ""}>
                     {particles.map(p => (
                         <span
                             key={p.id}
@@ -205,8 +206,7 @@ const OfferDetailPage = () => {
                     <button
                         ref={btnRef}
                         type="button"
-                        className={`offer-detail__apply-btn${hasApplied || offer.estado === 'Cerrado' ? ' offer-detail__apply-btn--applied' : ''
-                            }`}
+                        className={`offer-detail__apply-btn${hasApplied || offer.estado === 'Cerrado' ? ' offer-detail__apply-btn--applied' : '' }`}
                         onClick={() => setShowConfirmButton(true)}
                         disabled={applying || hasApplied || offer.estado === 'Cerrado'}
                     >

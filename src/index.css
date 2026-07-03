@@ -368,6 +368,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+
+  background-color:#00000000;
   color: rgba(255, 255, 255, 0.45);
   text-decoration: none;
   font-size: 14px;
@@ -466,6 +468,10 @@ body {
   padding: 0;
   background-color: rgba(255, 255, 255, 0);
   color: rgba(34, 219, 195, 0.3);
+}
+
+.postulation-disabled {
+  visibility: hidden;
 }
 
 .favorite-pointer {
