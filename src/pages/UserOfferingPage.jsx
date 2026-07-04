@@ -240,8 +240,8 @@ const UserOfferingPage = () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                id_postulante: id_postulante,
-                id_oferta: id_oferta,
+                idPostulante: id_postulante,
+                idOferta: id_oferta,
             })
         })
         .then(res => {
