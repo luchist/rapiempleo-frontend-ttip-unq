@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-   border: 1px solid chocolate;
+    border: 1px solid chocolate;
 }
 
 .image-logo-login {
@@ -51,7 +51,7 @@
 }
 
 .button-tab-left {
-    background-color: #b86a2d;
+    background-color: #a5683ad3;
     border-top-left-radius: 10px;
     border-right: 1px solid black;
     width: 186px;
@@ -100,7 +100,7 @@
     display: block;
     /*width: 100%;*/
     max-width: 320px;
-    background-color: #b86a2d;
+    background-color: #a5683ad3;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     box-shadow: 7px 7px 7px rgba(242, 147, 47, 0.3);

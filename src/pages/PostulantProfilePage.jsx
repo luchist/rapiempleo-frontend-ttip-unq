@@ -259,36 +259,6 @@ const PostulantProfilePage = () => {
       e.stopPropagation()
       setShowConfirmButton(true)
       setCurrentCVOnAction(cvPath)
-    //  fetch(`${BASE_URL}/postulante/removeCV`, {
-    //    method: "DELETE",
-    //    headers: {
-    //      Authorization: `Bearer ${token}`,
-    //      "Content-Type": "application/json"
-    //    },
-    //    body: JSON.stringify({
-    //      idPostulante : id,
-    //      cvPath : cvPath
-    //    }),
-    //  })
-    //  .then(res => {
-    //    if (!res.ok) throw new Error("No se pudo eliminar el CV deseado")
-    //    return res.text()
-    //  })
-    //  .then(() => {
-    //    const updatedSlots = cvSlots.filter(slot => slot !== cvPath)
-    //    updatedSlots.push(null)
-    //    setCvSlots(updatedSlots)
-    //    if (updatedSlots.every(slot => slot == null)) {
-    //      setCvFavorito(null)
-    //    } else if (cvPath === cvFavorito) {
-    //      const firstAvailable = updatedSlots.find(slot => slot != null)
-    //      setCvFavorito(firstAvailable)
-    //    }
-    //  })
-    //  .catch(err => {
-    //    console.error(err)
-    //    setErrorCVRemove(err.message)
-    //  })
   }
 
   const handleRemoveConfirm = () => {
