@@ -49,7 +49,7 @@ const SearchBar = ({ onSearch, onAiSearch, inputValue = '', onInputChange }) => 
         </button>
       </div>
       <p className="search-bar__hint">
-        ej: <span>titulo:</span> analista, <span>empresa:</span> Google, <span>modalidad:</span> Remoto, <span>ubicacion:</span> Buenos Aires
+        ej: <span>desarrollador frontend remoto en Buenos Aires</span>
       </p>
     </div>
   )
