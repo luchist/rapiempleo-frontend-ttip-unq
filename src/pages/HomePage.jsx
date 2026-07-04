@@ -4,13 +4,6 @@ import OfferGrid from '../components/offers/OfferGrid'
 import AiLoadingIndicator from '../components/search/AiLoadingIndicator'
 import UserContext from '../components/UserProvider'
 
-const KEY_MAP = {
-  titulo: 'title',
-  empresa: 'company',
-  modalidad: 'workType',
-  ubicacion: 'location',
-}
-
 const HomePage = () => {
   const [query, setQuery] = useState(null)
   const [aiQuery, setAiQuery] = useState(null)
@@ -25,23 +18,6 @@ const HomePage = () => {
   const userStoraged = JSON.parse(localStorage.getItem("user"))
   const typeUser = userStoraged?.typeUser
 
-  const parseQuery = (query) => {
-    if (!query.includes(':')) {
-      return { title: query }
-    }
-    const params = {}
-    query.split(',').forEach((part) => {
-      const [rawKey, ...rest] = part.split(':')
-      const key = rawKey.trim().toLowerCase()
-      const value = rest.join(':').trim()
-      const mappedKey = KEY_MAP[key]
-      if (mappedKey && value) {
-        params[mappedKey] = value
-      }
-    })
-    return params
-  }
-
   useEffect(() => {
 
     const buildAiSearchUrl = () => {
@@ -49,8 +25,7 @@ const HomePage = () => {
     }
 
     const buildSearchUrl = (query) => {
-      const params = parseQuery(query)
-      const urlParams = new URLSearchParams(params)
+      const urlParams = new URLSearchParams({ q: query })
       return `http://localhost:8080/search?${urlParams}`
     }
 

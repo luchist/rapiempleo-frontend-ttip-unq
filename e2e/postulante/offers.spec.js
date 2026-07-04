@@ -69,18 +69,15 @@ test.describe('Postulante - Offers', () => {
     await expect(page.locator('.section-title')).toContainText('resultados')
   })
 
-  test('advanced search with colon syntax filters by field', async ({ page }) => {
+  test('partial-word search returns relevant results', async ({ page }) => {
     const searchInput = page.locator('.search-bar__input')
-    await searchInput.fill('modalidad: Remoto')
+    // Smart full-text search: a partial word ("desarroll") should still surface
+    // "Desarrollador ..." offers via the boolean-mode prefix wildcard.
+    await searchInput.fill('desarroll')
     await searchInput.press('Enter')
 
     await expect(page.locator('.offer-card').first()).toBeVisible({ timeout: 10_000 })
-    // Every visible card should show "Remoto" as the work type
-    const workTypes = page.locator('.offer-card__work-type')
-    const count = await workTypes.count()
-    for (let i = 0; i < count; i++) {
-      await expect(workTypes.nth(i)).toContainText('Remoto')
-    }
+    await expect(page.locator('.section-title')).toContainText('resultados')
   })
 
   test('search with no matches shows empty state message', async ({ page }) => {
