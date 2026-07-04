@@ -1,0 +1,50 @@
+/*
+ * Theme tokens.
+ * :root holds the dark theme (the app's original, default look).
+ * [data-theme="light"] overrides only the values that change for light mode.
+ * The data-theme attribute is set on <html> by ThemeProvider.
+ *
+ * The `*-rgb` tokens hold a bare "r, g, b" triple so they can be used inside
+ * rgba(var(--token), <opacity>) — this is how the many translucent surfaces,
+ * borders and muted-text colors keep their individual opacity while flipping
+ * their base color between themes.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* backgrounds & surfaces */
+  --bg: #0d1117;
+  --surface: #1c2028; /* panels, modals, tooltips (also the old #1c2330) */
+  --overlay-rgb: 255, 255, 255; /* translucent surfaces / borders / muted text */
+
+  /* text */
+  --text: #e6edf3;
+  --text-rgb: 230, 237, 243; /* muted text: rgba(var(--text-rgb), X) */
+  --on-accent: #0d1117; /* text drawn on top of the orange accent */
+
+  /* brand accents (kept identical across themes) */
+  --accent: #ff9500;
+  --accent-rgb: 255, 149, 0;
+  --cyan: #22dbc3;
+  --cyan-rgb: 34, 219, 195;
+  --purple-rgb: 139, 92, 246;
+  --purple-light: #a78bfa;
+
+  /* status */
+  --danger: #f87171;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f6f8fa;
+  --surface: #ffffff;
+  --overlay-rgb: 0, 0, 0; /* flips white overlays into subtle dark overlays */
+
+  --text: #1c2028;
+  --text-rgb: 28, 32, 40;
+  --on-accent: #0d1117; /* dark text still reads well on orange */
+
+  /* brand accents & status inherit from :root (unchanged) */
+}

@@ -1,5 +1,5 @@
 .accent {
-  color: #ff9500;
+  color: var(--accent);
 }
 
 .offer-card-wrap {
@@ -9,8 +9,8 @@
 }
 
 .offer-card-offerer {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(var(--overlay-rgb), 0.04);
+  border: 1px solid rgba(var(--overlay-rgb), 0.07);
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
@@ -22,13 +22,13 @@
 }
 
 .offer-card-offerer:hover {
-  border-color: rgba(255, 149, 0, 0.4);
-  box-shadow: 0 8px 30px rgba(255, 149, 0, 0.08);
+  border-color: rgba(var(--accent-rgb), 0.4);
+  box-shadow: 0 8px 30px rgba(var(--accent-rgb), 0.08);
 }
 
 .offer-card-offerer-selected{
-  border-color: rgba(255, 149, 0, 0.837);
-  box-shadow: 0 8px 30px rgba(255, 149, 0, 0.08);
+  border-color: rgba(var(--accent-rgb), 0.837);
+  box-shadow: 0 8px 30px rgba(var(--accent-rgb), 0.08);
 }
 
 .offer-card-offerer__header {
@@ -46,7 +46,7 @@
 }
 
 .offer-card-offerer__favorite {
-  color: rgba(34, 219, 195, 0.3);
+  color: rgba(var(--cyan-rgb), 0.3);
 }
 
 .offer-card-offerer__footer {
@@ -61,7 +61,7 @@
   font-family: Geist Mono, monospace;
   font-size: 17px;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--text);
 }
 
 .offer-card-offerer__salary {
@@ -72,7 +72,7 @@
 
 .offer-card-offerer__location {
   font-size: 14px;
-  color: rgba(34, 219, 195, 0.3);
+  color: rgba(var(--cyan-rgb), 0.3);
   padding: 0 0 0 0;
 }
 
@@ -91,7 +91,7 @@
 .offer-card-offerer__panel-button {
   height: 89px;
   padding: 28px 6px;
-  border: 2px solid rgba(255, 255, 255, 0.07);
+  border: 2px solid rgba(var(--overlay-rgb), 0.07);
   cursor: pointer;
 }
 
@@ -123,8 +123,8 @@
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.08);
+    color: rgba(var(--overlay-rgb), 0.5);
+    background: rgba(var(--overlay-rgb), 0.08);
     border-radius: 4px;
     padding: 2px 7px;
 }

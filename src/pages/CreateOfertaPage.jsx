@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import MDEditor ,  { commands } from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
 import UserContext from '../components/UserProvider'
+import ThemeContext from '../components/ThemeProvider'
 import ErrorAlert from '../components/alerts/ErrorAlert'
 import ConfirmationAlert from '../components/alerts/ConfirmationAlert'
 
@@ -12,6 +13,7 @@ const CreateOfertaPage = () => {
     const { id } = useParams()
     const navigate = useNavigate()
     const { user } = useContext(UserContext)
+    const { theme } = useContext(ThemeContext)
     const token = localStorage.getItem('token')
 
     const [form, setForm] = useState({
@@ -341,7 +343,7 @@ const CreateOfertaPage = () => {
                     <div className="create-oferta-form__group">
                         <label className="create-oferta-form__label">Descripción</label>
                         <div
-                            data-color-mode="dark"
+                            data-color-mode={theme}
                             className="create-oferta-form__md-wrapper"
                             onBlur={(e) => {
                                 if (!e.currentTarget.contains(e.relatedTarget)) handleDescriptionBlur()

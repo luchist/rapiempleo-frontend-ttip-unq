@@ -1,0 +1,28 @@
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.offer-grid a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: stretch;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.layout__content {
+  flex: 1 1 0%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  overflow: auto;
+}

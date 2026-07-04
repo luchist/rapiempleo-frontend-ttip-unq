@@ -1,4 +1,8 @@
-.offer-card-favorite {
+.accent {
+  color: var(--accent);
+}
+
+.offer-card {
   background: rgba(var(--overlay-rgb), 0.04);
   border: 1px solid rgba(var(--overlay-rgb), 0.07);
   border-radius: 12px;
@@ -6,53 +10,55 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 180px;
-  max-width: 270px;
-  min-width: 240px;
+  height: 100%;
+  width: 100%;
   cursor: default;
 }
 
-.offer-card-favorite:hover {
+.offer-card:hover {
   border-color: rgba(var(--accent-rgb), 0.4);
+  transform: translateY(-3px);
   box-shadow: 0 8px 30px rgba(var(--accent-rgb), 0.08);
 }
 
-.offer-card-favorite__header {
+.offer-card__header {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 16px;
 }
 
-.offer-card-favorite__company {
+.offer-card__company {
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.offer-card-favorite__favorite-icon {
+.offer-card__favorite {
   display: flex;
   border: 0;
   padding: 0;
   background-color: rgba(var(--overlay-rgb), 0);
   color: rgba(var(--cyan-rgb), 0.3);
-  cursor: pointer;
 }
-/*
+
 .favorite-pointer {
   cursor: pointer;
 }
-*/
 
-.offer-card-favorite__footer {
+.favorite-hidden {
+  visibility: hidden;
+}
+
+.offer-card__footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 16px 0 0;
 }
 
-.offer-card-favorite__title {
+.offer-card__title {
   margin: 0;
   font-family: Geist Mono, monospace;
   font-size: 17px;
@@ -60,36 +66,25 @@
   color: var(--text);
 }
 
-.offer-card-favorite__salary {
+.offer-card__salary {
   padding: 16px;
   font-size: 15px;
   font-weight: 700;
 }
 
+.offer-card__location {
+  font-size: 14px;
+  color: rgba(var(--cyan-rgb), 0.3);
+  padding: 0 0 0 0;
+}
 
-.offer-card-favorite__work-type {
+.offer-card__location-text {
+  padding-left: 4px;
+}
+
+.offer-card__work-type {
   font-size: 13px;
   color: rgba(93, 85, 85, 0.6);
   margin-top: 0px;
   margin-bottom: auto;
-}
-
-.offer-card-favorite__header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.offer-card-favorite__estado-badge {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(var(--overlay-rgb), 0.5);
-  background: rgba(var(--overlay-rgb), 0.08);
-  border-radius: 4px;
-  padding: 2px 7px;
-}
-
-.offer-card-favorite--closed {
-  opacity: 0.6;
 }
