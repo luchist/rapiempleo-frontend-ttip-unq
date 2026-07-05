@@ -16,6 +16,7 @@
   font-size: 14px;
   transition: color 0.2s;
   width: fit-content;
+  border: none;
 }
 
 .offer-detail__back:hover {

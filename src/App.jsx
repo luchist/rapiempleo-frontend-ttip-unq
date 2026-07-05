@@ -10,6 +10,7 @@ import { ThemeProvider } from './components/ThemeProvider'
 import BoardPage from './pages/BoardPage'
 import OfertanteRegisterPage from './pages/OfertanteRegisterPage'
 import CreateOfertaPage from './pages/CreateOfertaPage'
+import EstadisticasPage from './pages/EstadisticasPage'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="ofertante/:id/create-oferta" element={<CreateOfertaPage />}/>
               <Route path="postulante/:id" element={<PostulantProfilePage />}/>
               <Route path="postulante/:id/board" element={<BoardPage />}/>
+              <Route path="estadisticas" element={<EstadisticasPage />}/>
             </Route>
           </Routes>
         </BrowserRouter>

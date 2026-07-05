@@ -92,7 +92,14 @@ const Sidebar = () => {
         </svg>
       )
     },
-    {
+  ]
+
+
+  if (!isLogged) {
+    NAV_ITEMS
+  } else if (user.typeUser) {
+
+    NAV_ITEMS.push({
       path: '/estadisticas',
       label: 'Estadísticas',
       icon: (
@@ -102,13 +109,7 @@ const Sidebar = () => {
           <line x1="6" y1="20" x2="6" y2="14" />
         </svg>
       )
-    },
-  ]
-
-
-  if (!isLogged) {
-    NAV_ITEMS
-  } else if (user.typeUser) {
+    })
 
     NAV_ITEMS.push({
       path: `/postulante/${user.id}/board`,
