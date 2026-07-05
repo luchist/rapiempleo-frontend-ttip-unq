@@ -57,9 +57,8 @@
   opacity: 1;
 }
 
-/* Pushes the theme toggle (and the logout icon that follows it) to the bottom */
 .theme-toggle-icon {
-  margin-top: auto;
+  margin-top: inherit;
 }
 
 .log-out-icon {

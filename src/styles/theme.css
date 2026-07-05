@@ -25,6 +25,8 @@
   --offer-card-location-color: rgba(var(--cyan-rgb), 0.3); /* location text on offer cards */
   --offer-card-offerer-panel-button-top-background-color: rgba(211, 89, 45, 0.217); /* background color for offer card panel button bottom */
   --offer-card-offerer-panel-button-bottom-background-color: rgba(174, 47, 47, 0.217); /* background color for offer card panel button bottom */
+  --search-bar-ai-btn-color:  rgba(196, 181, 253, 0.85); /* color for the AI button in the search bar */
+  --search-bar-ai-btn-border-color: rgba(167, 139, 250, 0.35); /* border color for the AI button in the search bar */
 
   /* text */
   --text: #e6edf3;
@@ -58,6 +60,8 @@
   --offer-card-location-color: black; /* location text on offer cards */
   --offer-card-offerer-panel-button-top-background-color: rgba(211, 89, 45, 0.4); /* background color for offer card panel button bottom */
   --offer-card-offerer-panel-button-bottom-background-color: rgba(174, 47, 47, 0.4); /* background color for offer card panel button bottom */
+  --search-bar-ai-btn-color:  black; /* color for the AI button in the search bar */
+  --search-bar-ai-btn-border-color: black; /* border color for the AI button in the search bar */
 
     /* text */
   --text: #1c2028;
