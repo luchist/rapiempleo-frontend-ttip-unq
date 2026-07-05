@@ -22,6 +22,9 @@
   --postulante-profile-cv-slot-loaded-border: rgba(var(--cyan-rgb), 0.4); /* border color for loaded CV slot */
   --postulante-profile-cv-slot-loaded-background: rgba(var(--cyan-rgb), 0.05); /* background color for loaded CV slot */
   --postulante-profile-cv-slot-name-color: rgba(var(--cyan-rgb), 0.8); /* text color for loaded CV slot name */
+  --offer-card-location-color: rgba(var(--cyan-rgb), 0.3); /* location text on offer cards */
+  --offer-card-offerer-panel-button-top-background-color: rgba(211, 89, 45, 0.217); /* background color for offer card panel button bottom */
+  --offer-card-offerer-panel-button-bottom-background-color: rgba(174, 47, 47, 0.217); /* background color for offer card panel button bottom */
 
   /* text */
   --text: #e6edf3;
@@ -52,6 +55,9 @@
   --postulante-profile-cv-slot-loaded-border: black; /* border color for loaded CV slot */
   --postulante-profile-cv-slot-loaded-background: rgba(var(--cyan-rgb), 0.14); /* background color for loaded CV slot */
   --postulante-profile-cv-slot-name-color: black; /* text color for loaded CV slot name */
+  --offer-card-location-color: black; /* location text on offer cards */
+  --offer-card-offerer-panel-button-top-background-color: rgba(211, 89, 45, 0.4); /* background color for offer card panel button bottom */
+  --offer-card-offerer-panel-button-bottom-background-color: rgba(174, 47, 47, 0.4); /* background color for offer card panel button bottom */
 
     /* text */
   --text: #1c2028;
