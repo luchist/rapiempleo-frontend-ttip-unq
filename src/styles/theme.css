@@ -52,8 +52,8 @@
   --bg: #ebeae3;
   --surface: #ffffff;
   --overlay-rgb: 0, 0, 0; /* flips white overlays into subtle dark overlays */
-  --offer-card-location-color: rgba(black, 0.9); /* location text on offer cards */
-  --offer-card-favorite-color: rgba(black, 0); /* favorite icon on offer cards */
+  --offer-card-location-color: rgba(0,0,0, 0.8); /* location text on offer cards */
+  --offer-card-favorite-color: rgba(0,0,0, 0.6); /* favorite icon on offer cards */
   --postulante-profile-cv-slot-loaded-border: black; /* border color for loaded CV slot */
   --postulante-profile-cv-slot-loaded-background: rgba(var(--cyan-rgb), 0.14); /* background color for loaded CV slot */
   --postulante-profile-cv-slot-name-color: black; /* text color for loaded CV slot name */
