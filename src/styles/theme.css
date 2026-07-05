@@ -17,6 +17,11 @@
   --bg: #0d1117;
   --surface: #1c2028; /* panels, modals, tooltips (also the old #1c2330) */
   --overlay-rgb: 255, 255, 255; /* translucent surfaces / borders / muted text */
+  --offer-card-location-color: rgba(var(--cyan-rgb), 0.3); /* location text on offer cards */
+  --offer-card-favorite-color: rgba(var(--cyan-rgb), 0.3); /* favorite icon on offer cards */
+  --postulante-profile-cv-slot-loaded-border: rgba(var(--cyan-rgb), 0.4); /* border color for loaded CV slot */
+  --postulante-profile-cv-slot-loaded-background: rgba(var(--cyan-rgb), 0.05); /* background color for loaded CV slot */
+  --postulante-profile-cv-slot-name-color: rgba(var(--cyan-rgb), 0.8); /* text color for loaded CV slot name */
 
   /* text */
   --text: #e6edf3;
@@ -38,13 +43,18 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg: #f6f8fa;
+    /* backgrounds & surfaces */
+  --bg: #ebeae3;
   --surface: #ffffff;
   --overlay-rgb: 0, 0, 0; /* flips white overlays into subtle dark overlays */
+  --offer-card-location-color: rgba(black, 0.9); /* location text on offer cards */
+  --offer-card-favorite-color: rgba(black, 0); /* favorite icon on offer cards */
+  --postulante-profile-cv-slot-loaded-border: black; /* border color for loaded CV slot */
+  --postulante-profile-cv-slot-loaded-background: rgba(var(--cyan-rgb), 0.14); /* background color for loaded CV slot */
+  --postulante-profile-cv-slot-name-color: black; /* text color for loaded CV slot name */
 
+    /* text */
   --text: #1c2028;
   --text-rgb: 28, 32, 40;
   --on-accent: #0d1117; /* dark text still reads well on orange */
-
-  /* brand accents & status inherit from :root (unchanged) */
 }

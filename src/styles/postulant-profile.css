@@ -303,8 +303,8 @@
 }
 
 .postulant-profile__cv-slot--loaded {
-  border: 2px solid rgba(var(--cyan-rgb), 0.4);
-  background: rgba(var(--cyan-rgb), 0.05);
+  border: 2px solid var(--postulante-profile-cv-slot-loaded-border);
+  background: var(--postulante-profile-cv-slot-loaded-background);
   cursor: pointer;
   position: relative;
   flex-direction: column;
@@ -315,7 +315,7 @@
 .postulant-profile__cv-slot-name {
   font-family: 'Geist Mono', monospace;
   font-size: 11px;
-  color: rgba(var(--cyan-rgb), 0.8);
+  color: var(--postulante-profile-cv-slot-name-color);
   text-align: center;
   padding: 0 8px;
   word-break: break-all;

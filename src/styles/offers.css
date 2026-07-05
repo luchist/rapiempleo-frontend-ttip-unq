@@ -40,7 +40,7 @@
   border: 0;
   padding: 0;
   background-color: rgba(var(--overlay-rgb), 0);
-  color: rgba(var(--cyan-rgb), 0.3);
+  color: var(--offer-card-favorite-color);
 }
 
 .favorite-pointer {
@@ -74,7 +74,7 @@
 
 .offer-card__location {
   font-size: 14px;
-  color: rgba(var(--cyan-rgb), 0.3);
+  color: var(--offer-card-location-color);
   padding: 0 0 0 0;
 }
 
