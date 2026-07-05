@@ -1,0 +1,70 @@
+/*
+ * Theme tokens.
+ * :root holds the dark theme (the app's original, default look).
+ * [data-theme="light"] overrides only the values that change for light mode.
+ * The data-theme attribute is set on <html> by ThemeProvider.
+ *
+ * The `*-rgb` tokens hold a bare "r, g, b" triple so they can be used inside
+ * rgba(var(--token), <opacity>) — this is how the many translucent surfaces,
+ * borders and muted-text colors keep their individual opacity while flipping
+ * their base color between themes.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* backgrounds & surfaces */
+  --bg: #0d1117;
+  --surface: #1c2028; /* panels, modals, tooltips (also the old #1c2330) */
+  --overlay-rgb: 255, 255, 255; /* translucent surfaces / borders / muted text */
+  --offer-card-location-color: rgba(var(--cyan-rgb), 0.3); /* location text on offer cards */
+  --offer-card-favorite-color: rgba(var(--cyan-rgb), 0.3); /* favorite icon on offer cards */
+  --postulante-profile-cv-slot-loaded-border: rgba(var(--cyan-rgb), 0.4); /* border color for loaded CV slot */
+  --postulante-profile-cv-slot-loaded-background: rgba(var(--cyan-rgb), 0.05); /* background color for loaded CV slot */
+  --postulante-profile-cv-slot-name-color: rgba(var(--cyan-rgb), 0.8); /* text color for loaded CV slot name */
+  --offer-card-location-color: rgba(var(--cyan-rgb), 0.3); /* location text on offer cards */
+  --offer-card-offerer-panel-button-top-background-color: rgba(211, 89, 45, 0.217); /* background color for offer card panel button bottom */
+  --offer-card-offerer-panel-button-bottom-background-color: rgba(174, 47, 47, 0.217); /* background color for offer card panel button bottom */
+  --search-bar-ai-btn-color:  rgba(196, 181, 253, 0.85); /* color for the AI button in the search bar */
+  --search-bar-ai-btn-border-color: rgba(167, 139, 250, 0.35); /* border color for the AI button in the search bar */
+
+  /* text */
+  --text: #e6edf3;
+  --text-rgb: 230, 237, 243; /* muted text: rgba(var(--text-rgb), X) */
+  --on-accent: #0d1117; /* text drawn on top of the orange accent */
+
+  /* brand accents (kept identical across themes) */
+  --accent: #ff9500;
+  --accent-rgb: 255, 149, 0;
+  --cyan: #22dbc3;
+  --cyan-rgb: 34, 219, 195;
+  --purple-rgb: 139, 92, 246;
+  --purple-light: #a78bfa;
+
+  /* status */
+  --danger: #f87171;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+    /* backgrounds & surfaces */
+  --bg: #ebeae3;
+  --surface: #ffffff;
+  --overlay-rgb: 0, 0, 0; /* flips white overlays into subtle dark overlays */
+  --offer-card-location-color: rgba(0,0,0, 0.8); /* location text on offer cards */
+  --offer-card-favorite-color: rgba(0,0,0, 0.6); /* favorite icon on offer cards */
+  --postulante-profile-cv-slot-loaded-border: black; /* border color for loaded CV slot */
+  --postulante-profile-cv-slot-loaded-background: rgba(var(--cyan-rgb), 0.14); /* background color for loaded CV slot */
+  --postulante-profile-cv-slot-name-color: black; /* text color for loaded CV slot name */
+  --offer-card-location-color: black; /* location text on offer cards */
+  --offer-card-offerer-panel-button-top-background-color: rgba(211, 89, 45, 0.4); /* background color for offer card panel button bottom */
+  --offer-card-offerer-panel-button-bottom-background-color: rgba(174, 47, 47, 0.4); /* background color for offer card panel button bottom */
+  --search-bar-ai-btn-color:  black; /* color for the AI button in the search bar */
+  --search-bar-ai-btn-border-color: black; /* border color for the AI button in the search bar */
+
+    /* text */
+  --text: #1c2028;
+  --text-rgb: 28, 32, 40;
+  --on-accent: #0d1117; /* dark text still reads well on orange */
+}

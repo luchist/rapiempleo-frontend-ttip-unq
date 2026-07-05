@@ -60,7 +60,7 @@
     width: 100px;
     border-radius: 8px;
     padding: 6px 0;
-    background-color: #ff9500;
+    background-color: var(--accent);
 }
 
 .alert-button:hover {

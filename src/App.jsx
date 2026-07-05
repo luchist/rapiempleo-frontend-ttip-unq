@@ -6,28 +6,31 @@ import UserOfferingPage from './pages/UserOfferingPage'
 import PostulantProfilePage from './pages/PostulantProfilePage'
 import LoginPage from './pages/LoginPage'
 import { UserProvider } from './components/UserProvider'
+import { ThemeProvider } from './components/ThemeProvider'
 import BoardPage from './pages/BoardPage'
 import OfertanteRegisterPage from './pages/OfertanteRegisterPage'
 import CreateOfertaPage from './pages/CreateOfertaPage'
 
 function App() {
   return (
-    <UserProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<LoginPage />}/>
-            <Route path="home" element={<HomePage />}/>
-            <Route path="register" element={<OfertanteRegisterPage />}/>
-            <Route path="ofertas/:id" element={<OfferDetailPage />}/>
-            <Route path="ofertante/:id" element={<UserOfferingPage />}/>
-            <Route path="ofertante/:id/create-oferta" element={<CreateOfertaPage />}/>
-            <Route path="postulante/:id" element={<PostulantProfilePage />}/>
-            <Route path="postulante/:id/board" element={<BoardPage />}/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </UserProvider>
+    <ThemeProvider>
+      <UserProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<LoginPage />}/>
+              <Route path="home" element={<HomePage />}/>
+              <Route path="register" element={<OfertanteRegisterPage />}/>
+              <Route path="ofertas/:id" element={<OfferDetailPage />}/>
+              <Route path="ofertante/:id" element={<UserOfferingPage />}/>
+              <Route path="ofertante/:id/create-oferta" element={<CreateOfertaPage />}/>
+              <Route path="postulante/:id" element={<PostulantProfilePage />}/>
+              <Route path="postulante/:id/board" element={<BoardPage />}/>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </UserProvider>
+    </ThemeProvider>
   )
 }
 

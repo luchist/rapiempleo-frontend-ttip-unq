@@ -1,0 +1,66 @@
+/* Sidebar  */
+
+.sidebar {
+  width: 64px;
+  height: 95vh;
+  position: fixed;
+  border-right: 1px solid rgba(var(--overlay-rgb), 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sidebar-icon--active {
+  background: rgba(var(--accent-rgb), 0.1);
+  color: var(--accent);
+}
+
+.sidebar-icon {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: rgba(var(--overlay-rgb), 0.45);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.sidebar-icon:hover {
+  background: rgba(var(--overlay-rgb), 0.07);
+  color: var(--accent);
+}
+
+.sidebar-icon .tooltip {
+  position: absolute;
+  left: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--surface);
+  border: 1px solid rgba(var(--overlay-rgb), 0.1);
+  color: var(--text);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.sidebar-icon:hover .tooltip {
+  opacity: 1;
+}
+
+.theme-toggle-icon {
+  margin-top: inherit;
+}
+
+.log-out-icon {
+  margin-top: auto;
+}

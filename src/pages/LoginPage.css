@@ -148,6 +148,8 @@
     font-size: medium;
     padding: 10px 30px;
     background-color: rgb(70, 202, 200);
+    color: black;
+    border-color: black;
 }
 
 .login-button:hover {
@@ -176,6 +178,7 @@
     background-color: #1f1c17;
     border: 3px double darkgray;
     border-radius: 10px;
+    color: aliceblue;
 }
 
 

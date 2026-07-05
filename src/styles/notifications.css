@@ -1,0 +1,77 @@
+.panel-notification {
+  /* background-color: rgb(159, 91, 3, 0.4); */
+  align-items:center;
+  position: absolute;
+  /* min-height: 80vh;   */
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+  left: 65px;
+  padding-left: 2px;
+  padding-right: 4px;
+  /* overflow-y: auto; */
+}
+
+.counter-notify {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  background-color: rgb(235, 66, 66);
+  border-radius: 10px;
+  color: aliceblue;
+  font-size: small;
+  pointer-events: none;
+}
+
+.section-no-notifications {
+  padding : 10px;
+  background-color: var(--surface);
+  border-radius: 5px;
+  border: 1px solid rgb(113, 113, 113);
+  color: darkgrey;
+}
+
+.section-all-notifications {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.offer-notification {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(var(--cyan-rgb), 0.3);
+  border: 1px solid rgb(113, 113, 113);
+}
+
+.first-line-notification {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+}
+
+.button-delete-notify {
+  background-color: rgb(179, 56, 56);
+  border: 1px solid rgba(var(--overlay-rgb), 0.12);
+  border-radius: 5px;
+  color: rgba(240, 239, 239, 0.853);
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.button-delete-notify:hover {
+  opacity: 0.7;
+  transition: 0.4s;
+}
