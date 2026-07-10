@@ -131,14 +131,16 @@ const LoginPage = () => {
                     </div>
                     }
                 </div>
-                <div className="text-register-ofertante">
-                    <p className=''>
-                        Si esta interesado en ser un usuario que publica ofertas de trabajo para nuestros usuarios,
-                        por favor registrese en el siguiente link:
-                    </p>
-                    <Link to="/register" className="text-link">
-                        ¡Registro como ofertante!
-                    </Link>
+                <div className="register-ofertante-container">
+                    <div className="text-register-ofertante">
+                        <p className=''>
+                            Si esta interesado en ser un usuario que publica ofertas de trabajo para nuestros usuarios,
+                            por favor registrese en el siguiente link:
+                        </p>
+                        <Link to="/register" className="text-link">
+                            ¡Registro como ofertante!
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,5 +149,3 @@ const LoginPage = () => {
 }
 
 export default LoginPage
-
-// <h2>Lo que habia antes arriba:  : typeUser == "Ofertante" ? "full-expand" : ""</h2>

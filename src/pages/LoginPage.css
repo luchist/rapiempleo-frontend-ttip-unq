@@ -42,7 +42,7 @@
 .login-side-text-grid {
     display: flex;
     justify-content:space-evenly;
-    min-height: 80vh;
+    align-items: flex-start;
 }
 
 .tab-selector-login {
@@ -99,7 +99,7 @@
 .login-form-section {
     display: block;
     /*width: 100%;*/
-    max-width: 320px;
+    max-width: 322px;
     background-color: #a5683ad3;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -166,11 +166,16 @@
     cursor: not-allowed;
 }
 
+.register-ofertante-container {
+    display: flex;
+    align-self: center;
+    height: 480px;
+}
+
 .text-register-ofertante {
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin: 0 0 100px 0;
     align-self: center;
     padding: 0 10px 8px 10px;
     height: 145px;
@@ -204,7 +209,7 @@
     /*width: 100%;*/
     min-height: 140px;
     max-height: 220px;
-    width: 320px;
+    width: 320.5px;
     background-color: #4d79a8;
     border: 1px solid rgba(255,255,255,0.08);
     border-top: 0;

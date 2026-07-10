@@ -43,6 +43,9 @@
 
   /* status */
   --danger: #f87171;
+
+  /* borders */
+  --cv-unit-button-border-color: rgb(204, 204, 204);
 }
 
 [data-theme="light"] {
@@ -67,4 +70,7 @@
   --text: #1c2028;
   --text-rgb: 28, 32, 40;
   --on-accent: #0d1117; /* dark text still reads well on orange */
+
+  /* borders */
+  --cv-unit-button-border-color: #0d1117;
 }

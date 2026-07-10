@@ -109,7 +109,7 @@
   border: 0;
   padding: 0;
   background-color: rgba(var(--overlay-rgb), 0);
-  color: rgba(var(--cyan-rgb), 0.3);
+  color: rgba(var(--cyan-rgb), 0.6);
 }
 
 .postulation-disabled {

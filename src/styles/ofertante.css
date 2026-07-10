@@ -199,9 +199,12 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  border: 3px solid rgb(204, 204, 204);
+  border: 3px solid;
+  border-top: none;
+  border-color: var(--cv-unit-button-border-color);
   height: 33px;
   width: 66px;
+  z-index: 4;
 }
 
 .cv-unit-button.tick {
