@@ -1,3 +1,5 @@
+[![CI](https://github.com/luchist/rapiempleo-frontend-ttip-unq/actions/workflows/ci-build.yml/badge.svg)](https://github.com/luchist/rapiempleo-frontend-ttip-unq/actions/workflows/ci-build.yml)
+
 # rapiempleo-frontend-ttip-unq
 
 Repositorio Frontend para el Trabajo de Inserción Profesional — UNQ.
