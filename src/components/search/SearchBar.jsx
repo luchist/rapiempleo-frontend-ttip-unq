@@ -23,6 +23,8 @@ const SearchBar = ({ onSearch, onAiSearch, inputValue = '', onInputChange }) => 
     }
   }
 
+  const user = JSON.parse(localStorage.getItem("user"))
+  
   return (
     <div className="search-bar-wrapper">
       <div className="search-bar">
@@ -39,7 +41,7 @@ const SearchBar = ({ onSearch, onAiSearch, inputValue = '', onInputChange }) => 
           onKeyDown={handleKeyDown}
         />
         <button
-          className="search-bar__ai-btn"
+          className={`${user.typeUser ? "search-bar__ai-btn" : "search-bar__ai-btn-hidden"}`}
           onClick={handleAiClick}
           title="Búsqueda inteligente con IA"
           type="button"

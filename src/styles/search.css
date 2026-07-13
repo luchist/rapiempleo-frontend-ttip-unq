@@ -103,6 +103,10 @@
   background: rgba(var(--purple-rgb), 0.4);
 }
 
+.search-bar__ai-btn-hidden {
+  visibility: hidden;
+}
+
 .section-title {
   font-family: Geist Mono, monospace;
 }
