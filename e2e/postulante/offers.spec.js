@@ -132,6 +132,35 @@ test.describe('Postulante - Offers', () => {
     await expect(heartSvg).toHaveAttribute('fill', 'none', { timeout: 5_000 })
   })
 
+  // Sets the first card's favorite state on the home page, then opens that offer.
+  const favoritarPrimeraOfertaYAbrirla = async (page, favorita) => {
+    const firstCard = page.locator('.offer-card').first()
+    await expect(firstCard).toBeVisible({ timeout: 10_000 })
+
+    const heartSvg = firstCard.locator('.offer-card__favorite svg')
+    const fillBuscado = favorita ? 'currentColor' : 'none'
+    if (await heartSvg.getAttribute('fill') !== fillBuscado) {
+      await firstCard.locator('.offer-card__favorite').click()
+      await expect(heartSvg).toHaveAttribute('fill', fillBuscado, { timeout: 5_000 })
+    }
+
+    await firstCard.click()
+    await page.waitForURL('**/ofertas/**', { timeout: 10_000 })
+    return page.locator('.offer-detail__favorite svg')
+  }
+
+  test('a favorited offer shows a filled heart on its detail page', async ({ page }) => {
+    // Regression: GET /oferta/{id} used to report Oferta.favorito (a global column that is always
+    // false) instead of the postulante's favoritos, so the heart here was always empty.
+    const detailHeart = await favoritarPrimeraOfertaYAbrirla(page, true)
+    await expect(detailHeart).toHaveAttribute('fill', 'currentColor', { timeout: 10_000 })
+  })
+
+  test('a non-favorited offer shows an empty heart on its detail page', async ({ page }) => {
+    const detailHeart = await favoritarPrimeraOfertaYAbrirla(page, false)
+    await expect(detailHeart).toHaveAttribute('fill', 'none', { timeout: 10_000 })
+  })
+
   test('favorited offers appear in profile favorites section', async ({ page }) => {
     // Ensure at least one offer is favorited before navigating to profile
     const favoritedCard = page.locator('.offer-card').filter({
