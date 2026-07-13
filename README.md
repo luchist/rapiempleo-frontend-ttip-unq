@@ -1,19 +1,98 @@
 # rapiempleo-frontend-ttip-unq
-Repositorio Frontend para el Trabajo de Insercion Profesional - UNQ
 
-# React + Vite
+Repositorio Frontend para el Trabajo de Inserción Profesional — UNQ.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About the project
 
-Currently, two official plugins are available:
+RapiEmpleo is a job board web application. It serves two kinds of users, distinguished by the
+`typeUser` flag on the logged-in account:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Postulante** (candidate) — browses and searches job offers, marks favorites, applies with a CV,
+  manages up to 4 CV slots on their profile, and tracks their applications on a kanban board
+  (`Aplicado → Entrevistando → EsperandoRespuesta → Cerrado / Aceptado`).
+- **Ofertante** (recruiter) — registers a company, publishes offers, reviews the CVs received for
+  each offer, saves candidates, and looks at hiring statistics.
 
-## React Compiler
+Search supports a colon syntax (`titulo: analista, empresa: Google`) as well as an AI-assisted mode
+that sends the raw query to the backend and turns it into structured search params.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This repository is **only the frontend**. It talks to the Spring backend at
+[luchist/rapiempleo-backend-ttip-unq](https://github.com/luchist/rapiempleo-backend-ttip-unq),
+which must be running for the app to do anything useful.
 
-## Expanding the ESLint configuration
+**Stack:** React 19 + Vite + React Router v7, MUI, plain JSX (no TypeScript). Playwright for e2e tests.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Setup
+
+### Prerequisites
+
+- **Node.js 22+** (the CI build runs on 22).
+- **pnpm** — this is enforced: a `preinstall` hook rejects `npm install` / `yarn`.
+  Enable it with `corepack enable`, or install it globally with `npm i -g pnpm`.
+- The **backend running on `http://localhost:8080`**. The API base URL is currently hardcoded in the
+  page files, so this port is not configurable without editing the source.
+
+### Install and run
+
+```bash
+git clone https://github.com/luchist/rapiempleo-frontend-ttip-unq.git
+cd rapiempleo-frontend-ttip-unq
+pnpm install
+pnpm run dev
+```
+
+The dev server starts on <http://localhost:5173>. Start the backend first, then log in from the
+landing page (`/`) — every other route expects an authenticated user, since the JWT is read from
+`localStorage` and sent as a `Bearer` token on each request.
+
+### Scripts
+
+| Command | Description |
+|---|---|
+| `pnpm run dev` | Start the dev server with HMR |
+| `pnpm run build` | Production build into `dist/` |
+| `pnpm run preview` | Serve the production build locally |
+| `pnpm run lint` | Run ESLint |
+| `pnpm test:e2e` | Run the Playwright e2e suite |
+| `pnpm test:e2e:headed` | Same, with a visible browser and `SLOW_MO=500` (useful for debugging) |
+
+### End-to-end tests
+
+The e2e suite logs in against a real backend, so it needs credentials for an existing account.
+Copy the example env file and fill it in:
+
+```bash
+cp .env.example .env.test
+```
+
+```dotenv
+E2E_EMAIL=your-test-account@example.com
+E2E_PASSWORD=your-test-password
+```
+
+`.env.test` is gitignored — do not commit it. Playwright starts the dev server itself, but the
+backend still has to be up on port 8080. Then:
+
+```bash
+pnpm test:e2e
+```
+
+An HTML report is written to `playwright-report/`.
+
+## Routes
+
+| Path | Page |
+|---|---|
+| `/` | Login |
+| `/home` | Offer search + grid |
+| `/register` | Recruiter registration |
+| `/ofertas/:id` | Offer detail |
+| `/ofertante/:id` | Recruiter profile |
+| `/ofertante/:id/create-oferta` | Create an offer |
+| `/postulante/:id` | Candidate profile + CVs |
+| `/postulante/:id/board` | Applications kanban board |
+| `/estadisticas` | Statistics |
+
+## License
+
+See [LICENSE](LICENSE).
