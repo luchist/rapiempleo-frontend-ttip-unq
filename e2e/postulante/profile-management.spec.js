@@ -45,6 +45,52 @@ test.describe('Postulante - Profile Picture Management', () => {
     // Profile picture is visible after upload
     await expect(page.locator('.profile-pic__img')).toBeVisible({ timeout: 10_000 })
   })
+
+  test('camera icon does not stay stuck on after a mouse-driven upload', async ({ page }) => {
+    const labelOpacity = () =>
+      page.locator('.profile-pic__label').evaluate(el => getComputedStyle(el).opacity)
+
+    await page.mouse.move(700, 600)
+    expect(await labelOpacity()).toBe('0')
+
+    const [fileChooser] = await Promise.all([
+      page.waitForEvent('filechooser'),
+      page.locator('.profile-pic__overlay').click(),
+    ])
+    const responsePromise = page.waitForResponse(
+      res => res.url().includes('/foto') && res.request().method() === 'POST'
+    )
+    await fileChooser.setFiles('e2e/fixtures/test-image.jpg')
+    expect((await responsePromise).status()).toBe(200)
+
+    // The overlay button legitimately keeps DOM focus once the file picker closes.
+    await expect(page.locator('.profile-pic__overlay')).toBeFocused()
+
+    // Move the pointer off the avatar so only focus, not :hover, could keep the icon lit.
+    // The overlay is gated on :focus-visible rather than :focus-within precisely so that
+    // this retained mouse focus does not leave the camera icon visible.
+    await page.mouse.move(700, 600)
+    await expect.poll(labelOpacity, { timeout: 3_000 }).toBe('0')
+  })
+
+  test('camera icon is still shown to keyboard users', async ({ page }) => {
+    // Guards the other half of the :focus-visible fix: the icon must remain discoverable
+    // when the overlay button is reached by keyboard rather than by mouse.
+    await page.mouse.move(700, 600)
+    const overlay = page.locator('.profile-pic__overlay')
+
+    let focused = false
+    for (let i = 0; i < 30 && !focused; i++) {
+      await page.keyboard.press('Tab')
+      focused = await overlay.evaluate(el => el === document.activeElement)
+    }
+    expect(focused, 'overlay button is reachable via Tab').toBe(true)
+
+    await expect
+      .poll(() => page.locator('.profile-pic__label').evaluate(el => getComputedStyle(el).opacity),
+        { timeout: 3_000 })
+      .toBe('1')
+  })
 })
 
 test.describe('Postulante - Preferences Management', () => {

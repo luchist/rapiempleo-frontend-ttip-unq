@@ -56,7 +56,7 @@
 }
 
 .postulant-profile__avatar:hover .profile-pic__overlay,
-.postulant-profile__avatar:focus-within .profile-pic__overlay {
+.profile-pic__overlay:focus-visible {
   background: rgba(0, 0, 0, 0.45);
   color: var(--accent);
 }
@@ -70,7 +70,7 @@
 }
 
 .postulant-profile__avatar:hover .profile-pic__label,
-.postulant-profile__avatar:focus-within .profile-pic__label {
+.profile-pic__overlay:focus-visible .profile-pic__label {
   opacity: 1;
 }
 
